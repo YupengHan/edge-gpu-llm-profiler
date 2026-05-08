@@ -1,6 +1,6 @@
-# RTX 3070 TensorRT-LLM Latency & Profiling Lab
+# edge-gpu-llm-profiler
 
-**Recommended GitHub repo name:** `rtx3070-trtllm-latency-lab`
+**GitHub repo name:** `edge-gpu-llm-profiler`
 
 A fixed-hardware LLM inference systems project: deploy a small open-source LLM on an RTX 3070-class local machine with TensorRT-LLM, measure single-user latency, profile bottlenecks with Python profiling / Nsight Systems / Nsight Compute, and document optimization progress in a GitHub-friendly format.
 
