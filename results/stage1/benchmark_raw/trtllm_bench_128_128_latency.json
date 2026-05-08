@@ -1,0 +1,118 @@
+{
+    "engine": {
+        "model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "model_path": "None",
+        "engine_dir": "/workspace/rtx3070-trtllm-latency-lab/trtllm_workspace/Qwen/Qwen2.5-1.5B-Instruct/tp_1_pp_1",
+        "version": "1.0.0",
+        "backend": "TRT",
+        "dtype": "bfloat16",
+        "kv_cache_dtype": null,
+        "quantization": null,
+        "max_input_length": 256,
+        "max_sequence_length": 256
+    },
+    "world_info": {
+        "tp_size": 1,
+        "pp_size": 1,
+        "ep_size": null,
+        "world_size": 1,
+        "max_batch_size": 1,
+        "max_num_tokens": 2048,
+        "scheduling_policy": "GUARANTEED_NO_EVICT",
+        "kv_cache_percentage": 90.0,
+        "issue_rate": 1.2459021891e+18
+    },
+    "request_info": {
+        "num_requests": 20,
+        "avg_num_concurrent_requests": 0.9999634838850374,
+        "avg_input_length": 128.0,
+        "avg_output_length": 128.0
+    },
+    "performance": {
+        "total_latency_ms": 26226.995971,
+        "avg_request_latency_ms": 1311.30191315,
+        "request_throughput_req_s": 0.7625730381822844,
+        "system_output_throughput_tok_s": 97.6093488873324,
+        "system_total_throughput_tok_s": 195.2186977746648,
+        "output_throughput_per_user_tok_s": 97.615897620096,
+        "output_throughput_per_gpu_tok_s": 97.6093488873324,
+        "request_latency_percentiles_ms": {
+            "p50": 1311.301854,
+            "p90": 1320.4239639999998,
+            "p95": 1334.024768,
+            "p99": 1334.024768,
+            "minimum": 1301.996431,
+            "maximum": 1334.024768,
+            "average": 1311.30191315
+        }
+    },
+    "streaming_metrics": {
+        "token_output_speed_tok_s": 98.22656031228212,
+        "avg_ttft_ms": 18.328287850000002,
+        "avg_tpot_ms": 10.180894687401574,
+        "tpot_percentiles": {
+            "p50": 10.18126890551181,
+            "p90": 10.260274582677164,
+            "p95": 10.342208984251968,
+            "p99": 10.342208984251968,
+            "minimum": 10.08453037007874,
+            "maximum": 10.342208984251968,
+            "average": 10.180894687401574
+        },
+        "ttft_percentiles": {
+            "p50": 17.275364,
+            "p90": 25.348338,
+            "p95": 25.861165,
+            "p99": 25.861165,
+            "minimum": 15.931038,
+            "maximum": 25.861165,
+            "average": 18.328287850000002
+        },
+        "gen_tps_percentiles": {
+            "p50": 98.33309424196366,
+            "p90": 98.91827923531066,
+            "p95": 99.16178178877277,
+            "p99": 99.16178178877277,
+            "minimum": 96.69114224269642,
+            "maximum": 99.16178178877277,
+            "average": 98.22656031228212
+        }
+    },
+    "dataset": {
+        "isl_stats": {
+            "p50": 128.0,
+            "p90": 128.0,
+            "p95": 128.0,
+            "p99": 128.0,
+            "minimum": 128.0,
+            "maximum": 128.0,
+            "average": 128.0
+        },
+        "osl_stats": {
+            "p50": 128.0,
+            "p90": 128.0,
+            "p95": 128.0,
+            "p99": 128.0,
+            "minimum": 128.0,
+            "maximum": 128.0,
+            "average": 128.0
+        },
+        "seq_len_stats": {
+            "p50": 256.0,
+            "p90": 256.0,
+            "p95": 256.0,
+            "p99": 256.0,
+            "minimum": 256.0,
+            "maximum": 256.0,
+            "average": 256.0
+        },
+        "num_requests": 20,
+        "dataset_path": "/workspace/rtx3070-trtllm-latency-lab/data/synthetic_128_128.jsonl",
+        "max_isl": 128,
+        "max_osl": 128,
+        "max_sequence_length": 256,
+        "avg_isl": 128,
+        "avg_osl": 128,
+        "avg_sequence_length": 256
+    }
+}

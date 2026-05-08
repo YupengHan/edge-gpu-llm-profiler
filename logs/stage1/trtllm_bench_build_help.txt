@@ -1,0 +1,93 @@
+
+=============
+== PyTorch ==
+=============
+
+NVIDIA Release 25.06 (build 177567386)
+PyTorch Version 2.8.0a0+5228986
+Container image Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+Copyright (c) 2014-2024 Facebook Inc.
+Copyright (c) 2011-2014 Idiap Research Institute (Ronan Collobert)
+Copyright (c) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+Copyright (c) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+Copyright (c) 2011-2013 NYU                      (Clement Farabet)
+Copyright (c) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+Copyright (c) 2006      Idiap Research Institute (Samy Bengio)
+Copyright (c) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+Copyright (c) 2015      Google Inc.
+Copyright (c) 2015      Yangqing Jia
+Copyright (c) 2013-2016 The Caffe contributors
+All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+GOVERNING TERMS: The software and materials are governed by the NVIDIA Software License Agreement
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-software-license-agreement/)
+and the Product-Specific Terms for NVIDIA AI Products
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/product-specific-terms-for-ai-products/).
+
+NOTE: The SHMEM allocation limit is set to the default of 64MB.  This may be
+   insufficient for PyTorch.  NVIDIA recommends the use of the following flags:
+   docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 ...
+
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-08 03:31:04] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-08 03:31:04] INFO config.py:66: Polars version 1.25.2 available.
+2026-05-08 03:31:08,908 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+Usage: trtllm-bench build [OPTIONS]
+
+  Build engines for benchmarking.
+
+Options:
+  Engine Configuration:           Configuration of the TensorRT LLM engine.
+    -tp, --tp_size INTEGER        Number of tensor parallel shards to run the
+                                  benchmark with.  [default: 1]
+    -pp, --pp_size INTEGER        Number of pipeline parallel shards to run
+                                  the benchmark with.  [default: 1]
+    -q, --quantization [W8A16|W4A16|W4A16_AWQ|W4A8_AWQ|W4A16_GPTQ|FP8|INT8|NVFP4]
+                                  The quantization algorithm to be used when
+                                  benchmarking. See the documentations for
+                                  more information. -
+                                  https://nvidia.github.io/TensorRT-
+                                  LLM/precision.html  -
+                                  https://github.com/NVIDIA/TensorRT-LLM/blob/
+                                  main/docs/source/blogs/quantization-in-TRT-
+                                  LLM.md
+    --max_seq_len INTEGER RANGE   Maximum total length of one request,
+                                  including prompt and outputs.  [x>=1]
+    --no_weights_loading BOOLEAN  Do not load the weights from the checkpoint.
+                                  Use dummy weights instead.  [default: False]
+    --trust_remote_code BOOLEAN   Trust remote code for the HF models that are
+                                  not natively implemented in the transformers
+                                  library. This is needed when using LLM API
+                                  when loading the HF config to build the
+                                  engine.  [default: False]
+  Build Engine with Dataset Information: [all_or_none]
+                                  Optimize engine build parameters with user-
+                                  specified dataset statistics, e.g., average
+                                  input/output length, max sequence length.
+    --dataset PATH                Dataset file to extract the sequence
+                                  statistics for engine build.
+  Build Engine with IFB Scheduler Limits: [all_or_none]
+                                  Optimize engine build parameters with user-
+                                  specified inflight batching scheduler
+                                  settings.
+    --max_batch_size INTEGER RANGE
+                                  Maximum number of requests that the engine
+                                  can schedule.  [x>=1]
+    --max_num_tokens INTEGER RANGE
+                                  Maximum number of batched tokens the engine
+                                  can schedule.  [x>=1]
+  [Experimental Feature] Build Engine with Tuning Heuristics Hints: [all_or_none]
+                                  Optimize engine build parameters with user-
+                                  specified target sequence length
+                                  information.
+    --target_input_len INTEGER RANGE
+                                  Target (average) input length for tuning
+                                  heuristics.  [x>=1]
+    --target_output_len INTEGER RANGE
+                                  Target (average) sequence length for tuning
+                                  heuristics.  [x>=1]
+  --help                          Show this message and exit.

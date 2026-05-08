@@ -1,0 +1,255 @@
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-08 03:56:56] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-08 03:56:56] INFO config.py:66: Polars version 1.25.2 available.
+2026-05-08 03:57:01,274 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+Qwen/Qwen2.5-1.5B-Instruct
+Qwen/Qwen2.5-1.5B-Instruct
+[05/08/2026-03:57:02] [TRT-LLM] [I] Use user-provided max batch size and max num tokens for engine build and benchmark.
+[05/08/2026-03:57:02] [TRT-LLM] [I] Set dtype to bfloat16.
+[05/08/2026-03:57:02] [TRT-LLM] [I] Set multiple_profiles to True.
+[05/08/2026-03:57:02] [TRT-LLM] [I] Set use_paged_context_fmha to True.
+[05/08/2026-03:57:02] [TRT-LLM] [I] Using LLM with TensorRT backend
+[05/08/2026-03:57:02] [TRT-LLM] [W] Using default gpus_per_node: 1
+[05/08/2026-03:57:02] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/08/2026-03:57:02] [TRT-LLM] [I] Compute capability: (8, 6)
+[05/08/2026-03:57:02] [TRT-LLM] [I] SM count: 40
+[05/08/2026-03:57:02] [TRT-LLM] [I] SM clock: 2100 MHz
+[05/08/2026-03:57:02] [TRT-LLM] [I] int4 TFLOPS: 344
+[05/08/2026-03:57:02] [TRT-LLM] [I] int8 TFLOPS: 172
+[05/08/2026-03:57:02] [TRT-LLM] [I] fp8 TFLOPS: 0
+[05/08/2026-03:57:02] [TRT-LLM] [I] float16 TFLOPS: 86
+[05/08/2026-03:57:02] [TRT-LLM] [I] bfloat16 TFLOPS: 86
+[05/08/2026-03:57:02] [TRT-LLM] [I] float32 TFLOPS: 43
+[05/08/2026-03:57:02] [TRT-LLM] [I] Total Memory: 8 GiB
+[05/08/2026-03:57:02] [TRT-LLM] [I] Memory clock: 7001 MHz
+[05/08/2026-03:57:02] [TRT-LLM] [I] Memory bus width: 256
+[05/08/2026-03:57:02] [TRT-LLM] [I] Memory bandwidth: 448 GB/s
+[05/08/2026-03:57:02] [TRT-LLM] [I] PCIe speed: 2500 Mbps
+[05/08/2026-03:57:02] [TRT-LLM] [I] PCIe link width: 8
+[05/08/2026-03:57:02] [TRT-LLM] [I] PCIe bandwidth: 2 GB/s
+Loading Model: [1;32m[1/3]	[0mDownloading HF model
+[38;20mDownloaded model to /workspace/rtx3070-trtllm-latency-lab/models/.hf/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+[0m[38;20mTime: 0.306s
+[0mLoading Model: [1;32m[2/3]	[0mLoading HF model to memory
+/workspace/rtx3070-trtllm-latency-lab/models/.hf/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+/workspace/rtx3070-trtllm-latency-lab/models/.hf/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+[05/08/2026-03:57:03] [TRT-LLM] [W] Implicitly setting QWenConfig.seq_length = 8192
+[05/08/2026-03:57:03] [TRT-LLM] [W] Implicitly setting QWenConfig.qwen_type = qwen2
+[05/08/2026-03:57:03] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_intermediate_size = 0
+[05/08/2026-03:57:03] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_shared_expert_intermediate_size = 0
+[05/08/2026-03:57:03] [TRT-LLM] [W] Implicitly setting QWenConfig.tie_word_embeddings = True
+[05/08/2026-03:57:03] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_model_dir = None
+[05/08/2026-03:57:03] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_config = None
+0it [00:00, ?it/s]134it [00:00, 1323.94it/s]230it [00:00, 1279.62it/s]
+[38;20mTime: 0.449s
+[0mLoading Model: [1;32m[3/3]	[0mBuilding TRT-LLM engine
+[05/08/2026-03:57:03] [TRT-LLM] [I] Set paged_kv_cache to True.
+[05/08/2026-03:57:03] [TRT-LLM] [W] Overriding paged_state to False
+[05/08/2026-03:57:03] [TRT-LLM] [I] Set paged_state to False.
+[05/08/2026-03:57:03] [TRT-LLM] [I] Set dtype to bfloat16.
+[05/08/2026-03:57:03] [TRT-LLM] [I] Set paged_state to False.
+[05/08/2026-03:57:03] [TRT-LLM] [W] max_input_len is 1024 is larger than max_seq_len 640, clipping it to max_seq_len
+[05/08/2026-03:57:03] [TRT-LLM] [W] padding removal and fMHA are both enabled, max_input_len is not required and will be ignored
+[05/08/2026-03:57:03] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[05/08/2026-03:57:03] [TRT-LLM] [W] FP8 Context FMHA is disabled because it must be used together with the fp8 quantization workflow.
+[05/08/2026-03:57:04] [TRT] [I] [MemUsageChange] Init CUDA: CPU -17, GPU +0, now: CPU 2005, GPU 440 (MiB)
+[05/08/2026-03:57:06] [TRT] [I] [MemUsageChange] Init builder kernel library: CPU +1556, GPU +8, now: CPU 3744, GPU 448 (MiB)
+[05/08/2026-03:57:06] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/08/2026-03:57:07] [TRT-LLM] [I] Total time of constructing network from module object 3.40057635307312 seconds
+[05/08/2026-03:57:07] [TRT-LLM] [I] Total optimization profiles added: 5
+[05/08/2026-03:57:07] [TRT-LLM] [I] Total time to initialize the weights in network Unnamed Network 0: 00:00:00
+[05/08/2026-03:57:07] [TRT-LLM] [I] Build TensorRT engine Unnamed Network 0
+[05/08/2026-03:57:07] [TRT] [W] Unused Input: position_ids
+[05/08/2026-03:57:08] [TRT] [W] [RemoveDeadLayers] Input Tensor position_ids is unused or used only at compile-time, but is not being removed.
+[05/08/2026-03:57:08] [TRT] [I] Global timing cache in use. Profiling results in this builder pass will be stored.
+[05/08/2026-03:57:08] [TRT] [I] Compiler backend is used during engine build.
+[05/08/2026-03:57:21] [TRT] [I] [GraphReduction] The approximate region cut reduction algorithm is called.
+[05/08/2026-03:57:21] [TRT] [I] Detected 17 inputs and 1 output network tensors.
+[05/08/2026-03:57:24] [TRT] [I] Total Host Persistent Memory: 50704 bytes
+[05/08/2026-03:57:24] [TRT] [I] Total Device Persistent Memory: 0 bytes
+[05/08/2026-03:57:24] [TRT] [I] Max Scratch Memory: 38479872 bytes
+[05/08/2026-03:57:24] [TRT] [I] [BlockAssignment] Started assigning block shifts. This will take 155 steps to complete.
+[05/08/2026-03:57:24] [TRT] [I] [BlockAssignment] Algorithm ShiftNTopDown took 4.63968ms to assign 21 blocks to 155 nodes requiring 39275008 bytes.
+[05/08/2026-03:57:24] [TRT] [I] Total Activation Memory: 39272960 bytes
+[05/08/2026-03:57:32] [TRT] [I] [GraphReduction] The approximate region cut reduction algorithm is called.
+[05/08/2026-03:57:32] [TRT] [I] Detected 17 inputs and 1 output network tensors.
+[05/08/2026-03:57:32] [TRT] [I] Total Host Persistent Memory: 50704 bytes
+[05/08/2026-03:57:32] [TRT] [I] Total Device Persistent Memory: 0 bytes
+[05/08/2026-03:57:32] [TRT] [I] Max Scratch Memory: 38479872 bytes
+[05/08/2026-03:57:32] [TRT] [I] [BlockAssignment] Started assigning block shifts. This will take 155 steps to complete.
+[05/08/2026-03:57:32] [TRT] [I] [BlockAssignment] Algorithm ShiftNTopDown took 4.31399ms to assign 21 blocks to 155 nodes requiring 40061440 bytes.
+[05/08/2026-03:57:32] [TRT] [I] Total Activation Memory: 40061440 bytes
+[05/08/2026-03:57:40] [TRT] [I] [GraphReduction] The approximate region cut reduction algorithm is called.
+[05/08/2026-03:57:40] [TRT] [I] Detected 17 inputs and 1 output network tensors.
+[05/08/2026-03:57:41] [TRT] [I] Total Host Persistent Memory: 50704 bytes
+[05/08/2026-03:57:41] [TRT] [I] Total Device Persistent Memory: 0 bytes
+[05/08/2026-03:57:41] [TRT] [I] Max Scratch Memory: 38479872 bytes
+[05/08/2026-03:57:41] [TRT] [I] [BlockAssignment] Started assigning block shifts. This will take 155 steps to complete.
+[05/08/2026-03:57:41] [TRT] [I] [BlockAssignment] Algorithm ShiftNTopDown took 4.29282ms to assign 21 blocks to 155 nodes requiring 41634304 bytes.
+[05/08/2026-03:57:41] [TRT] [I] Total Activation Memory: 41634304 bytes
+[05/08/2026-03:57:49] [TRT] [I] [GraphReduction] The approximate region cut reduction algorithm is called.
+[05/08/2026-03:57:49] [TRT] [I] Detected 17 inputs and 1 output network tensors.
+[05/08/2026-03:57:50] [TRT] [I] Total Host Persistent Memory: 50704 bytes
+[05/08/2026-03:57:50] [TRT] [I] Total Device Persistent Memory: 0 bytes
+[05/08/2026-03:57:50] [TRT] [I] Max Scratch Memory: 38479872 bytes
+[05/08/2026-03:57:50] [TRT] [I] [BlockAssignment] Started assigning block shifts. This will take 155 steps to complete.
+[05/08/2026-03:57:50] [TRT] [I] [BlockAssignment] Algorithm ShiftNTopDown took 4.45025ms to assign 21 blocks to 155 nodes requiring 44780032 bytes.
+[05/08/2026-03:57:50] [TRT] [I] Total Activation Memory: 44780032 bytes
+[05/08/2026-03:57:58] [TRT] [I] [GraphReduction] The approximate region cut reduction algorithm is called.
+[05/08/2026-03:57:58] [TRT] [I] Detected 17 inputs and 1 output network tensors.
+[05/08/2026-03:57:58] [TRT] [I] Total Host Persistent Memory: 50704 bytes
+[05/08/2026-03:57:58] [TRT] [I] Total Device Persistent Memory: 0 bytes
+[05/08/2026-03:57:58] [TRT] [I] Max Scratch Memory: 40304640 bytes
+[05/08/2026-03:57:58] [TRT] [I] [BlockAssignment] Started assigning block shifts. This will take 155 steps to complete.
+[05/08/2026-03:57:58] [TRT] [I] [BlockAssignment] Algorithm ShiftNTopDown took 4.68513ms to assign 21 blocks to 155 nodes requiring 48177664 bytes.
+[05/08/2026-03:57:58] [TRT] [I] Total Activation Memory: 48177664 bytes
+[05/08/2026-03:57:59] [TRT] [I] Total Weights Memory: 3104206592 bytes
+[05/08/2026-03:57:59] [TRT] [I] Compiler backend is used during engine execution.
+[05/08/2026-03:57:59] [TRT] [I] Engine generation completed in 50.6795 seconds.
+[05/08/2026-03:57:59] [TRT] [I] [MemUsageStats] Peak memory usage of TRT CPU/GPU memory allocators: CPU 0 MiB, GPU 2961 MiB
+[05/08/2026-03:58:01] [TRT-LLM] [I] Total time of building Unnamed Network 0: 00:00:53
+[05/08/2026-03:58:01] [TRT] [I] Serialized 5007 bytes of code generator cache.
+[05/08/2026-03:58:01] [TRT] [I] Serialized 3929343 bytes of compilation cache.
+[05/08/2026-03:58:01] [TRT] [I] Serialized 8 timing cache entries
+[05/08/2026-03:58:01] [TRT-LLM] [I] Timing cache serialized to model.cache
+[05/08/2026-03:58:01] [TRT-LLM] [I] Build phase peak memory: 11617.62 MB, children: 4966.53 MB
+[38;20mTime: 58.803s
+[0m[1;32mLoading model done.
+[0m[38;20mTotal latency: 59.559s
+[0m[05/08/2026-03:58:02] [TRT-LLM] [I] Serializing engine to /workspace/rtx3070-trtllm-latency-lab/trtllm_workspace/tmpuqr4shg8-llm-workspace/tmp.engine/rank0.engine...
+[05/08/2026-03:58:03] [TRT-LLM] [I] Engine serialized. Total time: 00:00:01
+[33;20mrank 0 using MpiPoolSession to spawn MPI processes
+[0m/workspace/rtx3070-trtllm-latency-lab/models/.hf/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+[05/08/2026-03:58:04] [TRT-LLM] [I] Generating a new HMAC key for server proxy_request_queue
+[05/08/2026-03:58:04] [TRT-LLM] [I] Generating a new HMAC key for server worker_init_status_queue
+[05/08/2026-03:58:04] [TRT-LLM] [I] Generating a new HMAC key for server proxy_result_queue
+[05/08/2026-03:58:04] [TRT-LLM] [I] Generating a new HMAC key for server proxy_stats_queue
+[05/08/2026-03:58:04] [TRT-LLM] [I] Generating a new HMAC key for server proxy_kv_cache_events_queue
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-08 03:58:11] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-08 03:58:11] INFO config.py:66: Polars version 1.25.2 available.
+Multiple distributions found for package optimum. Picked distribution: optimum
+2026-05-08 03:58:16,961 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+[TensorRT-LLM][INFO] Refreshed the MPI local session
+[TensorRT-LLM][INFO] Engine version 1.0.0 found in the config file, assuming engine(s) built by new builder API.
+[TensorRT-LLM][INFO] Refreshed the MPI local session
+[TensorRT-LLM][INFO] MPI size: 1, MPI local size: 1, rank: 0
+[TensorRT-LLM][INFO] Using user-specified devices: (0)
+[TensorRT-LLM][INFO] Rank 0 is using GPU 0
+[TensorRT-LLM][INFO] TRTGptModel maxNumSequences: 1
+[TensorRT-LLM][INFO] TRTGptModel maxBatchSize: 1
+[TensorRT-LLM][INFO] TRTGptModel maxBeamWidth: 1
+[TensorRT-LLM][INFO] TRTGptModel maxSequenceLen: 640
+[TensorRT-LLM][INFO] TRTGptModel maxDraftLen: 0
+[TensorRT-LLM][INFO] TRTGptModel mMaxAttentionWindowSize: (640) * 28
+[TensorRT-LLM][INFO] TRTGptModel enableTrtOverlap: 0
+[TensorRT-LLM][INFO] TRTGptModel normalizeLogProbs: 0
+[TensorRT-LLM][INFO] TRTGptModel maxNumTokens: 640
+[TensorRT-LLM][INFO] TRTGptModel maxInputLen: 639 = min(maxSequenceLen - 1, maxNumTokens) since context FMHA and usePackedInput are enabled
+[TensorRT-LLM][INFO] TRTGptModel If model type is encoder, maxInputLen would be reset in trtEncoderModel to maxInputLen: min(maxSequenceLen, maxNumTokens).
+[TensorRT-LLM][INFO] Capacity Scheduler Policy: GUARANTEED_NO_EVICT
+[TensorRT-LLM][INFO] Context Chunking Scheduler Policy: None
+[TensorRT-LLM][INFO] Loaded engine size: 3084 MiB
+[TensorRT-LLM][INFO] Engine load time 2482 ms
+[TensorRT-LLM][INFO] Inspecting the engine to identify potential runtime issues...
+[TensorRT-LLM][INFO] The profiling verbosity of the engine does not allow this analysis to proceed. Re-build the engine with 'detailed' profiling verbosity to get more diagnostics.
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 45.95 MiB for execution context memory.
+[TensorRT-LLM][INFO] gatherContextLogits: 0
+[TensorRT-LLM][INFO] gatherGenerationLogits: 0
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 1. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 2. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 3. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 4. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 603.56 KB GPU memory for runtime buffers.
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 2.39 MB GPU memory for decoder.
+[TensorRT-LLM][INFO] Memory usage when calculating max tokens in paged kv cache: total: 7.66 GiB, available: 3.98 GiB
+[TensorRT-LLM][INFO] Blocks per window size:
+[TensorRT-LLM][INFO] [windowSize=640] {.primaryBlocks=4194, .secondayBlocks=0}
+[TensorRT-LLM][INFO] Number of tokens per block: 32.
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 3.58 GiB for max tokens in paged KV cache (134208).
+[TensorRT-LLM][INFO] CacheTransceiver is disabled.
+[05/08/2026-03:58:21] [TRT-LLM] [W] Implicitly setting QWenConfig.seq_length = 8192
+[05/08/2026-03:58:21] [TRT-LLM] [W] Implicitly setting QWenConfig.qwen_type = qwen2
+[05/08/2026-03:58:21] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_intermediate_size = 0
+[05/08/2026-03:58:21] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_shared_expert_intermediate_size = 0
+[05/08/2026-03:58:21] [TRT-LLM] [W] Implicitly setting QWenConfig.tie_word_embeddings = True
+[05/08/2026-03:58:21] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_model_dir = None
+[05/08/2026-03:58:21] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_config = None
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set dtype to bfloat16.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set bert_attention_plugin to auto.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set gpt_attention_plugin to auto.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set gemm_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set explicitly_disable_gemm_plugin to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set gemm_swiglu_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set fp8_rowwise_gemm_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set qserve_gemm_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set identity_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set lora_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set dora_plugin to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set weight_only_groupwise_quant_matmul_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set weight_only_quant_matmul_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set smooth_quant_plugins to True.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set smooth_quant_gemm_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set layernorm_quantization_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set rmsnorm_quantization_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set quantize_per_token_plugin to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set quantize_tensor_plugin to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set moe_plugin to auto.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set mamba_conv1d_plugin to auto.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set low_latency_gemm_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set low_latency_gemm_swiglu_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set gemm_allreduce_plugin to None.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set context_fmha to True.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set bert_context_fmha_fp32_acc to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set paged_kv_cache to True.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set remove_input_padding to True.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set norm_quant_fusion to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set reduce_fusion to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set user_buffer to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set tokens_per_block to 32.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set use_paged_context_fmha to True.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set fuse_fp4_quant to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set multiple_profiles to True.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set paged_state to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set streamingllm to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set manage_weights to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set use_fused_mlp to True.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Set pp_reduce_scatter to False.
+[05/08/2026-03:58:21] [TRT-LLM] [I] Save model to trtllm_workspace/Qwen/Qwen2.5-1.5B-Instruct/tp_1_pp_1
+[TensorRT-LLM][INFO] Refreshed the MPI local session
+[05/08/2026-03:58:24] [TRT-LLM] [I] 
+===========================================================
+= ENGINE BUILD INFO
+===========================================================
+Model Name:		Qwen/Qwen2.5-1.5B-Instruct
+Model Path:		None
+Workspace Directory:	trtllm_workspace
+Engine Directory:	trtllm_workspace/Qwen/Qwen2.5-1.5B-Instruct/tp_1_pp_1
+
+===========================================================
+= ENGINE CONFIGURATION DETAILS
+===========================================================
+Max Sequence Length:		640
+Max Batch Size:			1
+Max Num Tokens:			640
+Quantization:			None
+KV Cache Dtype:			None
+===========================================================
+
+[05/08/2026-03:58:24] [TRT-LLM] [I] 
+
+===========================================================
+ENGINE SAVED: trtllm_workspace/Qwen/Qwen2.5-1.5B-Instruct/tp_1_pp_1
+===========================================================
+

@@ -1,0 +1,79 @@
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-08 04:02:15] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-08 04:02:15] INFO config.py:66: Polars version 1.25.2 available.
+2026-05-08 04:02:18,734 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+Usage: trtllm-bench throughput [OPTIONS]
+
+  Run a throughput test on a TRT-LLM engine.
+
+Options:
+  Engine run configuration.:      Runtime settings for executing a TensorRT
+                                  LLM engine.
+    --engine_dir PATH             Path to a serialized TRT-LLM engine.
+    --backend [pytorch|_autodeploy|tensorrt]
+                                  The backend to use when running
+                                  benchmarking.  [default: pytorch]
+    --extra_llm_api_options TEXT  Path to a YAML file that overwrites the
+                                  parameters specified by trtllm-bench.
+    --max_batch_size INTEGER      Maximum runtime batch size to run the engine
+                                  with.
+    --max_num_tokens INTEGER      Maximum runtime tokens that an engine can
+                                  accept.
+    --max_seq_len INTEGER         Maximum sequence length.
+    --beam_width INTEGER          Number of search beams.  [default: 1]
+    --kv_cache_free_gpu_mem_fraction FLOAT
+                                  The percentage of memory to use for KV Cache
+                                  after model load.  [default: 0.9]
+  Engine Input Configuration:     Input configuration for driving the engine.
+    --dataset PATH                Pass in a dataset file for parsing instead
+                                  of stdin.
+    --eos_id INTEGER              Set the end-of-sequence token for the
+                                  benchmark. Set to -1 to disable EOS.
+                                  [default: -1]
+    --modality [image|video]      Modality of the multimodal requests.
+    --max_input_len INTEGER       Maximum input sequence length to use for
+                                  multimodal models. This is used only when
+                                  --modality is specified since the actual
+                                  number of vision tokens is unknown before
+                                  the model is run.  [default: 4096]
+    --num_requests INTEGER        Number of requests to cap benchmark run at.
+                                  If not specified or set to 0, it will be the
+                                  length of dataset.  [default: 0]
+    --warmup INTEGER              Number of requests warm up benchmark.
+                                  [default: 2]
+    --target_input_len INTEGER RANGE
+                                  Target (average) input length for tuning
+                                  heuristics.  [x>=1]
+    --target_output_len INTEGER RANGE
+                                  Target (average) sequence length for tuning
+                                  heuristics.  [x>=1]
+  World Configuration:            Options for configuring the backend multi-
+                                  GPU world.
+    --tp INTEGER                  tensor parallelism size  [default: 1]
+    --pp INTEGER                  pipeline parallelism size  [default: 1]
+    --ep INTEGER                  expert parallelism size
+    --cluster_size INTEGER        expert cluster parallelism size
+  Request Load Control Options: [mutually_exclusive]
+                                  Limits how requests are loaded.
+    --concurrency INTEGER         Desired concurrency rate (number of requests
+                                  processing at the same time), <=0 for no
+                                  concurrency limit.  [default: -1]
+  --streaming                     Enable streaming mode for requests.
+  Reporting Options:              Options for reporting benchmark results.
+    --report_json FILE            Path where report is written to.
+    --iteration_log FILE          Path where iteration logging is written to.
+    --output_json FILE            Path where output should be written to.
+    --request_json FILE           Path where per request information is
+                                  written to.
+    --enable_chunked_context      Enable chunking in prefill stage for
+                                  enhanced throughput benchmark. Default is
+                                  False for PyTorch/AutoDeploy backend, True
+                                  for TensorRT backend.
+    --scheduler_policy [guaranteed_no_evict|max_utilization]
+                                  KV cache scheduler policy:
+                                  guaranteed_no_evict prevents request
+                                  eviction, max_utilization optimizes for
+                                  throughput.  [default: guaranteed_no_evict]
+  --help                          Show this message and exit.

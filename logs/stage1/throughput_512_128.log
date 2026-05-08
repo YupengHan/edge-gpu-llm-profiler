@@ -1,0 +1,761 @@
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-08 04:02:25] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-08 04:02:25] INFO config.py:66: Polars version 1.25.2 available.
+2026-05-08 04:02:28,221 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+[05/08/2026-04:02:28] [TRT-LLM] [I] Preparing to run throughput benchmark...
+Qwen/Qwen2.5-1.5B-Instruct
+Qwen/Qwen2.5-1.5B-Instruct
+[05/08/2026-04:02:29] [TRT-LLM] [I] 
+===========================================================
+= DATASET DETAILS
+===========================================================
+Dataset Path:         /workspace/rtx3070-trtllm-latency-lab/data/synthetic_512_128.jsonl
+Number of Sequences:  100
+
+-- Percentiles statistics ---------------------------------
+
+        Input              Output           Seq. Length
+-----------------------------------------------------------
+MIN:   512.0000           128.0000           640.0000
+MAX:   512.0000           128.0000           640.0000
+AVG:   512.0000           128.0000           640.0000
+P50:   512.0000           128.0000           640.0000
+P90:   512.0000           128.0000           640.0000
+P95:   512.0000           128.0000           640.0000
+P99:   512.0000           128.0000           640.0000
+===========================================================
+
+[05/08/2026-04:02:29] [TRT-LLM] [I] Setting up throughput benchmark.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Using LLM with TensorRT backend
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.seq_length = 8192
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.qwen_type = qwen2
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_intermediate_size = 0
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_shared_expert_intermediate_size = 0
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.tie_word_embeddings = True
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_model_dir = None
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_config = None
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set dtype to bfloat16.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set bert_attention_plugin to auto.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set gpt_attention_plugin to auto.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set gemm_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set explicitly_disable_gemm_plugin to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set gemm_swiglu_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set fp8_rowwise_gemm_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set qserve_gemm_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set identity_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set lora_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set dora_plugin to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set weight_only_groupwise_quant_matmul_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set weight_only_quant_matmul_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set smooth_quant_plugins to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set smooth_quant_gemm_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set layernorm_quantization_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set rmsnorm_quantization_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set quantize_per_token_plugin to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set quantize_tensor_plugin to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set moe_plugin to auto.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set mamba_conv1d_plugin to auto.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set low_latency_gemm_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set low_latency_gemm_swiglu_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set gemm_allreduce_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set context_fmha to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set bert_context_fmha_fp32_acc to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set paged_kv_cache to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set remove_input_padding to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set norm_quant_fusion to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set reduce_fusion to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set user_buffer to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set tokens_per_block to 32.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set use_paged_context_fmha to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set fuse_fp4_quant to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set multiple_profiles to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set paged_state to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set streamingllm to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set manage_weights to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set use_fused_mlp to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set pp_reduce_scatter to False.
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.seq_length = 8192
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.qwen_type = qwen2
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_intermediate_size = 0
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_shared_expert_intermediate_size = 0
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.tie_word_embeddings = True
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_model_dir = None
+[05/08/2026-04:02:29] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_config = None
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set dtype to bfloat16.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set bert_attention_plugin to auto.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set gpt_attention_plugin to auto.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set gemm_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set explicitly_disable_gemm_plugin to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set gemm_swiglu_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set fp8_rowwise_gemm_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set qserve_gemm_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set identity_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set lora_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set dora_plugin to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set weight_only_groupwise_quant_matmul_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set weight_only_quant_matmul_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set smooth_quant_plugins to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set smooth_quant_gemm_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set layernorm_quantization_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set rmsnorm_quantization_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set quantize_per_token_plugin to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set quantize_tensor_plugin to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set moe_plugin to auto.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set mamba_conv1d_plugin to auto.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set low_latency_gemm_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set low_latency_gemm_swiglu_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set gemm_allreduce_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set context_fmha to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set bert_context_fmha_fp32_acc to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set paged_kv_cache to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set remove_input_padding to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set norm_quant_fusion to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set reduce_fusion to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set user_buffer to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set tokens_per_block to 32.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set use_paged_context_fmha to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set fuse_fp4_quant to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set multiple_profiles to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set paged_state to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set streamingllm to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set manage_weights to False.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set use_fused_mlp to True.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set pp_reduce_scatter to False.
+[05/08/2026-04:02:29] [TRT-LLM] [W] max_input_len [1024] is overridden by build_config.max_input_len [640] in build_config
+[05/08/2026-04:02:29] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/08/2026-04:02:29] [TRT-LLM] [I] Compute capability: (8, 6)
+[05/08/2026-04:02:29] [TRT-LLM] [I] SM count: 40
+[05/08/2026-04:02:29] [TRT-LLM] [I] SM clock: 2100 MHz
+[05/08/2026-04:02:29] [TRT-LLM] [I] int4 TFLOPS: 344
+[05/08/2026-04:02:29] [TRT-LLM] [I] int8 TFLOPS: 172
+[05/08/2026-04:02:29] [TRT-LLM] [I] fp8 TFLOPS: 0
+[05/08/2026-04:02:29] [TRT-LLM] [I] float16 TFLOPS: 86
+[05/08/2026-04:02:29] [TRT-LLM] [I] bfloat16 TFLOPS: 86
+[05/08/2026-04:02:29] [TRT-LLM] [I] float32 TFLOPS: 43
+[05/08/2026-04:02:29] [TRT-LLM] [I] Total Memory: 8 GiB
+[05/08/2026-04:02:29] [TRT-LLM] [I] Memory clock: 7001 MHz
+[05/08/2026-04:02:29] [TRT-LLM] [I] Memory bus width: 256
+[05/08/2026-04:02:29] [TRT-LLM] [I] Memory bandwidth: 448 GB/s
+[05/08/2026-04:02:29] [TRT-LLM] [I] PCIe speed: 2500 Mbps
+[05/08/2026-04:02:29] [TRT-LLM] [I] PCIe link width: 8
+[05/08/2026-04:02:29] [TRT-LLM] [I] PCIe bandwidth: 2 GB/s
+[TensorRT-LLM][WARNING] Setting cudaGraphCacheSize to a value greater than 0 without enabling cudaGraphMode has no effect.
+[33;20mrank 0 using MpiPoolSession to spawn MPI processes
+[0mNone
+[05/08/2026-04:02:29] [TRT-LLM] [I] Generating a new HMAC key for server proxy_request_queue
+[05/08/2026-04:02:29] [TRT-LLM] [I] Generating a new HMAC key for server worker_init_status_queue
+[05/08/2026-04:02:29] [TRT-LLM] [I] Generating a new HMAC key for server proxy_result_queue
+[05/08/2026-04:02:29] [TRT-LLM] [I] Generating a new HMAC key for server proxy_stats_queue
+[05/08/2026-04:02:29] [TRT-LLM] [I] Generating a new HMAC key for server proxy_kv_cache_events_queue
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-08 04:02:34] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-08 04:02:34] INFO config.py:66: Polars version 1.25.2 available.
+Multiple distributions found for package optimum. Picked distribution: optimum
+2026-05-08 04:02:39,043 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+[TensorRT-LLM][WARNING] Setting cudaGraphCacheSize to a value greater than 0 without enabling cudaGraphMode has no effect.
+[TensorRT-LLM][INFO] Refreshed the MPI local session
+[TensorRT-LLM][INFO] Engine version 1.0.0 found in the config file, assuming engine(s) built by new builder API.
+[TensorRT-LLM][INFO] Refreshed the MPI local session
+[TensorRT-LLM][INFO] MPI size: 1, MPI local size: 1, rank: 0
+[TensorRT-LLM][INFO] Using user-specified devices: (0)
+[TensorRT-LLM][INFO] Rank 0 is using GPU 0
+[TensorRT-LLM][INFO] TRTGptModel maxNumSequences: 1
+[TensorRT-LLM][INFO] TRTGptModel maxBatchSize: 1
+[TensorRT-LLM][INFO] TRTGptModel maxBeamWidth: 1
+[TensorRT-LLM][INFO] TRTGptModel maxSequenceLen: 640
+[TensorRT-LLM][INFO] TRTGptModel maxDraftLen: 0
+[TensorRT-LLM][INFO] TRTGptModel mMaxAttentionWindowSize: (640) * 28
+[TensorRT-LLM][INFO] TRTGptModel enableTrtOverlap: 0
+[TensorRT-LLM][INFO] TRTGptModel normalizeLogProbs: 0
+[TensorRT-LLM][INFO] TRTGptModel maxNumTokens: 640
+[TensorRT-LLM][INFO] TRTGptModel maxInputLen: 639  = maxSequenceLen - 1 since chunked context is enabled
+[TensorRT-LLM][INFO] TRTGptModel If model type is encoder, maxInputLen would be reset in trtEncoderModel to maxInputLen: 640 = maxSequenceLen.
+[TensorRT-LLM][INFO] Capacity Scheduler Policy: GUARANTEED_NO_EVICT
+[TensorRT-LLM][INFO] Context Chunking Scheduler Policy: FIRST_COME_FIRST_SERVED
+[TensorRT-LLM][INFO] Loaded engine size: 3084 MiB
+[TensorRT-LLM][INFO] Engine load time 1736 ms
+[TensorRT-LLM][INFO] Inspecting the engine to identify potential runtime issues...
+[TensorRT-LLM][INFO] The profiling verbosity of the engine does not allow this analysis to proceed. Re-build the engine with 'detailed' profiling verbosity to get more diagnostics.
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 45.95 MiB for execution context memory.
+[TensorRT-LLM][INFO] gatherContextLogits: 0
+[TensorRT-LLM][INFO] gatherGenerationLogits: 0
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 1. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 2. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 3. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 4. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 603.56 KB GPU memory for runtime buffers.
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 2.39 MB GPU memory for decoder.
+[TensorRT-LLM][INFO] Memory usage when calculating max tokens in paged kv cache: total: 7.66 GiB, available: 4.01 GiB
+[TensorRT-LLM][INFO] Blocks per window size:
+[TensorRT-LLM][INFO] [windowSize=640] {.primaryBlocks=4227, .secondayBlocks=0}
+[TensorRT-LLM][INFO] Number of tokens per block: 32.
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 3.61 GiB for max tokens in paged KV cache (135264).
+[TensorRT-LLM][INFO] CacheTransceiver is disabled.
+[05/08/2026-04:02:42] [TRT-LLM] [W] Implicitly setting QWenConfig.seq_length = 8192
+[05/08/2026-04:02:42] [TRT-LLM] [W] Implicitly setting QWenConfig.qwen_type = qwen2
+[05/08/2026-04:02:42] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_intermediate_size = 0
+[05/08/2026-04:02:42] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_shared_expert_intermediate_size = 0
+[05/08/2026-04:02:42] [TRT-LLM] [W] Implicitly setting QWenConfig.tie_word_embeddings = True
+[05/08/2026-04:02:42] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_model_dir = None
+[05/08/2026-04:02:42] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_config = None
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set dtype to bfloat16.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set bert_attention_plugin to auto.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set gpt_attention_plugin to auto.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set gemm_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set explicitly_disable_gemm_plugin to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set gemm_swiglu_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set fp8_rowwise_gemm_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set qserve_gemm_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set identity_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set lora_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set dora_plugin to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set weight_only_groupwise_quant_matmul_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set weight_only_quant_matmul_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set smooth_quant_plugins to True.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set smooth_quant_gemm_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set layernorm_quantization_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set rmsnorm_quantization_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set quantize_per_token_plugin to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set quantize_tensor_plugin to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set moe_plugin to auto.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set mamba_conv1d_plugin to auto.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set low_latency_gemm_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set low_latency_gemm_swiglu_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set gemm_allreduce_plugin to None.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set context_fmha to True.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set bert_context_fmha_fp32_acc to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set paged_kv_cache to True.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set remove_input_padding to True.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set norm_quant_fusion to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set reduce_fusion to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set user_buffer to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set tokens_per_block to 32.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set use_paged_context_fmha to True.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set fuse_fp4_quant to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set multiple_profiles to True.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set paged_state to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set streamingllm to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set manage_weights to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set use_fused_mlp to True.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Set pp_reduce_scatter to False.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Setting up for warmup...
+[05/08/2026-04:02:42] [TRT-LLM] [I] Running warmup.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Starting benchmarking async task.
+[05/08/2026-04:02:42] [TRT-LLM] [I] Starting benchmark...
+Benchmarking:   0%|          | 0/10 [00:00<?, ?it/s][05/08/2026-04:02:42] [TRT-LLM] [I] Request submission complete. [count=10, time=0.0000s, rate=782288.98 req/s]
+Benchmarking:  10%|█         | 1/10 [00:01<00:12,  1.40s/it]Benchmarking:  20%|██        | 2/10 [00:02<00:10,  1.35s/it]Benchmarking:  30%|███       | 3/10 [00:04<00:09,  1.33s/it]Benchmarking:  40%|████      | 4/10 [00:05<00:07,  1.33s/it]Benchmarking:  50%|█████     | 5/10 [00:06<00:06,  1.32s/it]Benchmarking:  60%|██████    | 6/10 [00:07<00:05,  1.32s/it]Benchmarking:  70%|███████   | 7/10 [00:09<00:03,  1.32s/it]Benchmarking:  80%|████████  | 8/10 [00:10<00:02,  1.33s/it]Benchmarking:  90%|█████████ | 9/10 [00:11<00:01,  1.33s/it]Benchmarking: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it][05/08/2026-04:02:56] [TRT-LLM] [I] Benchmark complete.
+[05/08/2026-04:02:56] [TRT-LLM] [I] Stopping LLM backend.
+[05/08/2026-04:02:56] [TRT-LLM] [I] LLM Backend stopped.
+Benchmarking: 100%|██████████| 10/10 [00:13<00:00,  1.33s/it]
+[05/08/2026-04:02:56] [TRT-LLM] [I] Warmup done.
+[05/08/2026-04:02:56] [TRT-LLM] [I] Logging iterations to /workspace/rtx3070-trtllm-latency-lab/results/stage1/benchmark_raw/trtllm_bench_512_128_throughput_iteration.jsonl...
+[05/08/2026-04:02:56] [TRT-LLM] [I] Starting benchmarking async task.
+[05/08/2026-04:02:56] [TRT-LLM] [I] Starting benchmark...
+Benchmarking:   0%|          | 0/100 [00:00<?, ?it/s][05/08/2026-04:02:56] [TRT-LLM] [I] Iteration log worker starting up...
+[05/08/2026-04:02:56] [TRT-LLM] [I] Request submission complete. [count=100, time=0.0001s, rate=1235559.40 req/s]
+[05/08/2026-04:02:56] [TRT-LLM] [I] Iteration logging: Opened log file /workspace/rtx3070-trtllm-latency-lab/results/stage1/benchmark_raw/trtllm_bench_512_128_throughput_iteration.jsonl...
+Benchmarking:   1%|          | 1/100 [00:01<02:12,  1.34s/it]Benchmarking:   2%|▏         | 2/100 [00:02<02:11,  1.34s/it]Benchmarking:   3%|▎         | 3/100 [00:04<02:09,  1.34s/it]Benchmarking:   4%|▍         | 4/100 [00:05<02:08,  1.34s/it]Benchmarking:   5%|▌         | 5/100 [00:06<02:07,  1.34s/it]Benchmarking:   6%|▌         | 6/100 [00:08<02:05,  1.34s/it]Benchmarking:   7%|▋         | 7/100 [00:09<02:04,  1.34s/it]Benchmarking:   8%|▊         | 8/100 [00:10<02:03,  1.34s/it]Benchmarking:   9%|▉         | 9/100 [00:12<02:02,  1.34s/it]Benchmarking:  10%|█         | 10/100 [00:13<02:00,  1.34s/it]Benchmarking:  11%|█         | 11/100 [00:14<01:59,  1.34s/it]Benchmarking:  12%|█▏        | 12/100 [00:16<01:58,  1.34s/it]Benchmarking:  13%|█▎        | 13/100 [00:17<01:56,  1.34s/it]Benchmarking:  14%|█▍        | 14/100 [00:18<01:55,  1.34s/it]Benchmarking:  15%|█▌        | 15/100 [00:20<01:54,  1.35s/it]Benchmarking:  16%|█▌        | 16/100 [00:21<01:52,  1.34s/it]Benchmarking:  17%|█▋        | 17/100 [00:22<01:50,  1.34s/it]Benchmarking:  18%|█▊        | 18/100 [00:24<01:49,  1.34s/it]Benchmarking:  19%|█▉        | 19/100 [00:25<01:48,  1.33s/it]Benchmarking:  20%|██        | 20/100 [00:26<01:46,  1.34s/it]Benchmarking:  21%|██        | 21/100 [00:28<01:45,  1.33s/it]Benchmarking:  22%|██▏       | 22/100 [00:29<01:44,  1.33s/it]Benchmarking:  23%|██▎       | 23/100 [00:30<01:42,  1.33s/it]Benchmarking:  24%|██▍       | 24/100 [00:32<01:41,  1.33s/it]Benchmarking:  25%|██▌       | 25/100 [00:33<01:39,  1.33s/it]Benchmarking:  26%|██▌       | 26/100 [00:34<01:38,  1.33s/it]Benchmarking:  27%|██▋       | 27/100 [00:36<01:37,  1.33s/it]Benchmarking:  28%|██▊       | 28/100 [00:37<01:35,  1.33s/it]Benchmarking:  29%|██▉       | 29/100 [00:38<01:34,  1.33s/it]Benchmarking:  30%|███       | 30/100 [00:40<01:33,  1.33s/it]Benchmarking:  31%|███       | 31/100 [00:41<01:31,  1.33s/it]Benchmarking:  32%|███▏      | 32/100 [00:42<01:30,  1.33s/it]Benchmarking:  33%|███▎      | 33/100 [00:44<01:29,  1.33s/it]Benchmarking:  34%|███▍      | 34/100 [00:45<01:28,  1.33s/it]Benchmarking:  35%|███▌      | 35/100 [00:46<01:26,  1.33s/it]Benchmarking:  36%|███▌      | 36/100 [00:48<01:25,  1.33s/it]Benchmarking:  37%|███▋      | 37/100 [00:49<01:24,  1.33s/it]Benchmarking:  38%|███▊      | 38/100 [00:50<01:22,  1.33s/it]Benchmarking:  39%|███▉      | 39/100 [00:52<01:21,  1.33s/it]Benchmarking:  40%|████      | 40/100 [00:53<01:20,  1.33s/it]Benchmarking:  41%|████      | 41/100 [00:54<01:18,  1.33s/it]Benchmarking:  42%|████▏     | 42/100 [00:56<01:17,  1.33s/it]Benchmarking:  43%|████▎     | 43/100 [00:57<01:16,  1.33s/it]Benchmarking:  44%|████▍     | 44/100 [00:58<01:14,  1.33s/it]Benchmarking:  45%|████▌     | 45/100 [01:00<01:13,  1.33s/it]Benchmarking:  46%|████▌     | 46/100 [01:01<01:12,  1.34s/it]Benchmarking:  47%|████▋     | 47/100 [01:02<01:10,  1.34s/it]Benchmarking:  48%|████▊     | 48/100 [01:04<01:09,  1.34s/it]Benchmarking:  49%|████▉     | 49/100 [01:05<01:08,  1.34s/it]Benchmarking:  50%|█████     | 50/100 [01:06<01:06,  1.34s/it]Benchmarking:  51%|█████     | 51/100 [01:08<01:05,  1.34s/it]Benchmarking:  52%|█████▏    | 52/100 [01:09<01:04,  1.34s/it]Benchmarking:  53%|█████▎    | 53/100 [01:10<01:02,  1.34s/it]Benchmarking:  54%|█████▍    | 54/100 [01:12<01:01,  1.34s/it]Benchmarking:  55%|█████▌    | 55/100 [01:13<01:00,  1.34s/it]Benchmarking:  56%|█████▌    | 56/100 [01:14<00:58,  1.34s/it]Benchmarking:  57%|█████▋    | 57/100 [01:16<00:57,  1.34s/it]Benchmarking:  58%|█████▊    | 58/100 [01:17<00:56,  1.34s/it]Benchmarking:  59%|█████▉    | 59/100 [01:18<00:54,  1.34s/it]Benchmarking:  60%|██████    | 60/100 [01:20<00:53,  1.34s/it]Benchmarking:  61%|██████    | 61/100 [01:21<00:52,  1.34s/it]Benchmarking:  62%|██████▏   | 62/100 [01:22<00:51,  1.34s/it]Benchmarking:  63%|██████▎   | 63/100 [01:24<00:49,  1.34s/it]Benchmarking:  64%|██████▍   | 64/100 [01:25<00:48,  1.34s/it]Benchmarking:  65%|██████▌   | 65/100 [01:26<00:46,  1.34s/it]Benchmarking:  66%|██████▌   | 66/100 [01:28<00:45,  1.34s/it]Benchmarking:  67%|██████▋   | 67/100 [01:29<00:44,  1.34s/it]Benchmarking:  68%|██████▊   | 68/100 [01:30<00:42,  1.34s/it]Benchmarking:  69%|██████▉   | 69/100 [01:32<00:41,  1.34s/it]Benchmarking:  70%|███████   | 70/100 [01:33<00:40,  1.34s/it]Benchmarking:  71%|███████   | 71/100 [01:34<00:38,  1.34s/it]Benchmarking:  72%|███████▏  | 72/100 [01:36<00:37,  1.34s/it]Benchmarking:  73%|███████▎  | 73/100 [01:37<00:36,  1.34s/it]Benchmarking:  74%|███████▍  | 74/100 [01:39<00:34,  1.34s/it]Benchmarking:  75%|███████▌  | 75/100 [01:40<00:33,  1.34s/it]Benchmarking:  76%|███████▌  | 76/100 [01:41<00:32,  1.34s/it]Benchmarking:  77%|███████▋  | 77/100 [01:43<00:30,  1.34s/it]Benchmarking:  78%|███████▊  | 78/100 [01:44<00:29,  1.34s/it]Benchmarking:  79%|███████▉  | 79/100 [01:45<00:28,  1.34s/it]Benchmarking:  80%|████████  | 80/100 [01:47<00:26,  1.34s/it]Benchmarking:  81%|████████  | 81/100 [01:48<00:25,  1.35s/it]Benchmarking:  82%|████████▏ | 82/100 [01:49<00:24,  1.34s/it]Benchmarking:  83%|████████▎ | 83/100 [01:51<00:22,  1.35s/it]Benchmarking:  84%|████████▍ | 84/100 [01:52<00:21,  1.35s/it]Benchmarking:  85%|████████▌ | 85/100 [01:53<00:20,  1.34s/it]Benchmarking:  86%|████████▌ | 86/100 [01:55<00:18,  1.34s/it]Benchmarking:  87%|████████▋ | 87/100 [01:56<00:17,  1.34s/it]Benchmarking:  88%|████████▊ | 88/100 [01:57<00:16,  1.34s/it]Benchmarking:  89%|████████▉ | 89/100 [01:59<00:14,  1.34s/it]Benchmarking:  90%|█████████ | 90/100 [02:00<00:13,  1.34s/it]Benchmarking:  91%|█████████ | 91/100 [02:01<00:12,  1.35s/it]Benchmarking:  92%|█████████▏| 92/100 [02:03<00:10,  1.35s/it]Benchmarking:  93%|█████████▎| 93/100 [02:04<00:09,  1.35s/it]Benchmarking:  94%|█████████▍| 94/100 [02:05<00:08,  1.35s/it]Benchmarking:  95%|█████████▌| 95/100 [02:07<00:06,  1.35s/it]Benchmarking:  96%|█████████▌| 96/100 [02:08<00:05,  1.35s/it]Benchmarking:  97%|█████████▋| 97/100 [02:09<00:04,  1.35s/it]Benchmarking:  98%|█████████▊| 98/100 [02:11<00:02,  1.35s/it]Benchmarking:  99%|█████████▉| 99/100 [02:12<00:01,  1.35s/it]Benchmarking: 100%|██████████| 100/100 [02:13<00:00,  1.35s/it][05/08/2026-04:05:10] [TRT-LLM] [I] Benchmark complete.
+[05/08/2026-04:05:10] [TRT-LLM] [I] Stopping LLM backend.
+[05/08/2026-04:05:13] [TRT-LLM] [I] Finalizing iteration logging...
+[05/08/2026-04:05:13] [TRT-LLM] [I] Iteration log worker exiting.
+[05/08/2026-04:05:13] [TRT-LLM] [I] LLM Backend stopped.
+Benchmarking: 100%|██████████| 100/100 [02:17<00:00,  1.38s/it]
+[05/08/2026-04:05:13] [TRT-LLM] [I] Benchmark done. Reporting results...
+[05/08/2026-04:05:13] [TRT-LLM] [I] Writing report to '/workspace/rtx3070-trtllm-latency-lab/results/stage1/benchmark_raw/trtllm_bench_512_128_throughput.json'.
+[05/08/2026-04:05:13] [TRT-LLM] [I] Writing request information to /workspace/rtx3070-trtllm-latency-lab/results/stage1/benchmark_raw/trtllm_bench_512_128_requests.jsonl.
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1338886903.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1338004722.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1337652549.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1338749479.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1336680942.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1340851051.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1342898091.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1330783366.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1354003914.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1342597459.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1348291566.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1342257164.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1338080779.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1349104866.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1350115709.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1328134265.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1329616502.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1332199077.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1331126919.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1338416143.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1328937655.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1335846317.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1332060290.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1330635140.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1332291173.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1329912277.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1336843717.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1329501862.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1330537761.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1331437086.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1332322815.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1335066340.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1331753954.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1337505368.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1333599081.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1332495572.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1333475521.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1333309405.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1336562195.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1332970849.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1334571323.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1334265616.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1333969753.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1334896599.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1335661934.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1339336600.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1337624367.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1336832222.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1338903332.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1343085906.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1337145210.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1339559000.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1340483301.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1339068767.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1339792067.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1339408456.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1339627085.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1338801114.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1340899647.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1339400234.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1339835302.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1348998397.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1339696909.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1341459915.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1342591031.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1341681511.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1342661490.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1340818837.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1344097508.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1341531551.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1341333953.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1343368434.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1340979289.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1342409807.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1343848318.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1346148634.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1344719327.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1343240900.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1342411897.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1345867617.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1347037650.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1343747293.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1348479562.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1343780892.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1343223394.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1344401667.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1342768343.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1345806539.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1343976478.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1345345796.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1346890078.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1344708042.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1346000246.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1345990235.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1346158224.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1345813206.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1344491254.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1345111143.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1347533794.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+/usr/local/lib/python3.12/dist-packages/pydantic/main.py:463: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=1345887840.0, input_type=float])
+  PydanticSerializationUnexpectedValue(Expected `int` - serialized value may not be as expected [input_value=0.0, input_type=float])
+  return self.__pydantic_serializer__.to_python(
+[05/08/2026-04:05:13] [TRT-LLM] [I] 
+
+===========================================================
+= ENGINE DETAILS
+===========================================================
+Model:			Qwen/Qwen2.5-1.5B-Instruct
+Model Path:		None
+Engine Directory:	/workspace/rtx3070-trtllm-latency-lab/trtllm_workspace/Qwen/Qwen2.5-1.5B-Instruct/tp_1_pp_1
+TensorRT LLM Version:	1.0.0
+Dtype:			bfloat16
+KV Cache Dtype:		None
+Quantization:		None
+Max Input Length:	640
+Max Sequence Length:	640
+
+===========================================================
+= REQUEST DETAILS 
+===========================================================
+Number of requests:             100
+Number of concurrent requests:  1.0000
+Average Input Length (tokens):  512.0000
+Average Output Length (tokens): 128.0000
+===========================================================
+= WORLD + RUNTIME INFORMATION 
+===========================================================
+TP Size:                1
+PP Size:                1
+EP Size:                None
+Max Runtime Batch Size: 1
+Max Runtime Tokens:     640
+Scheduling Policy:      GUARANTEED_NO_EVICT
+KV Memory Percentage:   90.00%
+Issue Rate (req/sec):   1.3263E+18
+
+===========================================================
+= PERFORMANCE OVERVIEW 
+===========================================================
+Request Throughput (req/sec):                     0.7464
+Total Output Throughput (tokens/sec):             95.5374
+Total Token Throughput (tokens/sec):              477.6868
+Total Latency (ms):                               133978.9959
+Average request latency (ms):                     1339.7370
+Per User Output Throughput [w/ ctx] (tps/user):   95.5428
+Per GPU Output Throughput (tps/gpu):              95.5374
+
+-- Request Latency Breakdown (ms) -----------------------
+
+[Latency] P50    : 1339.8353
+[Latency] P90    : 1346.1582
+[Latency] P95    : 1348.4796
+[Latency] P99    : 1354.0039
+[Latency] MINIMUM: 1328.1343
+[Latency] MAXIMUM: 1354.0039
+[Latency] AVERAGE: 1339.7370
+
+===========================================================
+= DATASET DETAILS
+===========================================================
+Dataset Path:         /workspace/rtx3070-trtllm-latency-lab/data/synthetic_512_128.jsonl
+Number of Sequences:  100
+
+-- Percentiles statistics ---------------------------------
+
+        Input              Output           Seq. Length
+-----------------------------------------------------------
+MIN:   512.0000           128.0000           640.0000
+MAX:   512.0000           128.0000           640.0000
+AVG:   512.0000           128.0000           640.0000
+P50:   512.0000           128.0000           640.0000
+P90:   512.0000           128.0000           640.0000
+P95:   512.0000           128.0000           640.0000
+P99:   512.0000           128.0000           640.0000
+===========================================================
+
+[05/08/2026-04:05:13] [TRT-LLM] [I] Thread proxy_dispatch_result_thread stopped.
+[05/08/2026-04:05:13] [TRT-LLM] [I] Thread proxy_dispatch_kv_cache_events_thread stopped.
+[05/08/2026-04:05:13] [TRT-LLM] [I] Thread proxy_dispatch_stats_thread stopped.
+[05/08/2026-04:05:13] [TRT-LLM] [I] Thread await_response_thread stopped.
+[05/08/2026-04:05:14] [TRT-LLM] [I] Thread dispatch_stats_thread stopped.
+[05/08/2026-04:05:14] [TRT-LLM] [I] Thread dispatch_kv_cache_events_thread stopped.
+[TensorRT-LLM][INFO] Refreshed the MPI local session

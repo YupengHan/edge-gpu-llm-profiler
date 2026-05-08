@@ -18,6 +18,12 @@ profiles/**/*.nsys-rep
 profiles/**/*.ncu-rep
 profiles/**/*.sqlite
 
+# trtllm-bench build artifacts dropped at the workdir root
+model.cache
+
+# Per-iteration jsonl benchmark logs (multi-MB each); the summary JSON is enough
+results/stage1/benchmark_raw/*_iteration.jsonl
+
 # Docker pull / image probe transcripts that change every run
 logs/stage0/docker_pull_trtllm.log
 
