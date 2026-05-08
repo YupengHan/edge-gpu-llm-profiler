@@ -1,0 +1,13 @@
+DeprecationWarning: The command 'cli' is deprecated.
+Usage: prepare_dataset.py token-norm-dist [OPTIONS]
+
+  Prepare synthetic dataset by generating random tokens with normal dist
+  lengths.
+
+Options:
+  --num-requests INTEGER  Number of requests to be generated  [required]
+  --input-mean INTEGER    normal dist mean for input tokens  [required]
+  --input-stdev INTEGER   normal dist stdev for input tokens  [required]
+  --output-mean INTEGER   normal dist mean for output tokens  [required]
+  --output-stdev INTEGER  normal dist stdev for output tokens  [required]
+  --help                  Show this message and exit.

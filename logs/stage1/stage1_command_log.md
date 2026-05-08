@@ -94,3 +94,33 @@ Result:
 - Image size on disk: 47.9 GB.
 
 Decision: Stage 1 proceeds on TensorRT-LLM 1.0.0 (TRTLLM_IMAGE=nvcr.io/nvidia/tensorrt-llm/release:1.0.0).
+
+## Step 4 — Qwen2.5 tokenizer/config check
+
+Timestamp: 2026-05-07T20:29:56-07:00
+
+```bash
+docker run --rm --gpus all -v $PWD:/workspace/rtx3070-trtllm-latency-lab -w /workspace/rtx3070-trtllm-latency-lab nvcr.io/nvidia/tensorrt-llm/release:1.0.0 bash scripts/_step4_qwen_check.sh
+```
+
+Result:
+- Tokenizer loaded for Qwen/Qwen2.5-1.5B-Instruct: vocab=151665 (entries), eos='<|im_end|>' id=151645, pad='<|endoftext|>'.
+- Sample tokenization 'Hello, benchmark test.' -> 5 tokens, round-trips.
+- Config: model_type=qwen2, architectures=['Qwen2ForCausalLM'], torch_dtype=bfloat16, hidden_layers=28, attn_heads=12, kv_heads=2 (GQA 6:1), hidden_size=1536, intermediate_size=8960, vocab_size=151936, max_position_embeddings=32768, rope_theta=1e6, tie_word_embeddings=True.
+
+## Step 5-6 — Generate synthetic datasets
+
+Timestamp: 2026-05-07T20:29:56-07:00
+
+CLI drift: prepare_dataset.py in 1.0.0 uses subcommand 'token-norm-dist' (hyphen); the runbook shows 'token_norm_dist' (underscore). Used the hyphen form per docs/07 §7.
+
+```bash
+docker run --rm --gpus all -v $PWD:/workspace/rtx3070-trtllm-latency-lab -w /workspace/rtx3070-trtllm-latency-lab nvcr.io/nvidia/tensorrt-llm/release:1.0.0 bash scripts/_step6_make_datasets.sh
+```
+
+Result:
+  30 data/synthetic_1024_256.jsonl
+  50 data/synthetic_128_128.jsonl
+ 100 data/synthetic_512_128.jsonl
+ 180 total
+- Each line is {task_id, input_ids[...], output_tokens}.

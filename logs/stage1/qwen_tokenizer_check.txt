@@ -1,0 +1,11 @@
+model Qwen/Qwen2.5-1.5B-Instruct
+vocab_size_len 151665
+eos_token <|im_end|>
+eos_token_id 151645
+pad_token <|endoftext|>
+bos_token None
+model_max_length 131072
+sample_text 'Hello, benchmark test.'
+sample_tokens_count 5
+sample_token_ids [9707, 11, 28431, 1273, 13]
+decoded_back Hello, benchmark test.

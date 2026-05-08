@@ -1,0 +1,53 @@
+
+=============
+== PyTorch ==
+=============
+
+NVIDIA Release 25.06 (build 177567386)
+PyTorch Version 2.8.0a0+5228986
+Container image Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+Copyright (c) 2014-2024 Facebook Inc.
+Copyright (c) 2011-2014 Idiap Research Institute (Ronan Collobert)
+Copyright (c) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+Copyright (c) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+Copyright (c) 2011-2013 NYU                      (Clement Farabet)
+Copyright (c) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+Copyright (c) 2006      Idiap Research Institute (Samy Bengio)
+Copyright (c) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+Copyright (c) 2015      Google Inc.
+Copyright (c) 2015      Yangqing Jia
+Copyright (c) 2013-2016 The Caffe contributors
+All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+GOVERNING TERMS: The software and materials are governed by the NVIDIA Software License Agreement
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-software-license-agreement/)
+and the Product-Specific Terms for NVIDIA AI Products
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/product-specific-terms-for-ai-products/).
+
+=== HF_MODEL=Qwen/Qwen2.5-1.5B-Instruct
+=== HF_HOME=/workspace/rtx3070-trtllm-latency-lab/models/.hf
+model Qwen/Qwen2.5-1.5B-Instruct
+vocab_size_len 151665
+eos_token <|im_end|>
+eos_token_id 151645
+pad_token <|endoftext|>
+bos_token None
+model_max_length 131072
+sample_text 'Hello, benchmark test.'
+sample_tokens_count 5
+sample_token_ids [9707, 11, 28431, 1273, 13]
+decoded_back Hello, benchmark test.
+model_type qwen2
+architectures ['Qwen2ForCausalLM']
+torch_dtype torch.bfloat16
+num_hidden_layers 28
+num_attention_heads 12
+num_key_value_heads 2
+hidden_size 1536
+intermediate_size 8960
+vocab_size 151936
+max_position_embeddings 32768
+rope_theta 1000000.0
+tie_word_embeddings True

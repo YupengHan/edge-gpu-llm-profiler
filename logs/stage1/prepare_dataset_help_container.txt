@@ -1,0 +1,23 @@
+Usage: prepare_dataset.py [OPTIONS] COMMAND [ARGS]...
+
+  This script generates dataset input for gptManagerBenchmark. (DEPRECATED)
+
+Options:
+  --tokenizer TEXT           Tokenizer dir for the model run by
+                             gptManagerBenchmark, or the model name from
+                             HuggingFace.  [required]
+  --output TEXT              Output json filename.
+  --stdout                   Print output to stdout with a JSON dataset entry
+                             on each line.
+  --random-seed INTEGER      random seed for token_ids
+  --task-id INTEGER          LoRA task id
+  --rand-task-id INTEGER...  Random LoRA Tasks
+  --lora-dir TEXT            Directory containing LoRA adapters
+  --log-level [info|debug]   Logging level.
+  --trust-remote-code        Trust remote code.
+  --help                     Show this message and exit.
+
+Commands:
+  dataset          Prepare dataset from real dataset.
+  token-norm-dist  Prepare synthetic dataset by generating random tokens...
+  token-unif-dist  Prepare synthetic dataset by generating random tokens...

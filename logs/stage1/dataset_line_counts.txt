@@ -1,0 +1,4 @@
+    30 data/synthetic_1024_256.jsonl
+    50 data/synthetic_128_128.jsonl
+   100 data/synthetic_512_128.jsonl
+   180 total

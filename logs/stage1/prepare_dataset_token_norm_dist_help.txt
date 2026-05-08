@@ -1,0 +1,4 @@
+Usage: prepare_dataset.py [OPTIONS] COMMAND [ARGS]...
+Try 'prepare_dataset.py --help' for help.
+
+Error: No such command 'token_norm_dist'.
