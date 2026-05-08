@@ -25,14 +25,29 @@ Active GPU processes at capture (from `logs/stage0/nvidia_smi.txt`):
 
 ## Compatibility status
 
-- TensorRT-LLM container tested: pending (Step 2)
-- TensorRT-LLM import tested: pending (Step 3)
-- `trtllm-bench` available: pending (Step 3)
-- `trtllm-serve` available: pending (Step 3)
+- TensorRT-LLM container tested: yes — `nvcr.io/nvidia/tensorrt-llm/release:1.0.0`.
+- TensorRT-LLM import tested: yes — `tensorrt_llm 1.0.0` imports inside the 1.0.0 container.
+- `trtllm-bench` available: yes (1.0.0 container).
+- `trtllm-serve` available: yes (1.0.0 container).
+- `nvcr.io/nvidia/tensorrt-llm/release:1.3.0rc14` import: **FAILED** on this host (driver 575.57.08 / CUDA 12.9). PyTorch in 1.3.0rc14 is `2.11.0a0+nv26.02` and requires the CUDA 13.x driver ABI; `torch.cuda.is_available()` raises `RuntimeError: The NVIDIA driver on your system is too old (found version 12090)`. Image was pulled but unusable here; removed to free disk for the fallback. Full failure transcript at `logs/stage1/step3_container_probe.log`.
+
+## Working container (Stage 1)
+
+- Image: `nvcr.io/nvidia/tensorrt-llm/release:1.0.0`
+- python: 3.12.3
+- torch: `2.8.0a0+5228986c39.nv25.06` (NV PyTorch 25.06, CUDA 12.x ABI)
+- torch.cuda: available, `device_count=1`, `get_device_name(0)='NVIDIA GeForce RTX 3070 Laptop GPU'`, capability `(8, 6)`
+- tensorrt: `10.11.0.33`
+- tensorrt_llm: `1.0.0`
+- transformers: `4.53.1`
+- pydantic: `2.11.5`
+- nsys (container): `2025.3.1.90-253135822126v0`
+- ncu (container): `2025.2.1.0 (build 35987062)`
+- flashinfer JIT in use (no prebuilt kernels for this driver/arch combo on first import).
 
 ## Notes
 
 - The GPU is an **RTX 3070 Laptop GPU**, not desktop. VRAM is 8 GB. The runbook scope ("RTX 3070-class local GPU") applies; performance numbers should be labeled `RTX 3070 Laptop` to avoid being confused with the 8 GB desktop variant.
 - sm_86 is a consumer Ampere arch. Some TensorRT-LLM kernel paths are tuned for datacenter Ampere/Hopper; if engine build fails, follow runbook's compatibility-failure path rather than switching backend.
-- Driver 575.x advertises CUDA 12.9 — newer than CUDA 12.6/12.8 typically baked into the TensorRT-LLM 1.3.x release containers. Forward-compatibility should hold (driver newer than runtime), but if the container reports CUDA driver/runtime mismatch, document it.
-- Host has both nsys 2025.5 and ncu 2024.1; container may bundle different versions. Will record container-side versions in Step 3.
+- Driver 575.x advertises CUDA 12.9. **TensorRT-LLM 1.3.0rc14 is incompatible with this driver** (its bundled PyTorch needs CUDA 13). **TensorRT-LLM 1.0.0 is compatible.** Stage 1 proceeds on 1.0.0 per runbook §"If TensorRT-LLM fails on RTX 3070" item 4 (release/version fallback). Backend remains TensorRT-LLM.
+- This finding alone is a legitimate "compatibility result" deliverable for Stage 1 §`baseline_summary` section 2.

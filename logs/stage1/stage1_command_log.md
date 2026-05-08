@@ -74,3 +74,23 @@ Interpretation:
 - Do NOT switch backend (vLLM/llama.cpp/SGLang/C++).
 
 Next action: pull a TensorRT-LLM release tag whose PyTorch is built against CUDA 12.x and retry the import probe.
+
+## Step 3 — TensorRT-LLM 1.0.0 (release fallback) import OK
+
+Timestamp: 2026-05-07T20:27:32-07:00
+
+```bash
+docker rmi nvcr.io/nvidia/tensorrt-llm/release:1.3.0rc14
+docker pull nvcr.io/nvidia/tensorrt-llm/release:1.0.0
+docker run --rm --gpus all -v $PWD:/workspace/rtx3070-trtllm-latency-lab -w /workspace/rtx3070-trtllm-latency-lab nvcr.io/nvidia/tensorrt-llm/release:1.0.0 bash scripts/_step3_probe.sh
+```
+
+Result:
+- python 3.12.3, torch 2.8.0a0+5228986c39.nv25.06, tensorrt 10.11.0.33, tensorrt_llm 1.0.0.
+- transformers 4.53.1, pydantic 2.11.5, flashinfer JIT enabled.
+- torch.cuda.is_available()=True, GPU recognized as 'NVIDIA GeForce RTX 3070 Laptop GPU' sm_86.
+- trtllm-bench --help and trtllm-serve --help both work.
+- Container nsys=2025.3.1.90, ncu=2025.2.1.0.
+- Image size on disk: 47.9 GB.
+
+Decision: Stage 1 proceeds on TensorRT-LLM 1.0.0 (TRTLLM_IMAGE=nvcr.io/nvidia/tensorrt-llm/release:1.0.0).

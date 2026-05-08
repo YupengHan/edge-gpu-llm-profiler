@@ -1,0 +1,93 @@
+
+=============
+== PyTorch ==
+=============
+
+NVIDIA Release 25.06 (build 177567386)
+PyTorch Version 2.8.0a0+5228986
+Container image Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+Copyright (c) 2014-2024 Facebook Inc.
+Copyright (c) 2011-2014 Idiap Research Institute (Ronan Collobert)
+Copyright (c) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+Copyright (c) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+Copyright (c) 2011-2013 NYU                      (Clement Farabet)
+Copyright (c) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+Copyright (c) 2006      Idiap Research Institute (Samy Bengio)
+Copyright (c) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+Copyright (c) 2015      Google Inc.
+Copyright (c) 2015      Yangqing Jia
+Copyright (c) 2013-2016 The Caffe contributors
+All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+GOVERNING TERMS: The software and materials are governed by the NVIDIA Software License Agreement
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-software-license-agreement/)
+and the Product-Specific Terms for NVIDIA AI Products
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/product-specific-terms-for-ai-products/).
+
+=== python / torch / tensorrt_llm import probe ===
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-08 03:26:13] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-08 03:26:13] INFO config.py:66: Polars version 1.25.2 available.
+2026-05-08 03:26:18,635 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+python 3.12.3
+torch 2.8.0a0+5228986c39.nv25.06
+torch.cuda.is_available True
+torch.cuda.device_count 1
+torch.cuda.get_device_name(0) NVIDIA GeForce RTX 3070 Laptop GPU
+torch.cuda.get_device_capability(0) (8, 6)
+tensorrt 10.11.0.33
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+tensorrt_llm 1.0.0
+transformers 4.53.1
+pydantic 2.11.5
+=== trtllm-bench --help ===
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-08 03:26:27] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-08 03:26:27] INFO config.py:66: Polars version 1.25.2 available.
+2026-05-08 03:26:31,625 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+Usage: trtllm-bench [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  -m, --model TEXT                The Huggingface name of the model to
+                                  benchmark.  [required]
+  --model_path PATH               Path to a Huggingface checkpoint directory
+                                  for loading model components.
+  -w, --workspace PATH            The directory to store benchmarking
+                                  intermediate files.  [default: /tmp]
+  --log_level [internal_error|error|warning|info|verbose|debug|trace]
+                                  The logging level.  [default: info]
+  --help                          Show this message and exit.
+
+Commands:
+  build       Build engines for benchmarking.
+  latency     Run a latency test on a TRT-LLM engine.
+  throughput  Run a throughput test on a TRT-LLM engine.
+=== trtllm-serve --help ===
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-08 03:26:40] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-08 03:26:40] INFO config.py:66: Polars version 1.25.2 available.
+2026-05-08 03:26:45,083 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+/usr/local/lib/python3.12/dist-packages/pydantic/_internal/_fields.py:198: UserWarning: Field name "schema" in "ResponseFormat" shadows an attribute in parent "OpenAIBaseModel"
+  warnings.warn(
+Usage: trtllm-serve [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  disaggregated             Running server in disaggregated mode
+  disaggregated_mpi_worker  Launching disaggregated MPI worker
+  serve                     Running an OpenAI API compatible server
+=== nsys --version (container) ===
+NVIDIA Nsight Systems version 2025.3.1.90-253135822126v0
+=== ncu --version (container) ===
+NVIDIA (R) Nsight Compute Command Line Profiler
+Copyright (c) 2018-2025 NVIDIA Corporation
+Version 2025.2.1.0 (build 35987062) (public-release)
