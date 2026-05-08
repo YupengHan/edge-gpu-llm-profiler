@@ -1,0 +1,2 @@
+name, compute_cap, driver_version, memory.total [MiB], memory.free [MiB]
+NVIDIA GeForce RTX 3070 Laptop GPU, 8.6, 575.57.08, 8192 MiB, 7391 MiB
