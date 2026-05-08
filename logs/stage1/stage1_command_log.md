@@ -48,3 +48,29 @@ Result so far:
 - Pre-existing trt-perf:dev image lacks tensorrt_llm (logs/stage0/trt_perf_dev_probe.txt) — proceeding with official release container.
 - TRTLLM_TAG=1.3.0rc14, TRTLLM_IMAGE=nvcr.io/nvidia/tensorrt-llm/release:1.3.0rc14 (logs/stage0/trtllm_image.env).
 - docker pull is running in background; full transcript at logs/stage0/docker_pull_trtllm.log.
+
+## Step 2 / 3 — TensorRT-LLM 1.3.0rc14 import FAILED
+
+Timestamp: 2026-05-07T20:12:51-07:00
+
+```bash
+docker run --rm --gpus all nvcr.io/nvidia/tensorrt-llm/release:1.3.0rc14 nvidia-smi  # GPU visible inside container
+docker run --rm --gpus all -v $PWD:/workspace/rtx3070-trtllm-latency-lab -w /workspace/rtx3070-trtllm-latency-lab nvcr.io/nvidia/tensorrt-llm/release:1.3.0rc14 bash scripts/_step3_probe.sh
+```
+
+Result:
+- GPU is visible inside the 1.3.0rc14 container (logs/stage0/docker_nvidia_smi.txt).
+- nvidia-smi inside container reports the host driver 575.57.08 (CUDA 12.9).
+- python: 3.12.3, torch: 2.11.0a0+eb65b36914.nv26.02, tensorrt: 10.15.1.29, transformers: 4.57.3, pydantic: 2.12.5.
+- torch.cuda.is_available() = False with RuntimeError 'The NVIDIA driver on your system is too old (found version 12090)'.
+- import tensorrt_llm raises the same RuntimeError via tensorrt_llm._torch.cuda_tile_utils:53 calling torch.cuda.get_device_properties().
+- trtllm-bench --help and trtllm-serve --help both abort with the same import error (logs/stage0/trtllm_bench_help.txt, trtllm_serve_help.txt).
+- Container nsys is 2026.1.1.204; container ncu is 2025.4.1.0.
+
+Interpretation:
+- The driver advertises CUDA 12.9 but PyTorch 2.11.0a0+nv26.02 inside the 1.3.0rc14 container was compiled against the CUDA 13.x driver ABI.
+- This is the env-level failure described in docs/07 §3 (TensorRT-LLM import fails) AND the consumer-Ampere-driver-mismatch failure mode the runbook calls out.
+- Per docs/07 'TensorRT-LLM fallback policy', try a TensorRT-LLM release/tag fallback before declaring full compatibility failure.
+- Do NOT switch backend (vLLM/llama.cpp/SGLang/C++).
+
+Next action: pull a TensorRT-LLM release tag whose PyTorch is built against CUDA 12.x and retry the import probe.

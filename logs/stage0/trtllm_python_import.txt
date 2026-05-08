@@ -1,0 +1,7 @@
+python 3.12.3
+torch 2.11.0a0+eb65b36914.nv26.02
+torch.cuda.is_available False
+tensorrt 10.15.1.29
+tensorrt_llm_error RuntimeError('The NVIDIA driver on your system is too old (found version 12090). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver.')
+transformers 4.57.3
+pydantic 2.12.5
