@@ -1,0 +1,33 @@
+# Stage 1 generated artifacts that must NOT be committed (size / sensitivity).
+# Keep small text/JSON/MD outputs only.
+
+# TensorRT-LLM source clone (large; pinned upstream, not our code)
+external/
+
+# Engines, model weights, workspace
+engines/
+models/
+trtllm_workspace/
+
+# Profiling raw captures (large binaries)
+*.nsys-rep
+*.ncu-rep
+*.qdrep
+*.qdstrm
+profiles/**/*.nsys-rep
+profiles/**/*.ncu-rep
+profiles/**/*.sqlite
+
+# Docker pull / image probe transcripts that change every run
+logs/stage0/docker_pull_trtllm.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store

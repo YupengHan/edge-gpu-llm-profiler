@@ -32,3 +32,19 @@ Result:
 - GPU = RTX 3070 Laptop GPU (sm_86, 8 GiB, driver 575.57.08, CUDA 12.9).
 - Host = Ubuntu 22.04.5, Docker 28.1.1 with NVIDIA runtime, nsys 2025.5, ncu 2024.1.
 - Wrote results/stage0/environment_report.md.
+
+## Step 2 — Verify Docker GPU access (in progress)
+
+Timestamp: 2026-05-07T20:03:00-07:00
+
+```bash
+docker run --rm --gpus all nvidia/cuda:12.4.0-base-ubuntu22.04 nvidia-smi  # smoke test
+docker run --rm --gpus all trt-perf:dev bash -c '... probe ...'  # local image, no tensorrt_llm
+docker pull nvcr.io/nvidia/tensorrt-llm/release:1.3.0rc14  # running in background
+```
+
+Result so far:
+- GPU is visible inside Docker via nvidia/cuda:12.4.0-base-ubuntu22.04 (logs/stage0/docker_basic_gpu.txt).
+- Pre-existing trt-perf:dev image lacks tensorrt_llm (logs/stage0/trt_perf_dev_probe.txt) — proceeding with official release container.
+- TRTLLM_TAG=1.3.0rc14, TRTLLM_IMAGE=nvcr.io/nvidia/tensorrt-llm/release:1.3.0rc14 (logs/stage0/trtllm_image.env).
+- docker pull is running in background; full transcript at logs/stage0/docker_pull_trtllm.log.

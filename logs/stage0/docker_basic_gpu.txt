@@ -1,0 +1,44 @@
+Unable to find image 'nvidia/cuda:12.4.0-base-ubuntu22.04' locally
+12.4.0-base-ubuntu22.04: Pulling from nvidia/cuda
+bccd10f490ab: Pulling fs layer
+edd1dba56169: Pulling fs layer
+e06eb1b5c4cc: Pulling fs layer
+7f308a765276: Pulling fs layer
+3af11d09e9cd: Pulling fs layer
+7f308a765276: Waiting
+3af11d09e9cd: Waiting
+e06eb1b5c4cc: Verifying Checksum
+e06eb1b5c4cc: Download complete
+edd1dba56169: Verifying Checksum
+edd1dba56169: Download complete
+bccd10f490ab: Verifying Checksum
+bccd10f490ab: Download complete
+7f308a765276: Verifying Checksum
+7f308a765276: Download complete
+bccd10f490ab: Pull complete
+3af11d09e9cd: Download complete
+edd1dba56169: Pull complete
+e06eb1b5c4cc: Pull complete
+7f308a765276: Pull complete
+3af11d09e9cd: Pull complete
+Digest: sha256:80d4d9ac041242f6ae5d05f9be262b3374e0e0b8bb5a49c6c3e94e192cde4a44
+Status: Downloaded newer image for nvidia/cuda:12.4.0-base-ubuntu22.04
+Fri May  8 03:00:15 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 3070 ...    On  |   00000000:01:00.0  On |                  N/A |
+| N/A   52C    P0             32W /  115W |     450MiB /   8192MiB |     13%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
++-----------------------------------------------------------------------------------------+

@@ -1,0 +1,3 @@
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p7  295G  196G   84G  70% /
+/dev/nvme0n1p7  295G  196G   84G  70% /
