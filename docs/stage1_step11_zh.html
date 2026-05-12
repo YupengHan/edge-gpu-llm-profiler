@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Stage 1 · Step 11 学习笔记 — trtllm-serve 启动与端点验证</title>
+<style>
+  :root {
+    --fg: #1f2328;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --bg-soft: #f6f8fa;
+    --bg-code: #f6f8fa;
+    --accent: #0969da;
+    --warn-bg: #fff8c5;
+    --warn-bd: #d4a72c;
+    --ok-bg: #dafbe1;
+    --ok-bd: #1a7f37;
+    --bad-bg: #ffebe9;
+    --bad-bd: #cf222e;
+  }
+  html { font-family: -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+  body { color: var(--fg); max-width: 880px; margin: 32px auto; padding: 0 20px; line-height: 1.65; }
+  h1 { border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+  h2 { border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-top: 36px; }
+  h3 { margin-top: 28px; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.92em; }
+  code { background: var(--bg-code); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--bg-code); border: 1px solid var(--border); border-radius: 6px;
+        padding: 12px 14px; overflow-x: auto; line-height: 1.45; }
+  pre code { background: transparent; padding: 0; }
+  table { border-collapse: collapse; margin: 14px 0; width: 100%; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-soft); }
+  blockquote { border-left: 4px solid var(--accent); margin: 12px 0; padding: 6px 14px; color: var(--muted); background: var(--bg-soft); }
+  .callout { border-left: 4px solid; padding: 10px 14px; margin: 14px 0; border-radius: 4px; }
+  .callout.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
+  .callout.ok   { background: var(--ok-bg);   border-color: var(--ok-bd); }
+  .callout.bad  { background: var(--bad-bg);  border-color: var(--bad-bd); }
+  .callout .label { font-weight: 600; margin-right: 6px; }
+  .kbd { background:#fff; border:1px solid var(--border); border-bottom-width:2px; border-radius:4px; padding:1px 6px; font-family:inherit; font-size:0.9em; }
+  .small { color: var(--muted); font-size: 0.92em; }
+  ul.checks { list-style: none; padding-left: 0; }
+  ul.checks li::before { content: "✓ "; color: var(--ok-bd); font-weight: 700; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .meta { color: var(--muted); font-size: 0.9em; }
+</style>
+</head>
+<body>
+
+<h1>Stage 1 · Step 11 — 启动 <code>trtllm-serve</code> 并验证 OpenAI 兼容端点</h1>
+
+<p class="meta">
+  执行环境：RTX 3070 Laptop（8 GiB, sm_86）/ Ubuntu 22.04 / 驱动 575.57.08 / CUDA 12.9 host。
+  后端：TensorRT-LLM <strong>1.0.0</strong>，引擎 <code>trtllm_workspace/Qwen/Qwen2.5-1.5B-Instruct/tp_1_pp_1</code>（step 9 编出来的 512/128 main 引擎，bf16）。
+  日期：2026-05-11。
+</p>
+
+<h2>为什么要切到 <code>trtllm-serve</code>（而不是继续用 <code>trtllm-bench</code>）</h2>
+
+<p>
+  Step 10 的 <code>trtllm-bench latency / throughput</code> 已经给了 baseline 数字，但它有两个内在限制，所以接下来必须切到 HTTP serve 模式：
+</p>
+
+<ol>
+  <li>
+    <strong>采不到流式 ITL（Inter-Token Latency）。</strong>
+    <code>trtllm-bench latency</code> 报的是 <em>每次请求</em> 的 TTFT 平均值和 TPOT 平均值，但拿不到"<em>这次请求里第 17 → 第 18 个 token 之间隔了多少 ms</em>"这种 per-token 时序。真实聊天体验的卡顿感（"突然停顿一下又冒一句"）只能从 ITL 时序里看出来。
+  </li>
+  <li>
+    <strong>没有 OpenAI 兼容的客户端层。</strong>
+    我们希望复用 OpenAI 协议的 streaming chat completions（<code>data: {...}</code> SSE）写客户端，这样 step 12 的脚本就能未来对照 vLLM / Ollama / SGLang 这些后端而不用改协议。<code>trtllm-bench</code> 是离线一次性走完的二进制 path，不暴露 HTTP。
+  </li>
+</ol>
+
+<p>
+  所以 step 11 的目标只有一个：<strong>把 step 9 编出来的 <code>.engine</code> 装进一个 OpenAI 协议的 HTTP server，验证 <code>/health</code>、<code>/v1/models</code>、<code>/v1/chat/completions</code>（含 stream）都能正常响应</strong>。step 12 才真正去采 TTFT/ITL。
+</p>
+
+<h2>整体动作（三件事）</h2>
+
+<table>
+  <tr><th>11a</th><td>用一次性容器跑 <code>trtllm-serve serve --help</code>，验证 1.0.0 的真实 CLI（runbook 没在 1.0.0 上验证过）</td></tr>
+  <tr><th>11b</th><td>用 <code>docker run -d</code> 起一个 detached 容器，挂 step 9 的引擎，server 在 <code>0.0.0.0:8000</code> 监听</td></tr>
+  <tr><th>11c</th><td>从宿主机 <code>curl</code> 打三个端点 + 一次 streaming，确认协议格式与 step 12 客户端兼容</td></tr>
+</table>
+
+<h2>Step 11a — 探 <code>trtllm-serve serve --help</code></h2>
+
+<p>第一次跑漏了 <code>--gpus all</code>，立刻 import 报错：</p>
+
+<pre><code>ImportError: libcuda.so.1: cannot open shared object file: No such file or directory</code></pre>
+
+<div class="callout warn">
+  <span class="label">学习要点：</span>
+  即使是只想看 <code>--help</code>，<code>tensorrt_llm</code> Python 包在 import 阶段就会去 dlopen <code>libcuda.so.1</code>（CUDA 驱动库）。这个 .so 是被 NVIDIA Container Toolkit 通过 <code>--gpus</code> 注入到容器里的，没有这个 flag 容器里就没有这个文件，即使你完全不会真的调 GPU。
+  <br><strong>规则：</strong>跑任何带 TRT-LLM import 的命令，必须 <code>--gpus all</code>。
+</div>
+
+<p>加上后，<code>trtllm-serve serve --help</code> 顺利输出。和 runbook 对照，只有 <strong>一个</strong> flag 漂移：</p>
+
+<table>
+  <tr><th>Runbook 写法</th><th>1.0.0 实际接受</th><th>处理</th></tr>
+  <tr>
+    <td><code>--backend tensorrt</code></td>
+    <td><code>--backend [pytorch|trt]</code></td>
+    <td>必须用 <code>--backend trt</code>，<code>tensorrt</code> 会被 click 拒掉</td>
+  </tr>
+</table>
+
+<p>其它 flag 完全对得上：<code>--host</code>, <code>--port</code>, <code>--tokenizer</code>, <code>--max_batch_size</code>, <code>--max_num_tokens</code>, <code>--max_seq_len</code>, <code>--tp_size</code>, <code>--pp_size</code>, <code>--log_level</code>。位置参数 <code>MODEL</code> 也确认接受 <em>TensorRT engine 目录路径</em>，不需要传 HF repo 名。</p>
+
+<details>
+<summary class="small">展开看 11a 完整命令</summary>
+<pre><code>docker run --rm --gpus all \
+  --memory 4g --memory-swap 5g --shm-size 1g \
+  --ulimit memlock=-1 --ulimit stack=67108864 \
+  -v "$PWD":/workspace/rtx3070-trtllm-latency-lab \
+  -w /workspace/rtx3070-trtllm-latency-lab \
+  nvcr.io/nvidia/tensorrt-llm/release:1.0.0 \
+  trtllm-serve serve --help \
+  2>&amp;1 | tee logs/stage1/trtllm_serve_serve_help.txt</code></pre>
+<p class="small">这是 <strong>一次性</strong> 容器（<code>--rm</code>，前台跑完即销毁），不会和后面的 detached server 容器抢端口。</p>
+</details>
+
+<h2>Step 11b — 起 detached server 容器</h2>
+
+<p>把启动逻辑写到 <code>scripts/_step11_serve.sh</code> 里，关键是最后一行用 <code>exec</code>：</p>
+
+<pre><code>exec trtllm-serve serve \
+  --host 0.0.0.0 --port 8000 \
+  --backend trt \
+  --tokenizer Qwen/Qwen2.5-1.5B-Instruct \
+  --max_batch_size 1 --max_num_tokens 640 --max_seq_len 640 \
+  --tp_size 1 --pp_size 1 --log_level info \
+  trtllm_workspace/Qwen/Qwen2.5-1.5B-Instruct/tp_1_pp_1</code></pre>
+
+<div class="callout ok">
+  <span class="label">为什么用 <code>exec</code>：</span>
+  <code>exec</code> 让 <code>trtllm-serve</code> 进程<strong>取代</strong>外层 bash，成为容器里的 PID 1。这样 <code>docker stop</code> 发出的 SIGTERM 直接打到 trtllm-serve 上，uvicorn 能干净地关闭；如果不用 exec，bash 是 PID 1，bash 收到 SIGTERM 不会自动转发给子进程，<code>docker stop</code> 就会卡满 10s 默认 grace period 后被 SIGKILL，留下半死的端口占用。
+</div>
+
+<p>宿主机这边的 <code>docker run -d</code>：</p>
+
+<pre><code>docker run -d \
+  --name trtllm_serve_step11 \
+  --gpus all \
+  --memory 10g --memory-swap 12g \
+  --shm-size 2g \
+  --ulimit memlock=-1 --ulimit stack=67108864 \
+  -p 8000:8000 \
+  -v "$PWD":/workspace/rtx3070-trtllm-latency-lab \
+  -w /workspace/rtx3070-trtllm-latency-lab \
+  nvcr.io/nvidia/tensorrt-llm/release:1.0.0 \
+  bash scripts/_step11_serve.sh</code></pre>
+
+<table>
+  <tr><th>flag</th><th>作用</th></tr>
+  <tr><td><code>-d</code></td><td>detached，后台运行</td></tr>
+  <tr><td><code>--name trtllm_serve_step11</code></td><td>给容器固定名字，后面 <code>docker logs / docker stop</code> 都靠它</td></tr>
+  <tr><td><code>-p 8000:8000</code></td><td>把容器内 8000 端口映射到 host 8000；host 这边的 <code>curl localhost:8000</code> 就能打进去</td></tr>
+  <tr><td><code>--memory 10g --memory-swap 12g</code></td><td>不编译，只装载引擎和跑推理，10g 完全够（构建期间才需要 12g）</td></tr>
+  <tr><td><code>--shm-size 2g</code></td><td>TRT-LLM IPC 需要更大的 /dev/shm，默认 64m 不够</td></tr>
+</table>
+
+<p>启动后做一个轮询（每 5s 打一次 <code>curl /health</code>），<strong>第 4 次（约 15 秒）就返回 200</strong>。容器进入 <code>Up</code> 状态。这比 <code>trtllm-bench build</code> 那种从头编译快得多——因为 server 只是把磁盘上已经编好的 <code>rank0.engine</code> 反序列化进显存，不需要重新走 TRT graph build。</p>
+
+<h2>Step 11c — 端点验证 & 关键 API 漂移</h2>
+
+<h3>(1) <code>/health</code></h3>
+<p>返回 HTTP 200，body 为空。轮询已确认。空 body 是正常的——liveness 探针通常只看状态码。</p>
+
+<h3>(2) <code>/v1/models</code></h3>
+
+<pre><code>{"object":"list","data":[
+  {"id":"tp_1_pp_1","object":"model","created":1778563339,"owned_by":"tensorrt_llm"}
+]}</code></pre>
+
+<div class="callout bad">
+  <span class="label">关键 API 漂移：</span>
+  服务端报的 model id 是 <strong><code>tp_1_pp_1</code></strong>（引擎目录的<em>最后一级</em>名字），<strong>不是</strong> <code>Qwen/Qwen2.5-1.5B-Instruct</code>。
+  step 12 的 streaming 客户端必须发送 <code>"model": "tp_1_pp_1"</code>，否则会被 404 "unknown model" 顶回来。
+  这一点 runbook 没提，是 trtllm-serve 1.0.0 的实际行为：当 MODEL 位置参数是个路径时，它用 <code>basename(path)</code> 作为 model id。
+</div>
+
+<h3>(3) <code>/v1/chat/completions</code>（non-stream）</h3>
+
+<p>请求：</p>
+<pre><code>curl -s http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "tp_1_pp_1",
+    "messages": [{"role": "user", "content": "Say hello in one sentence."}],
+    "max_tokens": 16,
+    "temperature": 0
+  }'</code></pre>
+
+<p>响应（摘）：</p>
+<pre><code>{"choices":[{"message":{"role":"assistant","content":"Hello! How can I assist you today?"},
+             "finish_reason":"stop"}],
+ "usage":{"prompt_tokens":35,"completion_tokens":9,"total_tokens":44}}</code></pre>
+
+<ul class="checks">
+  <li>模型按 chat template 渲染了 prompt（35 prompt tokens 远大于 user content 的 9 个 token），说明 server 自动套用了 Qwen2.5 的 <code>chat_template.jinja</code></li>
+  <li><code>finish_reason=stop</code>，自然 EOS 终止，没撞到 <code>max_tokens=16</code></li>
+  <li><code>usage</code> 字段齐全（prompt/completion/total token 数）</li>
+</ul>
+
+<h3>(4) <code>/v1/chat/completions</code>（stream=true）</h3>
+
+<p>SSE 协议每个 chunk 一行 <code>data: {...}</code>，关键字段是 <code>choices[0].delta.content</code>：</p>
+
+<pre><code>data: {"choices":[{"delta":{"role":"assistant"}}]}
+data: {"choices":[{"delta":{"content":"Sure"}}]}
+data: {"choices":[{"delta":{"content":","}}]}
+data: {"choices":[{"delta":{"content":" here"}}]}
+...
+data: [DONE]</code></pre>
+
+<p>
+  和 OpenAI 官方 streaming 协议完全一致——<code>scripts/benchmark_streaming_openai.py</code> 里的解析逻辑（<code>line.startswith("data: ")</code>，遇到 <code>[DONE]</code> 退出，<code>delta.content</code> 计入 piece 列表）<strong>无需修改</strong>就能直接用。
+</p>
+
+<div class="callout warn">
+  <span class="label">注意：</span>
+  streaming chunk 里的 <code>delta.content</code> 是 <strong>文本片段</strong>（detokenized text piece），不是严格意义上的"一个 token"。一个 token 可能被 server 拆成多个 chunk 输出（罕见，多见于多字节字符），多个 token 也可能合并成一个 chunk。所以 step 12 算出来的"per-piece ITL"≈ "per-token ITL"，但不是恒等。<br>
+  对单用户聊天体验来说，<strong>这个 piece-level ITL 才是用户真正感知的卡顿粒度</strong>，反而比严格 token 级更有意义。
+</div>
+
+<h2>显存观察 — 8 GiB 卡的"刚刚好"</h2>
+
+<table>
+  <tr><th>时间点</th><th>memory.used / free (MiB)</th><th>注释</th></tr>
+  <tr><td>server 起来前</td><td>176 / 7665</td><td>桌面+host 进程</td></tr>
+  <tr><td>跑完一次非流式 chat 后</td><td>7437 / 404</td><td>引擎 + KV cache 全部驻留</td></tr>
+</table>
+
+<p>稳态 ≈ 7.4 GiB，剩 ~400 MiB headroom。粗略分解：</p>
+
+<ul>
+  <li><strong>权重</strong>：1.5B × bf16 = 1.5e9 × 2B ≈ 3.0 GiB</li>
+  <li><strong>KV cache</strong>（max_seq_len=640，max_batch=1）：<br>
+    2 × num_kv_heads(2) × head_dim(128) × num_layers(28) × seq(640) × bf16(2B) ≈ 36 MiB<br>
+    实际占得多得多，因为 paged KV cache 默认 <code>kv_cache_free_gpu_memory_fraction ≈ 0.9</code>，TRT-LLM 把"剩余显存的 90%"全切成 page 池子（即使单 batch 没那么多 page 在用）。这是为吞吐预留的——单用户场景下浪费但不致命。</li>
+  <li><strong>activation buffers / cuBLAS workspace / TRT plugin scratch</strong>：几百 MB</li>
+</ul>
+
+<div class="callout warn">
+  <span class="label">隐患：</span>
+  只剩 ~400 MiB headroom 意味着 step 11/12 跑的时候不能让任何其他 CUDA 进程吃显存——包括 Chromium 的 NVENC、其他 docker 容器、桌面合成器的 OpenGL 后端。一旦 server OOM，bench 会半路 5xx，整轮数据作废。
+</div>
+
+<h2>对照 step 8 / step 10 的关键差异</h2>
+
+<table>
+  <tr><th>对比维度</th><th>step 8/10 (<code>trtllm-bench</code>)</th><th>step 11 (<code>trtllm-serve</code>)</th></tr>
+  <tr><td>调用方式</td><td>离线 CLI，一次性跑完 N 个请求退出</td><td>常驻 HTTP server，外部客户端发请求</td></tr>
+  <tr><td>协议</td><td>无（直接读 dataset jsonl）</td><td>OpenAI Chat Completions（含 SSE streaming）</td></tr>
+  <tr><td>能采到的指标</td><td>per-request TTFT/TPOT 平均/P50/P90</td><td>per-token (piece) 时序 ⇒ ITL 全分布</td></tr>
+  <tr><td>显存稳态</td><td>bench 跑完即释放</td><td>常驻 7.4 GiB（KV cache 池预分配）</td></tr>
+  <tr><td>chat template</td><td>不应用（直接喂 token ids）</td><td>自动应用 Qwen2.5 <code>chat_template.jinja</code></td></tr>
+</table>
+
+<h2>step 11 产出清单</h2>
+
+<ul class="checks">
+  <li><code>scripts/_step11_serve.sh</code> — server 启动 entrypoint，<code>exec trtllm-serve serve …</code></li>
+  <li><code>logs/stage1/trtllm_serve_serve_help.txt</code> — 1.0.0 实际 CLI 帮助</li>
+  <li><code>logs/stage1/server_health.txt</code> — <code>/health</code> 响应（空）</li>
+  <li><code>logs/stage1/server_models.txt</code> — <code>/v1/models</code> 响应（含关键的 <code>id=tp_1_pp_1</code>）</li>
+  <li><code>logs/stage1/server_chat_test.json</code> — 非流式 chat 一次返回</li>
+  <li><code>logs/stage1/server_chat_stream_test.txt</code> — 流式 SSE 原始输出</li>
+  <li><code>logs/stage1/server_nvidia_smi_after_chat.txt</code> — 一次推理后的显存占用</li>
+  <li><code>logs/stage1/stage1_command_log.md</code> — 追加了 step 11 三个子段（11a/11b/11c）</li>
+  <li>容器 <code>trtllm_serve_step11</code> — <strong>仍在运行</strong>，step 12 直接接着用</li>
+</ul>
+
+<h2>step 12 预告 & 此刻需要记住的事</h2>
+
+<ol>
+  <li><strong>客户端 <code>--model</code> 参数必须是 <code>tp_1_pp_1</code></strong>（不是 <code>Qwen/Qwen2.5-1.5B-Instruct</code>）。这是本步最大的 API drift。</li>
+  <li>server 容器留着不要 stop。step 12 跑完后再 <code>docker stop trtllm_serve_step11 &amp;&amp; docker rm trtllm_serve_step11</code> 收尾。</li>
+  <li>step 12 跑 streaming bench 时，<strong>不要</strong>同时开 Chromium / 其他 CUDA 任务，避免吃掉那 400 MiB headroom 让 server OOM。</li>
+  <li>step 12 期望的输出：<code>results/stage1/benchmark_raw/streaming_512_128.jsonl</code>，每行一条请求记录（TTFT/ITL p50/p90/p95/mean、E2E、output_pieces）。</li>
+</ol>
+
+<hr>
+
+<p class="small">
+  对应 runbook：<code>docs/02_stage1_local_ai_runbook.md</code> § Step 11。<br>
+  对应命令日志：<code>logs/stage1/stage1_command_log.md</code> § Step 11。<br>
+  上一篇：<code>docs/stage1_steps_3_to_10_zh.md</code>（step 3-10 合订本）。
+</p>
+
+</body>
+</html>

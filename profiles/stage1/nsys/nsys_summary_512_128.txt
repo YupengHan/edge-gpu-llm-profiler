@@ -1,0 +1,980 @@
+Generating SQLite file profiles/stage1/nsys/qwen25_15b_512_128_latency.sqlite from profiles/stage1/nsys/qwen25_15b_512_128_latency.nsys-rep
+Processing [profiles/stage1/nsys/qwen25_15b_512_128_latency.sqlite] with [/usr/local/cuda-12.9/NsightSystems-cli-2025.3.1/target-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
+
++----------+-----------------+-----------+-----------+-----------+----------+----------+-------------+------------------------------------------------------------------------------------------------------+
+| Time (%) | Total Time (ns) | Instances | Avg (ns)  | Med (ns)  | Min (ns) | Max (ns) | StdDev (ns) |                                                 Name                                                 |
++----------+-----------------+-----------+-----------+-----------+----------+----------+-------------+------------------------------------------------------------------------------------------------------+
+|     24.3 |       611980265 |       700 |  874257.5 |  840523.5 |   797802 |  1433204 |    103807.7 | sm80_xmma_gemm_bf16bf16_bf16f32_f32_nn_n_tilesize256x128x32_stage3_warpsize4x2x1_tensor16x8x16_exec… |
+|     14.2 |       357264838 |      3200 |  111645.3 |  111041.0 |   107490 |   289860 |      6206.8 | void tensorrt_llm::kernels::batchApplyPenalty<float>(const T1 *const *, T1 *, const T1 *, int *, co… |
+|     12.7 |       319306341 |      3200 |   99783.2 |   98210.0 |    93186 |   393861 |     17591.9 | void tensorrt_llm::kernels::addBiasSoftMax<float>(T1 *, T1 **, T1 *, float *, const T1 *, const flo… |
+|     12.5 |       313713722 |       700 |  448162.5 |  432726.0 |   410630 |  1000526 |     63238.7 | sm80_xmma_gemm_bf16bf16_bf16f32_f32_nn_n_tilesize128x160x32_stage3_warpsize2x2x1_tensor16x8x16_exec… |
+|      8.2 |       206179366 |      1400 |  147271.0 |  141282.0 |   137921 |   579016 |     39365.7 | sm80_xmma_gemm_bf16bf16_bf16f32_f32_nn_n_tilesize64x96x32_stage3_warpsize2x2x1_tensor16x8x16_execut… |
+|      6.4 |       160936976 |      2800 |   57477.5 |   87553.0 |    18848 |   599593 |     44832.8 | sm80_xmma_gemm_bf16bf16_bf16f32_f32_nn_n_tilesize64x64x64_stage4_warpsize2x2x1_tensor16x8x16_execut… |
+|      3.8 |        96227483 |      3200 |   30071.1 |   29697.0 |    28096 |   187651 |      6331.2 | void tensorrt_llm::kernels::topKStage1<float, (int)128, (int)8>(const T1 *, const T1 *const *, T1 *… |
+|      3.3 |        84210404 |      1450 |   58076.1 |   19712.0 |    18816 |  1320273 |    201454.9 | sm80_xmma_gemm_bf16bf16_bf16f32_f32_tn_n_tilesize64x64x64_stage4_warpsize2x2x1_tensor16x8x16_execut… |
+|      3.3 |        81834619 |       700 |  116906.6 |  113121.0 |   107233 |   600519 |     29713.6 | sm80_xmma_gemm_bf16bf16_bf16f32_f32_nn_n_tilesize96x64x32_stage3_warpsize2x2x1_tensor16x8x16_execut… |
+|      2.4 |        61308712 |       700 |   87583.9 |   85089.0 |    80450 |   473926 |     20011.7 | sm80_xmma_gemm_bf16bf16_bf16f32_f32_tn_n_tilesize128x160x32_stage3_warpsize2x2x1_tensor16x8x16_exec… |
+|      1.9 |        48135638 |       700 |   68765.2 |   64993.0 |    59328 |   510182 |     32338.7 | fmha_v2_flash_attention_bf16_64_32_S_q_paged_kv_128_causal_sm86_kernel_nl                            |
+|      1.9 |        47987352 |       700 |   68553.4 |   67344.5 |    65889 |   181859 |      6884.2 | __myl_SiluMul_0x7a5ce57a56fee2c4b61756534dff53e2_com_vec                                             |
+|      1.1 |        27967569 |        25 | 1118702.8 | 1093647.0 |  1088910 |  1560660 |     93942.7 | sm80_xmma_gemm_bf16bf16_bf16f32_f32_tn_n_tilesize32x32x64_stage6_warpsize2x2x1_tensor16x8x16_fused   |
+|      1.1 |        26465959 |      1400 |   18904.3 |   18592.0 |    17696 |   103330 |      4136.4 | void tensorrt_llm::kernels::mmha::masked_multihead_attention_kernel<__nv_bfloat16, __nv_bfloat16, _… |
+|      0.7 |        18495884 |      1375 |   13451.6 |   13120.0 |    12192 |   105921 |      4339.8 | __myl_AddCastMulMeanAddSqrtDivMulCastMul_0xefc178701db35b936b04de0b6320dfc3_com_vec                  |
+|      0.5 |        13121259 |      3200 |    4100.4 |    4000.0 |     3808 |    90689 |      2190.2 | void tensorrt_llm::kernels::topKStage2Sampling<float, (int)128, (int)8>(const int *, T1 *, int **, … |
+|      0.4 |        10371185 |      2750 |    3771.3 |    3616.0 |     3009 |   369605 |      6981.2 | __myl_AddCastMulMeanAddSqrtDivMulCastMul_0xf0da22d1b7756a599ddf44886de30c6b_vec                      |
+|      0.4 |         9457477 |       700 |   13510.7 |   13344.0 |    12480 |   115426 |      3875.9 | void tensorrt_llm::kernels::applyBiasRopeUpdateKVCacheV2<__nv_bfloat16, __nv_bfloat16, (int)256, (i… |
+|      0.3 |         6507041 |      3200 |    2033.5 |    2016.0 |     1920 |    25760 |       565.9 | tensorrt_llm::kernels::copyNextStepIds(int *, const int *const *, const int *, const int *, const i… |
+|      0.2 |         5791827 |      3200 |    1809.9 |    1760.0 |     1664 |    39521 |      1020.0 | tensorrt_llm::kernels::lengthCriterion(tensorrt_llm::kernels::FinishedState *, int *, const int *, … |
+|      0.1 |         3227605 |      1400 |    2305.4 |    2240.0 |     2144 |    31713 |      1011.4 | __myl_SiluMul_0x0ac9c07c1e2caf5075aa11f1676c709b_vec                                                 |
+|      0.1 |         2751421 |       700 |    3930.6 |    3904.0 |     3456 |     4352 |       125.1 | void tensorrt_llm::kernels::computeSeqAndPaddingOffsets<__nv_bfloat16, (int)256>(tensorrt_llm::kern… |
+|      0.0 |          583943 |        50 |   11678.9 |   11696.5 |    11296 |    12128 |       181.9 | __myl_GathCastMulMeanAddSqrtDivMulCastMul_0xa441bf244a3768760b5a738a6325d2ed                         |
+|      0.0 |          560108 |        25 |   22404.3 |   22273.0 |    21440 |    23617 |       591.7 | __myl_GathCastMulMeanAddSqrtDivMulCastMul_0xbb4a65ee2548fcdcf5300f6bcba8cb36_com                     |
+|      0.0 |          392742 |        25 |   15709.7 |   13888.0 |    13312 |    54881 |      8198.0 | __myl_AddCastMulMean_0x79301a03e406529589420b930a322804_com_vec                                      |
+|      0.0 |          228165 |       101 |    2259.1 |    1440.0 |      960 |     8032 |      1873.6 | void tensorrt_llm::runtime::kernels::<unnamed>::fill<int>(T1 *, unsigned long, T1)                   |
+|      0.0 |          180257 |        50 |    3605.1 |    3536.0 |     3392 |     6816 |       469.0 | __myl_Cast_0x44d1a10c939e648de648e03dcf5f4bad                                                        |
+|      0.0 |          142306 |        50 |    2846.1 |    2816.0 |     2720 |     3104 |        77.4 | __myl_AddCastMulMean_0xdb4957037b44b26142181424a1087ab0_vec                                          |
+|      0.0 |          136227 |        50 |    2724.5 |    2400.0 |     2304 |    18081 |      2217.3 | __myl_AddSqrtDivMulCastMulAddGath_0x105381121567f34103d339c763ef2409                                 |
+|      0.0 |           61345 |        25 |    2453.8 |    2432.0 |     2336 |     2784 |        88.5 | __myl_AddSqrtDivMulCastMulAddGath_0xfe6ac105303b34815d1d9467c8737f18_com                             |
+|      0.0 |           59808 |        25 |    2392.3 |    1472.0 |     1344 |     7648 |      1995.6 | tensorrt_llm::kernels::curandInitialize(curandStateXORWOW *, const int *, int, unsigned long)        |
+|      0.0 |           53984 |        25 |    2159.4 |    2144.0 |     2016 |     2304 |        62.7 | void tensorrt_llm::runtime::kernels::<unnamed>::fillBatch<int>(T1 *, const int *, unsigned long, co… |
+|      0.0 |           45569 |        25 |    1822.8 |    1536.0 |     1504 |     4032 |       623.0 | tensorrt_llm::kernels::setupTopKRuntimeArgs(int, tensorrt_llm::kernels::ScatterDecodingParamEntry<i… |
++----------+-----------------+-----------+-----------+-----------+----------+----------+-------------+------------------------------------------------------------------------------------------------------+
+
+Processing [profiles/stage1/nsys/qwen25_15b_512_128_latency.sqlite] with [/usr/local/cuda-12.9/NsightSystems-cli-2025.3.1/target-linux-x64/reports/cuda_gpu_mem_size_sum.py]... 
+
+ ** CUDA GPU MemOps Summary (by Size) (cuda_gpu_mem_size_sum):
+
++------------+-------+----------+----------+----------+----------+-------------+--------------------------------+
+| Total (MB) | Count | Avg (MB) | Med (MB) | Min (MB) | Max (MB) | StdDev (MB) |           Operation            |
++------------+-------+----------+----------+----------+----------+-------------+--------------------------------+
+|   3117.862 |   975 |    3.198 |    0.000 |    0.000 | 3087.429 |      98.876 | [CUDA memset]                  |
+|   3105.000 | 35327 |    0.088 |    0.000 |    0.000 | 3087.429 |      16.427 | [CUDA memcpy Host-to-Device]   |
+|      0.042 | 12804 |    0.000 |    0.000 |    0.000 |    0.000 |       0.000 | [CUDA memcpy Device-to-Host]   |
+|      0.032 | 12800 |    0.000 |    0.000 |    0.000 |    0.000 |       0.000 | [CUDA memcpy Device-to-Device] |
++------------+-------+----------+----------+----------+----------+-------------+--------------------------------+
+
+Processing [profiles/stage1/nsys/qwen25_15b_512_128_latency.sqlite] with [/usr/local/cuda-12.9/NsightSystems-cli-2025.3.1/target-linux-x64/reports/cuda_gpu_mem_time_sum.py]... 
+
+ ** CUDA GPU MemOps Summary (by Time) (cuda_gpu_mem_time_sum):
+
++----------+-----------------+-------+----------+----------+----------+------------+-------------+--------------------------------+
+| Time (%) | Total Time (ns) | Count | Avg (ns) | Med (ns) | Min (ns) |  Max (ns)  | StdDev (ns) |           Operation            |
++----------+-----------------+-------+----------+----------+----------+------------+-------------+--------------------------------+
+|     96.0 |      1101205164 | 35327 |  31171.8 |   1376.0 |      352 | 1047724925 |   5574398.8 | [CUDA memcpy Host-to-Device]   |
+|      2.0 |        22377477 | 12804 |   1747.7 |   1056.0 |      896 |      73889 |      2255.3 | [CUDA memcpy Device-to-Host]   |
+|      1.3 |        14948967 | 12800 |   1167.9 |   1120.0 |     1024 |      29376 |       548.2 | [CUDA memcpy Device-to-Device] |
+|      0.8 |         8972378 |   975 |   9202.4 |    352.0 |      320 |    8185294 |    262116.6 | [CUDA memset]                  |
++----------+-----------------+-------+----------+----------+----------+------------+-------------+--------------------------------+
+
+Processing [profiles/stage1/nsys/qwen25_15b_512_128_latency.sqlite] with [/usr/local/cuda-12.9/NsightSystems-cli-2025.3.1/target-linux-x64/reports/cuda_api_sum.py]... 
+
+ ** CUDA API Summary (cuda_api_sum):
+
++----------+-----------------+-----------+------------+------------+----------+------------+-------------+-----------------------------------+
+| Time (%) | Total Time (ns) | Num Calls |  Avg (ns)  |  Med (ns)  | Min (ns) |  Max (ns)  | StdDev (ns) |               Name                |
++----------+-----------------+-----------+------------+------------+----------+------------+-------------+-----------------------------------+
+|     91.2 |     32136968539 |      3200 | 10042802.7 |  9908259.5 |    12983 |   48890206 |   3308122.0 | cudaEventSynchronize              |
+|      3.9 |      1390285862 |     57727 |    24083.8 |     3432.0 |     1457 | 1055650792 |   4393760.4 | cudaMemcpyAsync                   |
+|      1.3 |       449575307 |      3125 |   143864.1 |   113970.0 |    32036 |     706743 |     92990.9 | cudaGraphLaunch_v10000            |
+|      0.7 |       244736769 |     23576 |    10380.8 |     4549.5 |      524 |   42012771 |    281080.6 | cudaLaunchKernel                  |
+|      0.4 |       149852948 |        11 | 13622995.3 |     4012.0 |     2897 |  149192171 |  44963592.0 | cudaHostAlloc                     |
+|      0.3 |       123250781 |       859 |   143481.7 |     3523.0 |     1837 |   85013468 |   3038788.9 | cudaFree                          |
+|      0.3 |        88664079 |       784 |   113091.9 |    65795.0 |    31655 |    6373633 |    248020.8 | cuModuleLoadData                  |
+|      0.2 |        79218066 |       700 |   113168.7 |     2318.0 |     1979 |   77142136 |   2915587.2 | cudaLaunchKernelExC_v11060        |
+|      0.2 |        69380760 |      1601 |    43335.9 |    23391.0 |     6182 |    2105859 |    127035.5 | cuModuleUnload                    |
+|      0.2 |        61979071 |       818 |    75769.0 |    61813.5 |    33814 |     482869 |     47088.4 | cuModuleLoadFatBinary             |
+|      0.1 |        50835640 |        11 |  4621421.8 |     5513.0 |     3663 |   50167287 |  15106405.5 | cudaFreeHost                      |
+|      0.1 |        40228792 |     14125 |     2848.1 |     2714.0 |      345 |      54689 |      2586.4 | cuLaunchKernelEx                  |
+|      0.1 |        38382410 |        50 |   767648.2 |   589827.5 |   361608 |    3360803 |    550462.6 | cudaGraphInstantiate_v12000       |
+|      0.1 |        34422606 |      3200 |    10757.1 |     7814.0 |     3140 |      98575 |      8203.3 | cudaMemcpy2DAsync                 |
+|      0.1 |        32432550 |     10850 |     2989.2 |     2280.0 |      312 |      86512 |      3889.9 | cuLaunchKernel                    |
+|      0.1 |        32102571 |     35574 |      902.4 |      370.0 |      206 |     300150 |      2385.9 | cudaEventCreateWithFlags          |
+|      0.1 |        29436888 |        12 |  2453074.0 |   206391.5 |    87098 |   15856142 |   5251003.4 | cuLibraryUnload                   |
+|      0.1 |        29147467 |     19225 |     1516.1 |      698.0 |      305 |      44197 |      2678.4 | cudaEventRecord                   |
+|      0.1 |        27683655 |     16025 |     1727.5 |      855.0 |      330 |      95050 |      2633.7 | cudaStreamWaitEvent               |
+|      0.1 |        26868365 |     35574 |      755.3 |      301.0 |      172 |     113045 |      2028.3 | cudaEventDestroy                  |
+|      0.1 |        19203939 |       850 |    22592.9 |     2835.5 |     2153 |   14281753 |    491220.7 | cudaMalloc                        |
+|      0.0 |        16461576 |        50 |   329231.5 |   262798.5 |   143607 |    1134171 |    206052.5 | cudaGraphExecDestroy_v10000       |
+|      0.0 |        13462068 |         1 | 13462068.0 | 13462068.0 | 13462068 |   13462068 |         0.0 | cudaMallocAsync_v11020            |
+|      0.0 |        12097891 |         8 |  1512236.4 |  1381369.5 |  1054552 |    2355424 |    467978.0 | cudaGetDeviceProperties_v2_v12000 |
+|      0.0 |         8400936 |        50 |   168018.7 |   120809.0 |    79684 |     508513 |    100121.7 | cudaGraphUpload_v10000            |
+|      0.0 |         7340561 |        12 |   611713.4 |     9552.5 |     1621 |    7225622 |   2082849.6 | cudaStreamDestroy                 |
+|      0.0 |         6350702 |       841 |     7551.4 |     6229.0 |     5629 |     177342 |      8650.4 | cudaMemGetInfo                    |
+|      0.0 |         4070094 |        50 |    81401.9 |    58334.0 |    42561 |     253494 |     45688.8 | cudaGraphDestroy_v10000           |
+|      0.0 |         1834327 |       840 |     2183.7 |     1700.5 |     1403 |      45678 |      2678.5 | cudaMemset                        |
+|      0.0 |         1641068 |      4192 |      391.5 |      122.0 |       51 |     206690 |      6098.7 | cuGetProcAddress_v2               |
+|      0.0 |         1618565 |       140 |    11561.2 |     2852.0 |      322 |     884502 |     74664.7 | cudaMemsetAsync                   |
+|      0.0 |         1545715 |         1 |  1545715.0 |  1545715.0 |  1545715 |    1545715 |         0.0 | cudaMemPoolTrimTo_v11020          |
+|      0.0 |         1498610 |       133 |    11267.7 |     1202.0 |      962 |     265386 |     38436.4 | cudaStreamCreateWithPriority      |
+|      0.0 |         1479625 |        50 |    29592.5 |    19906.0 |     8762 |     114894 |     23160.8 | cudaStreamEndCapture_v10000       |
+|      0.0 |         1321455 |      3625 |      364.5 |      236.0 |      173 |      12398 |       524.8 | cudaStreamIsCapturing_v10000      |
+|      0.0 |         1100981 |        61 |    18048.9 |     1036.0 |      749 |     934167 |    119329.0 | cudaMallocFromPoolAsync_v11020    |
+|      0.0 |          953336 |         2 |   476668.0 |   476668.0 |      685 |     952651 |    673141.6 | cuLibraryGetGlobal                |
+|      0.0 |          942840 |         7 |   134691.4 |    23490.0 |     9840 |     794740 |    291504.5 | cudaStreamCreate                  |
+|      0.0 |          939059 |       261 |     3597.9 |     2475.0 |      887 |      19795 |      3261.4 | cuEventCreate                     |
+|      0.0 |          782405 |         1 |   782405.0 |   782405.0 |   782405 |     782405 |         0.0 | cuLibraryLoadData                 |
+|      0.0 |          578022 |         2 |   289011.0 |   289011.0 |     7246 |     570776 |    398475.9 | cudaMemcpy                        |
+|      0.0 |          487306 |        50 |     9746.1 |     7628.0 |     3177 |      40092 |      6831.1 | cudaStreamBeginCapture_v10000     |
+|      0.0 |          402039 |        61 |     6590.8 |     2048.0 |     1174 |     238838 |     30327.6 | cudaFreeAsync_v11020              |
+|      0.0 |          332022 |         1 |   332022.0 |   332022.0 |   332022 |     332022 |         0.0 | cuMemAlloc_v2                     |
+|      0.0 |          296057 |       522 |      567.2 |      339.0 |      108 |       8798 |       702.8 | cuCtxSetCurrent                   |
+|      0.0 |          216493 |       261 |      829.5 |      619.0 |      256 |       6510 |       691.0 | cuEventDestroy_v2                 |
+|      0.0 |          202553 |         2 |   101276.5 |   101276.5 |    22880 |     179673 |    110869.4 | cuMemcpyDtoH_v2                   |
+|      0.0 |          167287 |         1 |   167287.0 |   167287.0 |   167287 |     167287 |         0.0 | cuMemFree_v2                      |
+|      0.0 |           85614 |         6 |    14269.0 |    12525.0 |     1046 |      31336 |     10210.7 | cuCtxSetFlags                     |
+|      0.0 |           78083 |        14 |     5577.4 |     5215.5 |      406 |      15341 |      5242.9 | cudaStreamSynchronize             |
+|      0.0 |           65638 |         1 |    65638.0 |    65638.0 |    65638 |      65638 |         0.0 | cudaMemPoolDestroy_v11020         |
+|      0.0 |           65295 |         1 |    65295.0 |    65295.0 |    65295 |      65295 |         0.0 | cuKernelSetAttribute              |
+|      0.0 |           42370 |        74 |      572.6 |       80.0 |       46 |       8560 |      1421.2 | cuMemRetainAllocationHandle       |
+|      0.0 |           39475 |         1 |    39475.0 |    39475.0 |    39475 |      39475 |         0.0 | cudaMemPoolCreate_v11020          |
+|      0.0 |           35680 |        12 |     2973.3 |     2307.5 |     1402 |       9082 |      2169.5 | cuInit                            |
+|      0.0 |           24957 |         6 |     4159.5 |     1431.5 |      717 |      13284 |      5072.0 | cudaDeviceSynchronize             |
+|      0.0 |            6210 |        17 |      365.3 |      232.0 |      111 |       1618 |       377.6 | cuModuleGetLoadingMode            |
+|      0.0 |            5251 |         1 |     5251.0 |     5251.0 |     5251 |       5251 |         0.0 | cuMemGetAllocationGranularity     |
+|      0.0 |            2994 |         2 |     1497.0 |     1497.0 |      194 |       2800 |      1842.7 | cudaMemPoolGetAttribute_v11020    |
+|      0.0 |            2553 |         2 |     1276.5 |     1276.5 |      479 |       2074 |      1127.8 | cudaGetDriverEntryPoint_v11030    |
+|      0.0 |            1655 |         1 |     1655.0 |     1655.0 |     1655 |       1655 |         0.0 | cudaMemPoolSetAttribute_v11020    |
+|      0.0 |             998 |         1 |      998.0 |      998.0 |      998 |        998 |         0.0 | cuMemCreate                       |
+|      0.0 |             224 |         1 |      224.0 |      224.0 |      224 |        224 |         0.0 | cuLibraryGetKernel                |
++----------+-----------------+-----------+------------+------------+----------+------------+-------------+-----------------------------------+
+
+Processing [profiles/stage1/nsys/qwen25_15b_512_128_latency.sqlite] with [/usr/local/cuda-12.9/NsightSystems-cli-2025.3.1/target-linux-x64/reports/nvtx_sum.py]... 
+
+ ** NVTX Range Summary (nvtx_sum):
+
++----------+-----------------+-----------+-----------+-----------+----------+-----------+-------------+----------+------------------------------------------------------------------------------------------------------+
+| Time (%) | Total Time (ns) | Instances | Avg (ns)  | Med (ns)  | Min (ns) | Max (ns)  | StdDev (ns) |  Style   |                                                Range                                                 |
++----------+-----------------+-----------+-----------+-----------+----------+-----------+-------------+----------+------------------------------------------------------------------------------------------------------+
+|     34.6 |      1070895730 |       261 | 4103048.8 | 3860514.0 |  1986829 |  10480956 |    969073.7 | StartEnd | :myelinGraphDeserializeBinary                                                                        |
+|     23.7 |       733696720 |       261 | 2811098.5 | 2451944.0 |   997033 |  12111295 |   1280348.8 | StartEnd | myelin-exec:myelinGraphLoadPersistent                                                                |
+|     15.2 |       469171390 |       125 | 3753371.1 | 1851443.0 |   682465 | 127674433 |  14437449.4 | PushPop  | TensorRT:ExecutionContext::enqueue                                                                   |
+|      5.0 |       156003152 |      3625 |   43035.4 |   37424.0 |    10158 |    995235 |     32039.2 | StartEnd | myelin-exec:myelinGraphExecute                                                                       |
+|      3.7 |       113012916 |       100 | 1130129.2 |   25787.0 |     6299 | 108877699 |  10883702.7 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/0/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      3.0 |        92920258 |        25 | 3716810.3 |   68243.0 |    46866 |  91051869 |  18194836.7 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/0/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      2.0 |        62443825 |       261 |  239248.4 |  138763.0 |    58053 |   3236629 |    314624.0 | StartEnd | myelin-exec:myelinGraphUnloadPersistent                                                              |
+|      0.3 |         7885521 |      3625 |    2175.3 |    1530.0 |      420 |     34352 |      1969.2 | StartEnd | myelin-exec:myelinGraphLoad                                                                          |
+|      0.2 |         7598277 |       100 |   75982.8 |   57986.0 |    16455 |    326287 |     63638.8 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/0/attention/qkv/multiply_collect_L296/coll… |
+|      0.2 |         6229323 |       100 |   62293.2 |   53398.0 |    16991 |    254946 |     45770.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/1/attention/qkv/multiply_collect_L296/coll… |
+|      0.2 |         5994339 |      3625 |    1653.6 |    1163.0 |      335 |     37163 |      1740.7 | StartEnd | myelin-exec:myelinGraphUnload                                                                        |
+|      0.2 |         5531306 |       100 |   55313.1 |   46839.5 |    14992 |    235437 |     39342.2 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/2/attention/qkv/multiply_collect_L296/coll… |
+|      0.2 |         5308459 |       100 |   53084.6 |   49363.5 |    16144 |    293672 |     43701.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/ln_f/value_L157/get_tensor_L148/get_constant_tens… |
+|      0.2 |         5246036 |       100 |   52460.4 |   42596.0 |    15150 |    244790 |     35097.8 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/3/attention/qkv/multiply_collect_L296/coll… |
+|      0.2 |         5211077 |       100 |   52110.8 |   43006.0 |    16830 |    209650 |     33266.6 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/4/attention/qkv/multiply_collect_L296/coll… |
+|      0.2 |         5156897 |       100 |   51569.0 |   42312.0 |    15942 |    252751 |     35725.8 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/14/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         5141314 |       100 |   51413.1 |   43286.0 |    15008 |    199189 |     31961.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/8/attention/qkv/multiply_collect_L296/coll… |
+|      0.2 |         5139679 |       100 |   51396.8 |   41912.5 |    15402 |    177000 |     30093.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/7/attention/qkv/multiply_collect_L296/coll… |
+|      0.2 |         5057453 |       100 |   50574.5 |   42863.5 |    15667 |    229874 |     31927.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/12/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         5050178 |       100 |   50501.8 |   42712.5 |    17737 |    169905 |     29526.1 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/17/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         5049976 |       100 |   50499.8 |   42521.5 |    15915 |    183261 |     29551.5 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/9/attention/qkv/multiply_collect_L296/coll… |
+|      0.2 |         5039738 |       100 |   50397.4 |   41845.0 |    16760 |    377180 |     41774.6 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/20/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         5024941 |       100 |   50249.4 |   42320.5 |    15010 |    279641 |     38247.5 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/23/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         5016802 |       100 |   50168.0 |   43672.5 |    15203 |    179185 |     29537.8 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/5/attention/qkv/multiply_collect_L296/coll… |
+|      0.2 |         5013600 |       100 |   50136.0 |   41291.5 |    17057 |    165856 |     30157.7 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/10/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         5004668 |       100 |   50046.7 |   42887.0 |    17484 |    229610 |     30712.5 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/15/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         5003469 |       100 |   50034.7 |   43243.0 |    15110 |    158073 |     27372.4 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/13/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         4995452 |       100 |   49954.5 |   43789.0 |    16001 |    164831 |     28625.6 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/6/attention/qkv/multiply_collect_L296/coll… |
+|      0.2 |         4952174 |       100 |   49521.7 |   44388.5 |    15809 |    172137 |     26249.9 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/16/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         4898023 |       100 |   48980.2 |   41568.0 |    17293 |    174691 |     28620.8 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/19/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         4884210 |       100 |   48842.1 |   41034.5 |    15598 |    160855 |     28374.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/11/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         4849362 |       100 |   48493.6 |   41296.5 |    15132 |    187625 |     29181.4 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/18/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         4822172 |       100 |   48221.7 |   40883.5 |    15435 |    228267 |     32818.2 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/22/attention/qkv/multiply_collect_L296/col… |
+|      0.2 |         4803239 |       100 |   48032.4 |   40948.5 |    14527 |    173883 |     30137.1 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/21/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         4508069 |       100 |   45080.7 |   40529.0 |    14208 |    292533 |     34923.1 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/25/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         4467002 |       100 |   44670.0 |   40342.0 |    15020 |    206521 |     29914.8 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/24/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         4466944 |       100 |   44669.4 |   40626.0 |    14175 |    341509 |     38122.0 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/26/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         4248121 |       100 |   42481.2 |   39325.0 |    13979 |    130005 |     27055.9 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/27/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         2988190 |        25 |  119527.6 |   65118.0 |    52243 |   1017806 |    194491.4 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/ln_f/value_L157/get_tensor_L148/get_constant_tens… |
+|      0.1 |         2708666 |       100 |   27086.7 |   19334.5 |     6863 |    211171 |     25434.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/0/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.1 |         2687537 |        25 |  107501.5 |   95448.0 |    56266 |    223622 |     48898.5 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/0/attention/qkv/multiply_collect_L296/coll… |
+|      0.1 |         2388915 |      3625 |     659.0 |     468.0 |      135 |     19555 |       880.6 | StartEnd | myelin-exec:myelinTensorGetOutputMemoryBatch                                                         |
+|      0.1 |         2325111 |      3625 |     641.4 |     460.0 |      147 |     17824 |       669.0 | StartEnd | myelin-exec:myelinTensorGetInputMemoryBatch                                                          |
+|      0.1 |         2135136 |        25 |   85405.4 |   64619.0 |    51232 |    208002 |     42187.7 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/1/attention/qkv/multiply_collect_L296/coll… |
+|      0.1 |         2065728 |       100 |   20657.3 |   11044.0 |     1751 |     93416 |     22767.3 | PushPop  | myelin-exec:__myl_GathCastMulMeanAddSqrtDivMulCastMul_myl14_1                                        |
+|      0.1 |         1842944 |        25 |   73717.8 |   54724.0 |    45615 |    201097 |     38367.9 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/2/attention/qkv/multiply_collect_L296/coll… |
+|      0.1 |         1725802 |        25 |   69032.1 |   53188.0 |    43388 |    195653 |     36147.4 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/14/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         1624120 |        25 |   64964.8 |   55254.0 |    43299 |    161123 |     27185.7 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/16/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         1621290 |        25 |   64851.6 |   52429.0 |    41178 |    168335 |     27617.1 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/27/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         1613299 |        25 |   64532.0 |   51124.0 |    42433 |    144265 |     26511.4 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/5/attention/qkv/multiply_collect_L296/coll… |
+|      0.1 |         1587176 |        25 |   63487.0 |   51195.0 |    43909 |    117781 |     23682.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/4/attention/qkv/multiply_collect_L296/coll… |
+|      0.1 |         1585473 |        25 |   63418.9 |   51113.0 |    41147 |    136441 |     25797.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/18/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         1578905 |        25 |   63156.2 |   49898.0 |    43506 |    141440 |     26606.7 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/7/attention/qkv/multiply_collect_L296/coll… |
+|      0.1 |         1574172 |        25 |   62966.9 |   51994.0 |    40873 |    120032 |     23848.2 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/17/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         1573995 |        25 |   62959.8 |   48668.0 |    43343 |    128468 |     27664.8 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/6/attention/qkv/multiply_collect_L296/coll… |
+|      0.1 |         1572202 |        25 |   62888.1 |   54544.0 |    40999 |    150884 |     25927.8 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/25/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         1565463 |        25 |   62618.5 |   52016.0 |    42530 |    138297 |     24279.0 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/15/attention/qkv/multiply_collect_L296/col… |
+|      0.1 |         1557052 |        25 |   62282.1 |   50781.0 |    43499 |    107424 |     21725.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/3/attention/qkv/multiply_collect_L296/coll… |
+|      0.1 |         1550817 |        25 |   62032.7 |   51117.0 |    43782 |    127299 |     21469.5 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/19/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1544060 |        25 |   61762.4 |   50021.0 |    42404 |    177489 |     28854.9 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/22/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1543479 |        25 |   61739.2 |   52213.0 |    42588 |    112506 |     21401.6 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/8/attention/qkv/multiply_collect_L296/coll… |
+|      0.0 |         1529712 |        25 |   61188.5 |   49531.0 |    43640 |    157077 |     27161.0 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/21/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1526597 |        25 |   61063.9 |   51462.0 |    43507 |    148769 |     24334.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/20/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1525047 |        25 |   61001.9 |   54132.0 |    41579 |    138158 |     22903.2 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/24/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1513608 |        25 |   60544.3 |   52820.0 |    42029 |    117872 |     18181.9 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/26/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1506844 |        25 |   60273.8 |   52165.0 |    41810 |    118569 |     19654.2 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/13/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1497063 |        25 |   59882.5 |   49463.0 |    43724 |     93196 |     17172.3 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/12/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1486789 |        25 |   59471.6 |   53184.0 |    42640 |    106254 |     16787.4 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/9/attention/qkv/multiply_collect_L296/coll… |
+|      0.0 |         1479708 |        25 |   59188.3 |   50414.0 |    42708 |    134637 |     21313.2 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/23/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1464265 |        25 |   58570.6 |   49399.0 |    43346 |    100415 |     16584.1 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/11/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1461941 |        25 |   58477.6 |   50459.0 |    43556 |    100432 |     17654.8 | PushPop  | TensorRT:{ForeignNode[QWenForCausalLM/transformer/layers/10/attention/qkv/multiply_collect_L296/col… |
+|      0.0 |         1323199 |        58 |   22813.8 |   16062.0 |     8000 |    180161 |     25017.6 | StartEnd | myelin-exec:myelinGraphResolveShapes                                                                 |
+|      0.0 |         1273500 |        25 |   50940.0 |   11634.0 |     8933 |    897933 |    176899.9 | PushPop  | myelin-exec:__myl_FcCast_myl507_8                                                                    |
+|      0.0 |         1105517 |       100 |   11055.2 |    8372.0 |     4206 |     60659 |      9254.2 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/1/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |         1041358 |       100 |   10413.6 |    8769.0 |     2168 |     78381 |      9803.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/0/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          942221 |       261 |    3610.0 |    2693.0 |     1179 |     20158 |      2903.5 | StartEnd | :myelinBinaryGraphCreate                                                                             |
+|      0.0 |          934481 |       100 |    9344.8 |    7261.0 |     3917 |     86484 |      9210.2 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/2/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          931032 |      3625 |     256.8 |     172.0 |      119 |     12373 |       347.4 | StartEnd | myelin-exec:myelinTensorSetInputMemoryBatch                                                          |
+|      0.0 |          927863 |       100 |    9278.6 |    7304.0 |     4005 |     87467 |      9296.1 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/3/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          896630 |      3625 |     247.3 |     158.0 |      115 |     19648 |       574.3 | StartEnd | myelin-exec:myelinTensorSetOutputMemoryBatch                                                         |
+|      0.0 |          896396 |        25 |   35855.8 |   31101.0 |    13257 |     86671 |     21582.6 | PushPop  | myelin-exec:__myl_GathCastMulMeanAddSqrtDivMulCastMul_myl395_1                                       |
+|      0.0 |          891274 |       100 |    8912.7 |    7014.5 |     4011 |     81859 |      8502.9 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/11/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          869331 |       100 |    8693.3 |    6997.5 |     4272 |     34524 |      5526.8 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/12/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          867390 |       100 |    8673.9 |    7272.5 |     4094 |     38447 |      5772.1 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/22/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          865353 |       100 |    8653.5 |    7313.5 |     4047 |     28990 |      4831.4 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/10/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          862900 |       100 |    8629.0 |    7042.0 |     4140 |     89692 |      9062.5 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/20/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          851126 |       100 |    8511.3 |    7247.5 |     4236 |     26270 |      4416.7 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/21/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          842307 |       100 |    8423.1 |    6441.0 |     2026 |     59685 |      7577.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/1/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          839008 |       100 |    8390.1 |    7150.0 |     4361 |     32246 |      4381.9 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/18/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          836608 |       100 |    8366.1 |    6748.0 |     4008 |     29525 |      4979.7 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/7/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          834787 |       100 |    8347.9 |    6898.0 |     4176 |     39677 |      5167.9 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/17/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          833405 |       100 |    8334.0 |    6996.5 |     4168 |     28959 |      4562.1 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/13/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          825106 |       100 |    8251.1 |    6749.0 |     3881 |     37360 |      5328.6 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/4/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          823105 |       100 |    8231.0 |    7031.0 |     4122 |     29802 |      4531.0 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/15/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          822277 |       100 |    8222.8 |    6894.0 |     4055 |     26268 |      4400.4 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/19/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          817890 |       100 |    8178.9 |    7007.0 |     4050 |     31052 |      4564.7 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/14/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          815352 |       100 |    8153.5 |    6256.0 |     1863 |     65480 |      8113.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/2/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          810144 |       100 |    8101.4 |    6862.5 |     3974 |     26293 |      4425.2 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/9/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          801378 |       100 |    8013.8 |    6948.0 |     4284 |     29548 |      4444.4 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/6/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          799988 |       100 |    7999.9 |    6965.5 |     4088 |     31158 |      3945.7 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/16/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          799687 |       100 |    7996.9 |    6815.0 |     4038 |     23115 |      3893.1 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/8/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          796407 |       100 |    7964.1 |    7055.5 |     3860 |     24715 |      3801.5 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/5/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          795066 |       100 |    7950.7 |    6228.0 |     1870 |     56382 |      7418.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/7/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          793226 |       100 |    7932.3 |    5942.5 |     2467 |     48657 |      6785.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/9/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          786122 |       100 |    7861.2 |    6212.0 |     1995 |     36284 |      5908.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/3/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          784822 |       100 |    7848.2 |    6143.0 |     1967 |     42033 |      5909.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/6/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          781493 |       100 |    7814.9 |    6192.5 |     1950 |     37731 |      5900.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/4/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          781309 |       100 |    7813.1 |    6697.0 |     1738 |     33871 |      5984.8 | PushPop  | myelin-exec:__mye1972+__mye1960_myl72_3                                                              |
+|      0.0 |          779317 |       100 |    7793.2 |    6922.0 |     4011 |     32221 |      4572.5 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/24/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          773210 |       100 |    7732.1 |    6727.5 |     4168 |     29254 |      4209.8 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/23/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          769831 |       100 |    7698.3 |    6625.5 |     2133 |     31288 |      5203.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/15/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          767600 |       100 |    7676.0 |    6745.5 |     3961 |     25395 |      4414.5 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/27/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          764690 |       100 |    7646.9 |    6144.5 |     1896 |     40670 |      5944.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/12/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          753022 |       100 |    7530.2 |    5951.0 |     2201 |     56974 |      7088.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/14/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          752957 |       100 |    7529.6 |    6831.5 |     4020 |     37834 |      4378.6 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/26/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          752903 |        25 |   30116.1 |   23590.0 |    17009 |     85432 |     17021.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/0/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          748139 |       100 |    7481.4 |    5797.5 |     2031 |     56707 |      6772.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/19/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          746687 |       100 |    7466.9 |    6767.0 |     3981 |     32801 |      4383.6 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/25/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          745689 |       100 |    7456.9 |    6006.0 |     2084 |     52906 |      6635.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/21/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          745066 |       100 |    7450.7 |    6107.5 |     1848 |     43277 |      5757.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/8/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          740345 |       100 |    7403.4 |    5968.0 |     1912 |     41284 |      6056.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/0/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          739304 |       100 |    7393.0 |    6176.5 |     2266 |     33775 |      5279.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/11/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          738224 |       100 |    7382.2 |    6136.5 |     1948 |     65052 |      7190.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/22/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          736886 |       100 |    7368.9 |    5769.5 |     1954 |     41028 |      6537.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/1/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          730088 |       100 |    7300.9 |    6386.5 |     1996 |     44876 |      5402.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/5/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          720835 |       100 |    7208.4 |    5921.5 |     2074 |     36955 |      5291.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/17/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          714940 |       100 |    7149.4 |    6137.5 |     2258 |     31367 |      4730.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/13/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          713815 |       100 |    7138.1 |    5971.5 |     1841 |     35939 |      5117.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/10/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          713431 |       100 |    7134.3 |    6242.5 |     2190 |     33195 |      4594.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/16/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          713147 |       100 |    7131.5 |    5506.0 |     1546 |     40429 |      5711.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/9/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          704790 |       100 |    7047.9 |    6168.5 |     2340 |     46573 |      5275.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/20/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          695098 |       100 |    6951.0 |    5674.5 |     1989 |     31358 |      4768.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/18/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          692502 |       100 |    6925.0 |    5895.5 |     1825 |     61313 |      7801.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/27/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          688285 |       100 |    6882.9 |    5551.0 |     1709 |     30862 |      4941.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/3/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          686525 |       100 |    6865.3 |    5695.5 |     1670 |     32787 |      4721.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/2/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          685102 |       100 |    6851.0 |    6019.0 |     1986 |     70228 |      7412.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/24/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          684665 |       100 |    6846.6 |    5563.5 |     1578 |     24940 |      4822.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/6/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          676645 |       100 |    6766.4 |    5082.5 |     1854 |     37541 |      6392.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/13/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          673825 |       100 |    6738.3 |    5486.5 |     2055 |     38693 |      5438.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/16/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          667216 |       100 |    6672.2 |    5441.5 |     1820 |     22933 |      4349.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/5/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          664004 |       100 |    6640.0 |    5637.5 |     1675 |     21520 |      3946.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/8/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          663955 |       100 |    6639.6 |    5680.0 |     1709 |     22685 |      4164.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/7/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          656608 |       100 |    6566.1 |    5328.0 |     1373 |     50234 |      5884.2 | PushPop  | myelin-exec:__mye1972+__mye1960_myl100_3                                                             |
+|      0.0 |          655624 |       100 |    6556.2 |    5336.0 |     1244 |     24422 |      4419.6 | PushPop  | myelin-exec:__mye1972+__mye1960_myl84_3                                                              |
+|      0.0 |          654310 |       100 |    6543.1 |    5706.5 |     1993 |     39419 |      5307.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/23/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          651427 |       100 |    6514.3 |    5053.5 |     1541 |     65345 |      7220.4 | PushPop  | myelin-exec:__mye1972+__mye1960_myl110_3                                                             |
+|      0.0 |          650448 |       100 |    6504.5 |    6375.0 |     1877 |     30637 |      4566.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/26/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          649881 |       100 |    6498.8 |    5353.0 |     1693 |     48806 |      6504.7 | PushPop  | myelin-exec:__mye1972+__mye1960_myl74_3                                                              |
+|      0.0 |          642319 |       100 |    6423.2 |    5391.0 |     1743 |     23375 |      4253.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/17/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          639421 |       100 |    6394.2 |    5492.0 |     1714 |     32300 |      4626.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/18/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          638541 |       100 |    6385.4 |    5729.5 |     1592 |     24628 |      4023.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/12/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          638129 |       100 |    6381.3 |    5522.5 |     1367 |     26845 |      4507.3 | PushPop  | myelin-exec:__mye1972+__mye1960_myl80_3                                                              |
+|      0.0 |          637931 |       100 |    6379.3 |    5522.0 |     1612 |     31137 |      4395.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/11/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          637401 |       100 |    6374.0 |    5308.5 |     1733 |     33272 |      4448.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/10/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          634131 |       100 |    6341.3 |    5522.5 |     1814 |     41917 |      5066.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/15/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          631983 |       100 |    6319.8 |    5081.0 |     1309 |     46983 |      6099.8 | PushPop  | myelin-exec:__mye1972+__mye1960_myl116_3                                                             |
+|      0.0 |          630650 |       100 |    6306.5 |    5677.0 |     1904 |     51697 |      5832.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/25/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          627867 |       100 |    6278.7 |    5081.5 |     1345 |     43131 |      5369.3 | PushPop  | myelin-exec:__mye1972+__mye1960_myl76_3                                                              |
+|      0.0 |          622768 |       100 |    6227.7 |    5229.5 |     1276 |     25933 |      4485.2 | PushPop  | myelin-exec:__mye1972+__mye1960_myl108_3                                                             |
+|      0.0 |          622557 |       100 |    6225.6 |    5182.0 |     1832 |     64446 |      6716.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/19/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          621453 |       100 |    6214.5 |    5564.0 |     1667 |     37986 |      5051.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/22/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          621289 |       100 |    6212.9 |    5434.5 |     1890 |     30921 |      4550.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/21/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          616531 |       100 |    6165.3 |    4966.0 |     1389 |     27917 |      4925.4 | PushPop  | myelin-exec:__mye1972+__mye1960_myl78_3                                                              |
+|      0.0 |          616455 |       100 |    6164.6 |    5175.0 |     1350 |     23821 |      3987.8 | PushPop  | myelin-exec:__mye1972+__mye1960_myl86_3                                                              |
+|      0.0 |          615306 |       100 |    6153.1 |    5357.0 |     1608 |     58056 |      6500.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/25/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          613463 |       100 |    6134.6 |    5296.5 |     1298 |     24769 |      3955.1 | PushPop  | myelin-exec:__mye1972+__mye1960_myl82_3                                                              |
+|      0.0 |          612193 |       100 |    6121.9 |    4890.0 |     1440 |     25880 |      4370.0 | PushPop  | myelin-exec:__mye1972+__mye1960_myl90_3                                                              |
+|      0.0 |          611877 |       100 |    6118.8 |    5134.0 |     1589 |     24553 |      4154.3 | PushPop  | myelin-exec:__mye1972+__mye1960_myl94_3                                                              |
+|      0.0 |          609309 |       100 |    6093.1 |    5358.0 |     1775 |     35861 |      5144.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/23/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          609249 |       100 |    6092.5 |    5323.5 |     1697 |     24327 |      3878.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/20/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          605779 |       100 |    6057.8 |    5507.5 |     1667 |     21773 |      3647.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/4/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          598702 |       100 |    5987.0 |    5326.0 |     1549 |     24046 |      3660.1 | PushPop  | myelin-exec:__mye1972+__mye1960_myl96_3                                                              |
+|      0.0 |          598142 |       100 |    5981.4 |    5061.0 |     1689 |     23638 |      4010.9 | PushPop  | myelin-exec:__mye1972+__mye1960_myl104_3                                                             |
+|      0.0 |          597941 |       100 |    5979.4 |    4816.5 |     1317 |     27864 |      4733.2 | PushPop  | myelin-exec:__mye1972+__mye1960_myl112_3                                                             |
+|      0.0 |          594357 |       100 |    5943.6 |    4783.0 |     1189 |     32618 |      5063.8 | PushPop  | myelin-exec:__mye1972+__mye1960_myl114_3                                                             |
+|      0.0 |          594320 |       100 |    5943.2 |    4918.0 |     1533 |     28898 |      4499.9 | PushPop  | myelin-exec:__mye1972+__mye1960_myl106_3                                                             |
+|      0.0 |          593811 |       100 |    5938.1 |    4977.5 |     1446 |     24033 |      4034.8 | PushPop  | myelin-exec:__mye1972+__mye1960_myl98_3                                                              |
+|      0.0 |          592154 |       100 |    5921.5 |    5198.0 |     1446 |     17916 |      3573.9 | PushPop  | myelin-exec:__mye1972+__mye1960_myl88_3                                                              |
+|      0.0 |          584768 |       100 |    5847.7 |    5403.5 |     1990 |     19465 |      3141.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/14/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          583653 |       100 |    5836.5 |    5211.5 |     1404 |     17891 |      3348.9 | PushPop  | myelin-exec:__mye1972+__mye1960_myl92_3                                                              |
+|      0.0 |          582573 |       100 |    5825.7 |    5351.0 |     1673 |     47746 |      5462.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/24/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          580829 |       100 |    5808.3 |    5418.5 |     1583 |     22637 |      3362.8 | PushPop  | myelin-exec:__mye1972+__mye1960_myl102_3                                                             |
+|      0.0 |          579473 |       100 |    5794.7 |    5301.5 |     1507 |     30267 |      4638.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/26/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          556416 |       100 |    5564.2 |    4438.5 |     1435 |     50922 |      5610.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/9/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          550197 |       100 |    5502.0 |    4580.0 |     1185 |     46987 |      5727.8 | PushPop  | myelin-exec:__mye1972+__mye1960_myl120_3                                                             |
+|      0.0 |          539139 |       100 |    5391.4 |    4592.5 |     1348 |     37267 |      4617.9 | PushPop  | myelin-exec:__mye1972+__mye1960_myl118_3                                                             |
+|      0.0 |          535367 |       100 |    5353.7 |    4302.5 |     1557 |     28592 |      4937.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/2/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          530951 |       100 |    5309.5 |    4113.5 |     1748 |     42158 |      5250.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/11/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          526795 |       100 |    5267.9 |    4958.5 |     1475 |     38200 |      5138.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/27/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          525299 |       100 |    5253.0 |    4148.0 |      857 |     26197 |      4825.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl72_2                                         |
+|      0.0 |          517991 |       100 |    5179.9 |    4656.0 |     1152 |     55428 |      5985.7 | PushPop  | myelin-exec:__mye1972+__mye1960_myl122_3                                                             |
+|      0.0 |          516893 |       100 |    5168.9 |    4196.0 |     1738 |     24955 |      3962.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/17/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          514017 |       100 |    5140.2 |    4201.0 |     1879 |     47548 |      5014.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/20/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          511885 |       100 |    5118.9 |    4934.0 |     1252 |     23182 |      4150.2 | PushPop  | myelin-exec:__mye1972+__mye1960_myl124_3                                                             |
+|      0.0 |          506928 |       100 |    5069.3 |    4078.0 |     1889 |     22446 |      3838.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/7/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          504154 |       100 |    5041.5 |    4332.0 |     1741 |     16635 |      3205.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/1/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          499268 |       100 |    4992.7 |    4167.0 |     1440 |     39551 |      4376.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/19/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          498360 |       100 |    4983.6 |    4189.5 |     1454 |     51043 |      6340.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/26/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          492597 |       100 |    4926.0 |    4262.0 |     1551 |     23076 |      3630.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/23/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          488805 |       100 |    4888.1 |    4225.0 |     1635 |     20172 |      3001.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/6/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          488717 |       100 |    4887.2 |    4176.0 |     1658 |     26705 |      3417.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/21/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          487982 |       100 |    4879.8 |    4155.5 |     1497 |     31007 |      3972.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/22/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          483231 |       100 |    4832.3 |    4597.5 |     1283 |     25141 |      3918.8 | PushPop  | myelin-exec:__mye1993+__mye1981_myl126_3                                                             |
+|      0.0 |          480638 |       100 |    4806.4 |    3494.0 |      800 |    118017 |     11783.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl116_2                                        |
+|      0.0 |          480572 |       100 |    4805.7 |    4237.5 |      676 |     26776 |      4526.7 | PushPop  | myelin-exec:__myl_SiluMul_myl72_4                                                                    |
+|      0.0 |          480430 |       100 |    4804.3 |    4011.5 |     1538 |     19518 |      3082.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/4/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          478872 |       100 |    4788.7 |    4112.5 |     1642 |     19415 |      2904.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/18/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          476598 |       100 |    4766.0 |    4293.0 |     1479 |     16117 |      2679.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/3/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          476155 |       100 |    4761.6 |    4255.5 |     1791 |     23860 |      3045.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/14/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          473958 |       100 |    4739.6 |    4040.5 |     1631 |     22023 |      3210.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/8/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          473802 |       100 |    4738.0 |    4214.5 |     1512 |     17587 |      2810.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/12/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          473734 |       100 |    4737.3 |    4230.5 |     1937 |     19055 |      2927.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/15/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          465352 |       100 |    4653.5 |    4192.0 |     1701 |     18964 |      2428.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/13/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          464780 |       100 |    4647.8 |    4211.5 |     1405 |     16272 |      2585.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/5/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          456755 |       100 |    4567.6 |    4055.0 |      736 |     19260 |      3796.7 | PushPop  | myelin-exec:__myl_SiluMul_myl74_4                                                                    |
+|      0.0 |          456111 |        25 |   18244.4 |   13419.0 |    12321 |     66811 |     11277.6 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/1/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          455281 |       100 |    4552.8 |    4076.0 |     1461 |     16992 |      2684.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/16/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          452343 |       100 |    4523.4 |    4048.5 |     1601 |     15797 |      2454.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/10/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          446726 |       100 |    4467.3 |    4058.0 |      864 |     25009 |      3632.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl78_2                                         |
+|      0.0 |          441545 |        25 |   17661.8 |   11976.0 |     9207 |     87952 |     16256.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/0/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          437635 |       100 |    4376.4 |    3924.0 |     1417 |     40242 |      4679.5 | PushPop  | myelin-exec:QWenForCausalLM/lm_head/multiply_collect_L286/multiply_and_lora_L257/matmul_L1103/MATRI… |
+|      0.0 |          437614 |       100 |    4376.1 |    3775.5 |      736 |     39303 |      4663.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl86_2                                         |
+|      0.0 |          420944 |       100 |    4209.4 |    3586.0 |      748 |     28784 |      3764.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl98_2                                         |
+|      0.0 |          420491 |       100 |    4204.9 |    4148.0 |     1484 |     22447 |      2793.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/25/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          420372 |       100 |    4203.7 |    3763.0 |      903 |     24038 |      3684.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl108_2                                        |
+|      0.0 |          418342 |       100 |    4183.4 |    3698.5 |      718 |     22715 |      3656.4 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl106_2                                        |
+|      0.0 |          413608 |       100 |    4136.1 |    3611.5 |      877 |     17372 |      3091.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl94_2                                         |
+|      0.0 |          412507 |       100 |    4125.1 |    3802.5 |      764 |     18262 |      3373.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl74_2                                         |
+|      0.0 |          411656 |       100 |    4116.6 |    3809.5 |     1377 |     27055 |      3270.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/27/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          410484 |       100 |    4104.8 |    3633.5 |      754 |     16755 |      3401.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl84_2                                         |
+|      0.0 |          409341 |       100 |    4093.4 |    3684.5 |      831 |     31959 |      3783.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl110_2                                        |
+|      0.0 |          408316 |       100 |    4083.2 |    3477.0 |      730 |     24704 |      3757.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl82_2                                         |
+|      0.0 |          407359 |       100 |    4073.6 |    3965.0 |     1472 |     17656 |      2519.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/24/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          404732 |       100 |    4047.3 |    3666.0 |      808 |     16525 |      3079.4 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl90_2                                         |
+|      0.0 |          403513 |       100 |    4035.1 |    3837.0 |      872 |     21303 |      3327.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl88_2                                         |
+|      0.0 |          402973 |       100 |    4029.7 |    3616.0 |      794 |     21124 |      3297.5 | PushPop  | myelin-exec:__myl_SiluMul_myl78_4                                                                    |
+|      0.0 |          402174 |        25 |   16087.0 |   12316.0 |    10660 |     41356 |      7717.4 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/16/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          402038 |        25 |   16081.5 |   11974.0 |    10857 |     59185 |     10613.5 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/2/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          400732 |       100 |    4007.3 |    3610.5 |      753 |     19114 |      3043.4 | PushPop  | myelin-exec:__myl_SiluMul_myl86_4                                                                    |
+|      0.0 |          398291 |       100 |    3982.9 |    3638.0 |      770 |     22946 |      3414.3 | PushPop  | myelin-exec:__myl_SiluMul_myl80_4                                                                    |
+|      0.0 |          397451 |        25 |   15898.0 |   12216.0 |    10899 |     40959 |      7515.7 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/22/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          393107 |       100 |    3931.1 |    3457.0 |      791 |     22635 |      3227.5 | PushPop  | myelin-exec:__myl_SiluMul_myl98_4                                                                    |
+|      0.0 |          391288 |       100 |    3912.9 |    3499.0 |      754 |     18706 |      3127.4 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl76_2                                         |
+|      0.0 |          390911 |       100 |    3909.1 |    3615.0 |      847 |     16274 |      2872.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl100_2                                        |
+|      0.0 |          390667 |       100 |    3906.7 |    3410.0 |      984 |     17750 |      2943.8 | PushPop  | myelin-exec:__myl_SiluMul_myl100_4                                                                   |
+|      0.0 |          390079 |        25 |   15603.2 |   11843.0 |    10586 |     37132 |      6361.5 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/14/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          388990 |        25 |   15559.6 |   12551.0 |    11053 |     42778 |      7230.4 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/27/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          388579 |       100 |    3885.8 |    3583.0 |      877 |     24107 |      3217.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl104_2                                        |
+|      0.0 |          386072 |        25 |   15442.9 |   12131.0 |    10689 |     29016 |      5626.7 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/25/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          385670 |        25 |   15426.8 |   11628.0 |    10397 |     46323 |      7935.0 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/5/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          380174 |        25 |   15207.0 |   12210.0 |    10996 |     36011 |      6194.7 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/24/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          379991 |       100 |    3799.9 |    3743.0 |      732 |     15602 |      2874.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl114_2                                        |
+|      0.0 |          379790 |       100 |    3797.9 |    3414.0 |      772 |     20566 |      2918.9 | PushPop  | myelin-exec:__myl_SiluMul_myl94_4                                                                    |
+|      0.0 |          379404 |       100 |    3794.0 |    3488.0 |      745 |     26388 |      3288.6 | PushPop  | myelin-exec:__myl_SiluMul_myl110_4                                                                   |
+|      0.0 |          379158 |       100 |    3791.6 |    3357.5 |      977 |     16385 |      2611.5 | PushPop  | myelin-exec:__myl_SiluMul_myl108_4                                                                   |
+|      0.0 |          378357 |       100 |    3783.6 |    3633.5 |      831 |     15205 |      2680.2 | PushPop  | myelin-exec:__myl_SiluMul_myl76_4                                                                    |
+|      0.0 |          377913 |        25 |   15116.5 |   11478.0 |    10720 |     37604 |      7021.6 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/20/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          377075 |       100 |    3770.8 |    3830.0 |      667 |     15512 |      2658.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl80_2                                         |
+|      0.0 |          375798 |       100 |    3758.0 |    3722.5 |      789 |     12547 |      2316.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl96_2                                         |
+|      0.0 |          375484 |       100 |    3754.8 |    3612.0 |      887 |     17098 |      2587.7 | PushPop  | myelin-exec:__myl_SiluMul_myl102_4                                                                   |
+|      0.0 |          375484 |       100 |    3754.8 |    3456.5 |      764 |     21707 |      3048.7 | PushPop  | myelin-exec:__myl_SiluMul_myl104_4                                                                   |
+|      0.0 |          372988 |       100 |    3729.9 |    3336.5 |      868 |     12662 |      2489.1 | PushPop  | myelin-exec:__myl_SiluMul_myl84_4                                                                    |
+|      0.0 |          372660 |       100 |    3726.6 |    3372.5 |      745 |     22233 |      3409.4 | PushPop  | myelin-exec:__myl_AddCastMulMean_myl126_6                                                            |
+|      0.0 |          370340 |        25 |   14813.6 |   11789.0 |    10903 |     28949 |      4969.6 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/15/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          369361 |       100 |    3693.6 |    3456.0 |      734 |     15964 |      2697.6 | PushPop  | myelin-exec:__myl_SiluMul_myl82_4                                                                    |
+|      0.0 |          369028 |       100 |    3690.3 |    3322.0 |      775 |     17459 |      3021.9 | PushPop  | myelin-exec:__myl_SiluMul_myl116_4                                                                   |
+|      0.0 |          369010 |       100 |    3690.1 |    3410.5 |      730 |     16485 |      2969.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl118_2                                        |
+|      0.0 |          368944 |        25 |   14757.8 |   12092.0 |    10920 |     21664 |      3777.3 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/18/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          368207 |        25 |   14728.3 |   11799.0 |    10538 |     32308 |      5171.2 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/23/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          367789 |        25 |   14711.6 |   12020.0 |    10883 |     30408 |      5215.6 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/12/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          366847 |        25 |   14673.9 |   11720.0 |    10963 |     35127 |      5767.5 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/19/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          366361 |       100 |    3663.6 |    3365.5 |      711 |     14317 |      2777.8 | PushPop  | myelin-exec:__myl_SiluMul_myl112_4                                                                   |
+|      0.0 |          366358 |        25 |   14654.3 |   11899.0 |    10697 |     30420 |      5546.8 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/3/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          365964 |       100 |    3659.6 |    3461.0 |      651 |     11580 |      2490.2 | PushPop  | myelin-exec:__myl_SiluMul_myl90_4                                                                    |
+|      0.0 |          365009 |       100 |    3650.1 |    3560.0 |      935 |     12148 |      2295.7 | PushPop  | myelin-exec:__myl_SiluMul_myl106_4                                                                   |
+|      0.0 |          364316 |       100 |    3643.2 |    3535.0 |      699 |     20195 |      3166.8 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl120_2                                        |
+|      0.0 |          363537 |       100 |    3635.4 |    3506.0 |      820 |     13210 |      2430.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl92_2                                         |
+|      0.0 |          363323 |        25 |   14532.9 |   11890.0 |    10810 |     27730 |      4557.9 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/17/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          362041 |        25 |   14481.6 |   12323.0 |    11165 |     29523 |      4253.8 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/10/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          361626 |       100 |    3616.3 |    3403.0 |      707 |     15405 |      2697.4 | PushPop  | myelin-exec:__myl_SiluMul_myl92_4                                                                    |
+|      0.0 |          359112 |       100 |    3591.1 |    3616.0 |      708 |     14575 |      2513.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl112_2                                        |
+|      0.0 |          359029 |        25 |   14361.2 |   11721.0 |    10814 |     31736 |      4991.1 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/7/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          357776 |       100 |    3577.8 |    3221.5 |      708 |     19179 |      3016.7 | PushPop  | myelin-exec:__myl_AddSqrtDivMulCastMulAddGath_myl126_7                                               |
+|      0.0 |          357275 |       100 |    3572.8 |    3275.5 |      819 |     16820 |      2807.2 | PushPop  | myelin-exec:__myl_SiluMul_myl118_4                                                                   |
+|      0.0 |          357212 |       100 |    3572.1 |    3402.5 |      681 |     11337 |      2336.9 | PushPop  | myelin-exec:__myl_SiluMul_myl88_4                                                                    |
+|      0.0 |          355776 |       100 |    3557.8 |    3398.0 |      795 |     13904 |      2687.6 | PushPop  | myelin-exec:__myl_SiluMul_myl114_4                                                                   |
+|      0.0 |          354828 |       100 |    3548.3 |    3390.0 |      915 |     10380 |      2202.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl102_2                                        |
+|      0.0 |          353940 |        25 |   14157.6 |   12079.0 |    10688 |     34493 |      5241.8 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/8/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          353471 |        25 |   14138.8 |   11634.0 |    10665 |     27873 |      5133.0 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/21/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          352850 |       100 |    3528.5 |    3450.0 |      747 |     19932 |      2799.0 | PushPop  | myelin-exec:__myl_SiluMul_myl120_4                                                                   |
+|      0.0 |          352841 |        25 |   14113.6 |   11705.0 |    10780 |     27514 |      4698.6 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/13/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          349327 |        25 |   13973.1 |   12200.0 |    10492 |     21527 |      3408.0 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/26/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          342392 |       100 |    3423.9 |    3093.5 |      688 |     25109 |      3359.6 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl126_2                                        |
+|      0.0 |          342151 |        25 |   13686.0 |   11559.0 |    10608 |     33341 |      4826.6 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/11/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2… |
+|      0.0 |          341554 |       100 |    3415.5 |    3187.0 |      742 |     14830 |      2283.4 | PushPop  | myelin-exec:__myl_SiluMul_myl96_4                                                                    |
+|      0.0 |          341432 |        25 |   13657.3 |   11456.0 |    10515 |     28338 |      4230.8 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/6/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          338158 |        25 |   13526.3 |   11703.0 |    10517 |     23533 |      3606.4 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/4/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          333638 |       100 |    3336.4 |    3232.0 |      693 |     26530 |      3067.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl122_2                                        |
+|      0.0 |          329898 |       100 |    3299.0 |    2907.5 |      650 |     22828 |      3175.2 | PushPop  | myelin-exec:__myl_Cast_myl126_9                                                                      |
+|      0.0 |          329771 |        25 |   13190.8 |   11725.0 |    10624 |     18893 |      2481.3 | PushPop  | TensorRT:QWenForCausalLM/transformer/layers/9/attention/wrapper_L551/gpt_attention_L5955/PLUGIN_V2_… |
+|      0.0 |          326220 |       100 |    3262.2 |    3178.0 |      723 |     13194 |      2491.1 | PushPop  | myelin-exec:__myl_SiluMul_myl124_4                                                                   |
+|      0.0 |          325683 |       100 |    3256.8 |    2140.0 |      630 |     22674 |      3403.5 | PushPop  | TensorRT:Reformatting CopyNode for Network Input kv_cache_block_offsets                              |
+|      0.0 |          324970 |       100 |    3249.7 |    3283.5 |      765 |     10086 |      2205.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl124_2                                        |
+|      0.0 |          313472 |       100 |    3134.7 |    3124.0 |      671 |     18451 |      2404.9 | PushPop  | myelin-exec:__myl_SiluMul_myl122_4                                                                   |
+|      0.0 |          303312 |       100 |    3033.1 |    3155.0 |      734 |     17975 |      2509.1 | PushPop  | myelin-exec:__myl_SiluMul_myl126_4                                                                   |
+|      0.0 |          280704 |        25 |   11228.2 |    7317.0 |     5979 |     52682 |     10460.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/13/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          269091 |       100 |    2690.9 |    2521.5 |      657 |     25138 |      2800.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl72_6                                         |
+|      0.0 |          264612 |       100 |    2646.1 |    2475.0 |      670 |     15038 |      2161.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl112_6                                        |
+|      0.0 |          264118 |       100 |    2641.2 |    2454.0 |      837 |     12785 |      1959.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl102_6                                        |
+|      0.0 |          262341 |       100 |    2623.4 |    2376.5 |      633 |     23590 |      2785.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl110_6                                        |
+|      0.0 |          260092 |        25 |   10403.7 |    7482.0 |     6167 |     38279 |      7067.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/1/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          259535 |        25 |   10381.4 |    7482.0 |     6369 |     36496 |      6725.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/21/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          259174 |        25 |   10367.0 |    7694.0 |     6601 |     25289 |      5337.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/4/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          258450 |       100 |    2584.5 |    2427.0 |      819 |     20858 |      2443.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl100_6                                        |
+|      0.0 |          257042 |       100 |    2570.4 |    2387.5 |      781 |     16560 |      2333.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl98_6                                         |
+|      0.0 |          256939 |       100 |    2569.4 |    2338.0 |      683 |     16202 |      2409.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl76_6                                         |
+|      0.0 |          255221 |        25 |   10208.8 |    6223.0 |     5217 |     44080 |      8822.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/1/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          251507 |        25 |   10060.3 |    7487.0 |     6197 |     30210 |      5713.2 | PushPop  | myelin-exec:__mye1972+__mye1960_myl455_3                                                             |
+|      0.0 |          250526 |        25 |   10021.0 |    7551.0 |     5989 |     29360 |      5594.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/1/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          247941 |        25 |    9917.6 |    7378.0 |     5715 |     26586 |      4956.1 | PushPop  | myelin-exec:__mye1972+__mye1960_myl453_3                                                             |
+|      0.0 |          240639 |       100 |    2406.4 |    2391.5 |      695 |     19336 |      2093.2 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl108_6                                        |
+|      0.0 |          238698 |        25 |    9547.9 |    7740.0 |     6032 |     22381 |      4595.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/25/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          238646 |       100 |    2386.5 |    2416.0 |      680 |     15840 |      1980.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl116_6                                        |
+|      0.0 |          238564 |        25 |    9542.6 |    7293.0 |     5851 |     22594 |      4598.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/17/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          238119 |       100 |    2381.2 |    2369.5 |      671 |     10193 |      1638.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl106_6                                        |
+|      0.0 |          236839 |        25 |    9473.6 |    6564.0 |     5364 |     30518 |      5695.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/0/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          236808 |       100 |    2368.1 |    2451.0 |      718 |      8355 |      1476.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl84_6                                         |
+|      0.0 |          236425 |        25 |    9457.0 |    7845.0 |     5965 |     27819 |      4580.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/14/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          234708 |        25 |    9388.3 |    7144.0 |     6232 |     23824 |      4389.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/6/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          234049 |       100 |    2340.5 |    2354.5 |      672 |      9211 |      1722.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl78_6                                         |
+|      0.0 |          233675 |        25 |    9347.0 |    7468.0 |     6096 |     24796 |      4630.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/3/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          233624 |       100 |    2336.2 |    2449.5 |      699 |     15166 |      1717.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl94_6                                         |
+|      0.0 |          233490 |       100 |    2334.9 |    2314.5 |      657 |     18330 |      2068.6 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl122_6                                        |
+|      0.0 |          233464 |       100 |    2334.6 |    2446.5 |      602 |      9252 |      1446.2 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl74_6                                         |
+|      0.0 |          230633 |        25 |    9225.3 |    6651.0 |     5893 |     37595 |      6801.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/27/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          230032 |        25 |    9201.3 |    6826.0 |     5689 |     33539 |      6058.3 | PushPop  | myelin-exec:__mye1972+__mye1960_myl483_3                                                             |
+|      0.0 |          229855 |       100 |    2298.6 |    2473.0 |      619 |      7612 |      1227.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl96_6                                         |
+|      0.0 |          229422 |        25 |    9176.9 |    7369.0 |     5782 |     26777 |      4847.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/26/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          228993 |        25 |    9159.7 |    6954.0 |     5840 |     21676 |      4721.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/5/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          228991 |       100 |    2289.9 |    2381.0 |      616 |     18560 |      2031.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl88_6                                         |
+|      0.0 |          228023 |        25 |    9120.9 |    7418.0 |     5643 |     24599 |      4403.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/16/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          227903 |       100 |    2279.0 |    2436.0 |      687 |      5213 |      1195.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl90_6                                         |
+|      0.0 |          227623 |       100 |    2276.2 |    2386.0 |      695 |     10603 |      1478.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl104_6                                        |
+|      0.0 |          227375 |        25 |    9095.0 |    8144.0 |     6360 |     22254 |      3277.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/22/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          227286 |       100 |    2272.9 |    2291.5 |      724 |     13836 |      1937.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl92_6                                         |
+|      0.0 |          226530 |        25 |    9061.2 |    7572.0 |     6203 |     30497 |      4961.7 | PushPop  | myelin-exec:__mye1972+__mye1960_myl491_3                                                             |
+|      0.0 |          225761 |        25 |    9030.4 |    7246.0 |     5670 |     28315 |      4962.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/15/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          225626 |       100 |    2256.3 |    2400.0 |      705 |      6670 |      1353.2 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl82_6                                         |
+|      0.0 |          225350 |        25 |    9014.0 |    6221.0 |     4982 |     30837 |      6187.0 | PushPop  | myelin-exec:__mye1972+__mye1960_myl485_3                                                             |
+|      0.0 |          224474 |       100 |    2244.7 |    2324.5 |      612 |      7765 |      1415.8 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl86_6                                         |
+|      0.0 |          224413 |        25 |    8976.5 |    6223.0 |     5359 |     43240 |      7777.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/27/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          224349 |        25 |    8974.0 |    6503.0 |     5417 |     31631 |      5596.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/2/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          223216 |        25 |    8928.6 |    6814.0 |     5571 |     17374 |      3718.5 | PushPop  | myelin-exec:__mye1972+__mye1960_myl469_3                                                             |
+|      0.0 |          222293 |        25 |    8891.7 |    6683.0 |     5806 |     24504 |      4343.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/2/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          221983 |        25 |    8879.3 |    6717.0 |     5886 |     25303 |      5110.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/20/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          221677 |       100 |    2216.8 |    2374.5 |      631 |      6259 |      1222.6 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl114_6                                        |
+|      0.0 |          221663 |       100 |    2216.6 |    2391.0 |      697 |      7267 |      1287.6 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl80_6                                         |
+|      0.0 |          221577 |        25 |    8863.1 |    6679.0 |     5756 |     27127 |      4964.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/18/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          219234 |        25 |    8769.4 |    6670.0 |     5913 |     20117 |      3878.1 | PushPop  | myelin-exec:__mye1972+__mye1960_myl459_3                                                             |
+|      0.0 |          217623 |       100 |    2176.2 |    2258.5 |      645 |     11682 |      1635.4 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl124_6                                        |
+|      0.0 |          217594 |       100 |    2175.9 |    2350.5 |      657 |      6000 |      1275.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl118_6                                        |
+|      0.0 |          217593 |        25 |    8703.7 |    7444.0 |     6008 |     15983 |      2908.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/12/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          217239 |        25 |    8689.6 |    7032.0 |     6047 |     16043 |      2956.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/7/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          217149 |        25 |    8686.0 |    6695.0 |     5971 |     18040 |      3431.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/10/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          216927 |        25 |    8677.1 |    6933.0 |     5749 |     16943 |      3477.0 | PushPop  | myelin-exec:__mye1972+__mye1960_myl457_3                                                             |
+|      0.0 |          216339 |        25 |    8653.6 |    6931.0 |     5809 |     23949 |      4110.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/26/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          214945 |        25 |    8597.8 |    6748.0 |     5322 |     26999 |      5475.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/19/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          213985 |        25 |    8559.4 |    6284.0 |     4895 |     29369 |      5966.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/16/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          213172 |        25 |    8526.9 |    6715.0 |     5688 |     24373 |      4520.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/23/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          212989 |        25 |    8519.6 |    6391.0 |     5365 |     27873 |      5233.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/18/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          212587 |        25 |    8503.5 |    7089.0 |     5791 |     17742 |      3202.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/9/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          212531 |        25 |    8501.2 |    7342.0 |     5957 |     15768 |      2660.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/11/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          212308 |        25 |    8492.3 |    6115.0 |     5070 |     34626 |      6071.7 | PushPop  | myelin-exec:__mye1972+__mye1960_myl501_3                                                             |
+|      0.0 |          211836 |        25 |    8473.4 |    7293.0 |     5766 |     20907 |      3524.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/24/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          211533 |        25 |    8461.3 |    6403.0 |     5177 |     29983 |      5472.0 | PushPop  | myelin-exec:__mye1972+__mye1960_myl487_3                                                             |
+|      0.0 |          211088 |       100 |    2110.9 |    2370.0 |      628 |      7894 |      1261.6 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl120_6                                        |
+|      0.0 |          207830 |        25 |    8313.2 |    6842.0 |     5599 |     27477 |      4317.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/20/attention/dense/multiply_collect_L518/multiply_co… |
+|      0.0 |          207692 |        25 |    8307.7 |    6220.0 |     5145 |     22204 |      4340.2 | PushPop  | myelin-exec:__mye1972+__mye1960_myl465_3                                                             |
+|      0.0 |          206063 |        25 |    8242.5 |    6285.0 |     5247 |     24299 |      4471.7 | PushPop  | myelin-exec:__mye1972+__mye1960_myl463_3                                                             |
+|      0.0 |          205388 |        25 |    8215.5 |    6279.0 |     5242 |     27576 |      4897.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/19/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          204939 |       100 |    2049.4 |    1377.0 |      595 |     31204 |      3265.7 | PushPop  | TensorRT:Reformatting CopyNode for Network Input cache_indirection                                   |
+|      0.0 |          204515 |        25 |    8180.6 |    6817.0 |     5657 |     23967 |      4014.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/14/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          204053 |        25 |    8162.1 |    5841.0 |     5008 |     26746 |      4851.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/7/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          203845 |        25 |    8153.8 |    6714.0 |     4802 |     23245 |      4307.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/27/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          203106 |        25 |    8124.2 |    6650.0 |     5229 |     17369 |      3345.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/16/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          202434 |        25 |    8097.4 |    6939.0 |     6016 |     18600 |      2784.5 | PushPop  | myelin-exec:__mye1972+__mye1960_myl497_3                                                             |
+|      0.0 |          201640 |        25 |    8065.6 |    6151.0 |     5124 |     23334 |      4115.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/19/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          201527 |        25 |    8061.1 |    6507.0 |     5247 |     21671 |      3941.5 | PushPop  | myelin-exec:__mye1972+__mye1960_myl505_3                                                             |
+|      0.0 |          200919 |        25 |    8036.8 |    5821.0 |     4992 |     25056 |      4905.5 | PushPop  | myelin-exec:__mye1993+__mye1981_myl507_3                                                             |
+|      0.0 |          200784 |        25 |    8031.4 |    6072.0 |     5213 |     25474 |      4818.3 | PushPop  | myelin-exec:__mye1972+__mye1960_myl467_3                                                             |
+|      0.0 |          200325 |        25 |    8013.0 |    6488.0 |     5321 |     19023 |      3769.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/5/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          199572 |        25 |    7982.9 |    6414.0 |     5365 |     16775 |      3242.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/3/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          199206 |        25 |    7968.2 |    5983.0 |     5103 |     18928 |      4046.0 | PushPop  | myelin-exec:__mye1972+__mye1960_myl495_3                                                             |
+|      0.0 |          198622 |        25 |    7944.9 |    6377.0 |     5347 |     20371 |      3310.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/18/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          197988 |        25 |    7919.5 |    5729.0 |     4887 |     27812 |      6110.6 | PushPop  | myelin-exec:__mye1972+__mye1960_myl493_3                                                             |
+|      0.0 |          197446 |        25 |    7897.8 |    5955.0 |     4884 |     20187 |      4043.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/25/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          197226 |        25 |    7889.0 |    6789.0 |     5458 |     14029 |      2464.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/8/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          196648 |        25 |    7865.9 |    6428.0 |     5501 |     14825 |      2914.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/2/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          196484 |        25 |    7859.4 |    6485.0 |     5588 |     15077 |      2763.6 | PushPop  | myelin-exec:__mye1972+__mye1960_myl471_3                                                             |
+|      0.0 |          195289 |        25 |    7811.6 |    6360.0 |     5610 |     20978 |      3291.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/21/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          194747 |        25 |    7789.9 |    6518.0 |     5107 |     18674 |      3258.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/17/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          194541 |        25 |    7781.6 |    6459.0 |     5367 |     19591 |      3072.9 | PushPop  | myelin-exec:__mye1972+__mye1960_myl489_3                                                             |
+|      0.0 |          193817 |        25 |    7752.7 |    5967.0 |     4967 |     29231 |      4896.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/13/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          192293 |        25 |    7691.7 |    6211.0 |     5212 |     13512 |      2920.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/8/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          191950 |        25 |    7678.0 |    6196.0 |     5125 |     24917 |      4114.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/13/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          191941 |        25 |    7677.6 |    6176.0 |     5344 |     27326 |      4533.1 | PushPop  | myelin-exec:__mye1972+__mye1960_myl477_3                                                             |
+|      0.0 |          191795 |        25 |    7671.8 |    6173.0 |     5088 |     20396 |      3765.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/15/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          191532 |        25 |    7661.3 |    5979.0 |     4722 |     15597 |      3237.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/4/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          191220 |        25 |    7648.8 |    5924.0 |     4766 |     20563 |      3776.8 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl453_2                                        |
+|      0.0 |          190374 |        25 |    7615.0 |    6238.0 |     5163 |     15139 |      2857.0 | PushPop  | myelin-exec:__mye1972+__mye1960_myl461_3                                                             |
+|      0.0 |          190312 |        25 |    7612.5 |    6298.0 |     5195 |     15533 |      2794.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/25/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          190219 |        25 |    7608.8 |    6115.0 |     5019 |     24746 |      4163.4 | PushPop  | myelin-exec:__mye1972+__mye1960_myl481_3                                                             |
+|      0.0 |          188970 |        25 |    7558.8 |    6405.0 |     5290 |     14082 |      2347.8 | PushPop  | myelin-exec:__mye1972+__mye1960_myl473_3                                                             |
+|      0.0 |          188533 |        25 |    7541.3 |    4821.0 |     4057 |     30568 |      7234.1 | PushPop  | myelin-exec:__myl_SiluMul_myl465_4                                                                   |
+|      0.0 |          188111 |        25 |    7524.4 |    6430.0 |     5042 |     16415 |      2860.9 | PushPop  | myelin-exec:__mye1972+__mye1960_myl503_3                                                             |
+|      0.0 |          188098 |        25 |    7523.9 |    6008.0 |     5062 |     20033 |      3633.2 | PushPop  | myelin-exec:__mye1972+__mye1960_myl499_3                                                             |
+|      0.0 |          187910 |        25 |    7516.4 |    6376.0 |     5611 |     13341 |      2299.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/12/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          187756 |        25 |    7510.2 |    5922.0 |     4765 |     15901 |      3537.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/17/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          187668 |        25 |    7506.7 |    5938.0 |     5049 |     21380 |      3549.0 | PushPop  | myelin-exec:__mye1972+__mye1960_myl479_3                                                             |
+|      0.0 |          187508 |        25 |    7500.3 |    6751.0 |     5194 |     13759 |      2363.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/26/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          187182 |        25 |    7487.3 |    5969.0 |     4636 |     14323 |      2779.8 | PushPop  | myelin-exec:__mye1972+__mye1960_myl475_3                                                             |
+|      0.0 |          187131 |        25 |    7485.2 |    5786.0 |     4976 |     17216 |      3339.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/5/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          186934 |        25 |    7477.4 |    6294.0 |     5094 |     17083 |      2791.2 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/14/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          186461 |        25 |    7458.4 |    6262.0 |     5164 |     19121 |      3299.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/23/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          185778 |        25 |    7431.1 |    5732.0 |     4692 |     30018 |      5159.6 | PushPop  | myelin-exec:__myl_AddCastMulMean_myl507_6                                                            |
+|      0.0 |          185714 |        25 |    7428.6 |    5818.0 |     5109 |     24760 |      4051.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/22/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          185562 |        25 |    7422.5 |    5704.0 |     4847 |     24658 |      4372.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/22/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          185486 |        25 |    7419.4 |    5822.0 |     4958 |     22592 |      3911.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/15/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          184206 |        25 |    7368.2 |    5888.0 |     5196 |     21274 |      4213.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/23/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          184032 |        25 |    7361.3 |    6260.0 |     5337 |     19265 |      3218.3 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/24/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          183748 |        25 |    7349.9 |    6233.0 |     5102 |     15883 |      2727.0 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/8/attention/dense/multiply_collect_L518/multiply_col… |
+|      0.0 |          183303 |        25 |    7332.1 |    6101.0 |     5059 |     18591 |      3381.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/24/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          183281 |        25 |    7331.2 |    6008.0 |     5266 |     22453 |      3547.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/11/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          183280 |        25 |    7331.2 |    5868.0 |     5049 |     15443 |      3036.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/3/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          181538 |        25 |    7261.5 |    6157.0 |     5024 |     13363 |      2421.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/4/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          180452 |        25 |    7218.1 |    5875.0 |     4588 |     13525 |      2668.8 | PushPop  | myelin-exec:__myl_SiluMul_myl453_4                                                                   |
+|      0.0 |          177913 |        25 |    7116.5 |    5961.0 |     4996 |     12942 |      2316.6 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/9/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          177130 |        25 |    7085.2 |    6189.0 |     5113 |     12801 |      1995.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/9/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          176674 |        25 |    7067.0 |    5941.0 |     5214 |     12958 |      2301.8 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/10/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          176155 |        25 |    7046.2 |    5296.0 |     4054 |     22433 |      4284.3 | PushPop  | myelin-exec:__myl_SiluMul_myl455_4                                                                   |
+|      0.0 |          175983 |        25 |    7039.3 |    5726.0 |     5016 |     12415 |      2432.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/6/mlp/proj/multiply_collect_L518/multiply_collect_L2… |
+|      0.0 |          175858 |        25 |    7034.3 |    5692.0 |     4847 |     14842 |      2776.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/12/mlp/proj/multiply_collect_L518/multiply_collect_L… |
+|      0.0 |          175855 |        25 |    7034.2 |    5998.0 |     5253 |     11797 |      2117.5 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/10/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          174457 |        25 |    6978.3 |    6107.0 |     5112 |     18442 |      2821.9 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/20/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          170709 |        25 |    6828.4 |    6056.0 |     4923 |     12080 |      1757.4 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/7/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          168894 |        25 |    6755.8 |    5604.0 |     4696 |     17845 |      2866.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/21/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          166981 |        25 |    6679.2 |    5578.0 |     4982 |     12564 |      2307.1 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/11/attention/qkv/multiply_collect_L286/multiply_and_… |
+|      0.0 |          166379 |       100 |    1663.8 |     178.5 |      111 |    135417 |     13516.7 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |          166371 |        25 |    6654.8 |    5631.0 |     4720 |     13401 |      2269.7 | PushPop  | myelin-exec:QWenForCausalLM/transformer/layers/6/attention/qkv/multiply_collect_L286/multiply_and_l… |
+|      0.0 |          164758 |        25 |    6590.3 |    4707.0 |     3496 |     23317 |      4769.0 | PushPop  | myelin-exec:__myl_SiluMul_myl505_4                                                                   |
+|      0.0 |          155251 |        25 |    6210.0 |    4620.0 |     3982 |     23957 |      4156.6 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl463_2                                        |
+|      0.0 |          154897 |        25 |    6195.9 |    4819.0 |     3454 |     30718 |      5389.8 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl501_2                                        |
+|      0.0 |          154889 |        25 |    6195.6 |    4685.0 |     3905 |     15084 |      3141.5 | PushPop  | myelin-exec:__myl_SiluMul_myl473_4                                                                   |
+|      0.0 |          150405 |        25 |    6016.2 |    4565.0 |     3480 |     17422 |      3745.8 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl507_2                                        |
+|      0.0 |          150078 |        25 |    6003.1 |    4692.0 |     3817 |     17571 |      3149.1 | PushPop  | myelin-exec:__myl_SiluMul_myl479_4                                                                   |
+|      0.0 |          147098 |        25 |    5883.9 |    4877.0 |     3808 |     16827 |      2792.8 | PushPop  | myelin-exec:__myl_SiluMul_myl499_4                                                                   |
+|      0.0 |          146753 |       100 |    1467.5 |     988.0 |      541 |     11789 |      1603.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |          146160 |        25 |    5846.4 |    4589.0 |     3769 |     12563 |      2507.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl483_2                                        |
+|      0.0 |          144325 |        25 |    5773.0 |    4497.0 |     3914 |     19896 |      3252.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl459_2                                        |
+|      0.0 |          144113 |        25 |    5764.5 |    4452.0 |     3943 |     20445 |      3507.0 | PushPop  | myelin-exec:__myl_SiluMul_myl463_4                                                                   |
+|      0.0 |          143650 |        25 |    5746.0 |    4403.0 |     3447 |     18921 |      3645.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl465_2                                        |
+|      0.0 |          142165 |        25 |    5686.6 |    4081.0 |     3394 |     14844 |      3281.8 | PushPop  | myelin-exec:__myl_SiluMul_myl461_4                                                                   |
+|      0.0 |          141010 |        25 |    5640.4 |    4830.0 |     3559 |     15626 |      2549.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl481_2                                        |
+|      0.0 |          139592 |        25 |    5583.7 |    4556.0 |     3810 |     19033 |      3169.1 | PushPop  | myelin-exec:__myl_AddSqrtDivMulCastMulAddGath_myl507_7                                               |
+|      0.0 |          138951 |        25 |    5558.0 |    4357.0 |     3631 |     21678 |      3611.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl491_2                                        |
+|      0.0 |          138896 |        25 |    5555.8 |    4983.0 |     4103 |     10465 |      1637.5 | PushPop  | myelin-exec:__myl_SiluMul_myl469_4                                                                   |
+|      0.0 |          137794 |        25 |    5511.8 |    4459.0 |     3744 |     18832 |      3104.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl479_2                                        |
+|      0.0 |          134974 |        25 |    5399.0 |    4268.0 |     3683 |     10265 |      2083.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl461_2                                        |
+|      0.0 |          134767 |        25 |    5390.7 |    4481.0 |     3713 |     13176 |      2498.8 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl477_2                                        |
+|      0.0 |          134648 |        25 |    5385.9 |    4643.0 |     3661 |     10844 |      1846.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl455_2                                        |
+|      0.0 |          134192 |        25 |    5367.7 |    4360.0 |     3793 |     12784 |      2025.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl489_2                                        |
+|      0.0 |          133677 |        25 |    5347.1 |    4252.0 |     3488 |     14558 |      2484.2 | PushPop  | myelin-exec:__myl_SiluMul_myl485_4                                                                   |
+|      0.0 |          133538 |        25 |    5341.5 |    4025.0 |     3360 |     21070 |      3832.6 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl475_2                                        |
+|      0.0 |          133471 |        25 |    5338.8 |    4540.0 |     3785 |     11389 |      1869.7 | PushPop  | myelin-exec:__myl_SiluMul_myl459_4                                                                   |
+|      0.0 |          133403 |        25 |    5336.1 |    4659.0 |     3736 |     15117 |      2282.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl471_2                                        |
+|      0.0 |          133346 |        25 |    5333.8 |    4280.0 |     3498 |     17359 |      2932.6 | PushPop  | myelin-exec:__myl_SiluMul_myl475_4                                                                   |
+|      0.0 |          132862 |        25 |    5314.5 |    4643.0 |     3872 |     10930 |      1798.2 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl469_2                                        |
+|      0.0 |          131582 |        25 |    5263.3 |    3935.0 |     3268 |     16392 |      3415.1 | PushPop  | myelin-exec:__myl_SiluMul_myl507_4                                                                   |
+|      0.0 |          131165 |        25 |    5246.6 |    4463.0 |     3595 |      9735 |      1682.6 | PushPop  | myelin-exec:__myl_SiluMul_myl481_4                                                                   |
+|      0.0 |          131151 |        25 |    5246.0 |    4497.0 |     4075 |     12258 |      1996.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl493_2                                        |
+|      0.0 |          130970 |        25 |    5238.8 |    4273.0 |     3674 |     10613 |      1835.2 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl457_2                                        |
+|      0.0 |          130507 |        25 |    5220.3 |    4448.0 |     3583 |     10702 |      1796.9 | PushPop  | myelin-exec:__myl_SiluMul_myl483_4                                                                   |
+|      0.0 |          130445 |        25 |    5217.8 |    4505.0 |     3782 |      9985 |      1524.3 | PushPop  | myelin-exec:__myl_SiluMul_myl467_4                                                                   |
+|      0.0 |          130383 |        25 |    5215.3 |    4426.0 |     3713 |     10702 |      1780.9 | PushPop  | myelin-exec:__myl_SiluMul_myl457_4                                                                   |
+|      0.0 |          129384 |        25 |    5175.4 |    4505.0 |     3667 |      9327 |      1597.6 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl485_2                                        |
+|      0.0 |          128450 |        25 |    5138.0 |    4347.0 |     3673 |     14132 |      2128.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl505_2                                        |
+|      0.0 |          127255 |        25 |    5090.2 |    4827.0 |     3592 |      9272 |      1469.4 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl467_2                                        |
+|      0.0 |          127168 |        25 |    5086.7 |    4623.0 |     3872 |      8883 |      1212.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl503_2                                        |
+|      0.0 |          127017 |        25 |    5080.7 |    4164.0 |     3767 |     10022 |      1840.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl497_2                                        |
+|      0.0 |          125654 |        25 |    5026.2 |    4350.0 |     3561 |      8657 |      1420.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl487_2                                        |
+|      0.0 |          125438 |        25 |    5017.5 |    4308.0 |     3456 |     17288 |      2682.0 | PushPop  | myelin-exec:__myl_SiluMul_myl471_4                                                                   |
+|      0.0 |          125334 |        25 |    5013.4 |    4427.0 |     3426 |     13723 |      2158.5 | PushPop  | myelin-exec:__myl_SiluMul_myl497_4                                                                   |
+|      0.0 |          123562 |        25 |    4942.5 |    4198.0 |     3472 |     13582 |      2119.3 | PushPop  | myelin-exec:__myl_SiluMul_myl493_4                                                                   |
+|      0.0 |          123170 |        25 |    4926.8 |    4504.0 |     3626 |     11175 |      1567.7 | PushPop  | myelin-exec:__myl_SiluMul_myl501_4                                                                   |
+|      0.0 |          123156 |        25 |    4926.2 |    4191.0 |     3613 |     14330 |      2202.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl499_2                                        |
+|      0.0 |          121793 |        25 |    4871.7 |    4407.0 |     3448 |      9129 |      1337.6 | PushPop  | myelin-exec:__myl_SiluMul_myl503_4                                                                   |
+|      0.0 |          121522 |        25 |    4860.9 |    4179.0 |     3664 |      7620 |      1282.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl473_2                                        |
+|      0.0 |          120223 |        25 |    4808.9 |    4035.0 |     3646 |     13016 |      1932.8 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl495_2                                        |
+|      0.0 |          119122 |        25 |    4764.9 |    4006.0 |     3459 |      9035 |      1578.1 | PushPop  | myelin-exec:__myl_SiluMul_myl487_4                                                                   |
+|      0.0 |          117265 |        25 |    4690.6 |    4076.0 |     3361 |      9237 |      1354.2 | PushPop  | myelin-exec:__myl_SiluMul_myl491_4                                                                   |
+|      0.0 |          116660 |        25 |    4666.4 |    3866.0 |     3423 |     10707 |      1702.6 | PushPop  | myelin-exec:__myl_SiluMul_myl495_4                                                                   |
+|      0.0 |          116525 |        25 |    4661.0 |    4171.0 |     3590 |      8412 |      1173.8 | PushPop  | myelin-exec:__myl_SiluMul_myl477_4                                                                   |
+|      0.0 |          113795 |        25 |    4551.8 |    4090.0 |     3499 |      7423 |      1133.8 | PushPop  | myelin-exec:__myl_SiluMul_myl489_4                                                                   |
+|      0.0 |          113700 |       100 |    1137.0 |     857.0 |      627 |      5446 |       714.3 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |          111713 |       100 |    1117.1 |     684.0 |      209 |     15538 |      1680.0 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_kv_cache_pool_pointers                         |
+|      0.0 |          102059 |        25 |    4082.4 |    3308.0 |     2320 |     10954 |      2061.1 | PushPop  | TensorRT:Reformatting CopyNode for Network Input kv_cache_block_offsets [profile 3]                  |
+|      0.0 |          100452 |       100 |    1004.5 |     585.0 |      296 |      8811 |      1241.9 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_kv_cache_block_offsets                         |
+|      0.0 |           97570 |        25 |    3902.8 |    2574.0 |     2374 |     22756 |      4011.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl475_6                                        |
+|      0.0 |           96970 |        58 |    1671.9 |    1101.5 |      520 |      7788 |      1354.7 | StartEnd | myelin-exec:myelinTensorGetMemory                                                                    |
+|      0.0 |           96644 |       100 |     966.4 |     538.5 |      207 |     18699 |      2110.4 | PushPop  | TensorRT:Reformatting CopyNode for Network Input context_lengths                                     |
+|      0.0 |           95672 |        25 |    3826.9 |    2802.0 |     2502 |     20447 |      3541.2 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl467_6                                        |
+|      0.0 |           95380 |        25 |    3815.2 |    2721.0 |     2403 |     19464 |      3505.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl479_6                                        |
+|      0.0 |           95324 |        25 |    3813.0 |    2865.0 |     2470 |     16848 |      2947.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl499_6                                        |
+|      0.0 |           91224 |        25 |    3649.0 |    2761.0 |     2507 |     19525 |      3353.8 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl477_6                                        |
+|      0.0 |           90030 |        25 |    3601.2 |    2761.0 |     2330 |     12182 |      2189.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl461_6                                        |
+|      0.0 |           89632 |        25 |    3585.3 |    3120.0 |     2473 |      7719 |      1261.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl455_6                                        |
+|      0.0 |           88824 |        25 |    3553.0 |    2597.0 |     2385 |     21026 |      3675.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl463_6                                        |
+|      0.0 |           86465 |       100 |     864.6 |     407.5 |      165 |     16732 |      2010.9 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_sink_token_length                              |
+|      0.0 |           85050 |        25 |    3402.0 |    2847.0 |     2554 |      6242 |       993.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl453_6                                        |
+|      0.0 |           84656 |        25 |    3386.2 |    2807.0 |     2555 |      9490 |      1484.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl489_6                                        |
+|      0.0 |           82990 |        25 |    3319.6 |    2847.0 |     2461 |      7527 |      1131.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl491_6                                        |
+|      0.0 |           82973 |        25 |    3318.9 |    2800.0 |     2288 |      7962 |      1263.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl483_6                                        |
+|      0.0 |           81413 |        25 |    3256.5 |    2676.0 |     2269 |      7680 |      1168.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl505_6                                        |
+|      0.0 |           80685 |        25 |    3227.4 |    2751.0 |     2313 |      6467 |       977.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl503_6                                        |
+|      0.0 |           80368 |        25 |    3214.7 |    2854.0 |     2429 |      5197 |       775.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl473_6                                        |
+|      0.0 |           80065 |        25 |    3202.6 |    2679.0 |     2330 |      6332 |       952.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl501_6                                        |
+|      0.0 |           78646 |        25 |    3145.8 |    2845.0 |     2472 |      4404 |       642.2 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl487_6                                        |
+|      0.0 |           78545 |        25 |    3141.8 |    2618.0 |     2364 |      7607 |      1112.9 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl493_6                                        |
+|      0.0 |           78153 |        25 |    3126.1 |    2800.0 |     2443 |      4836 |       706.1 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl471_6                                        |
+|      0.0 |           77096 |        25 |    3083.8 |    2678.0 |     2358 |      6720 |       997.7 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl495_6                                        |
+|      0.0 |           77054 |        25 |    3082.2 |    2839.0 |     2487 |      4494 |       640.8 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl469_6                                        |
+|      0.0 |           76644 |        25 |    3065.8 |    2649.0 |     2481 |      4816 |       718.3 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl485_6                                        |
+|      0.0 |           76056 |        25 |    3042.2 |    2734.0 |     2399 |      4440 |       611.4 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl465_6                                        |
+|      0.0 |           75676 |        25 |    3027.0 |    2711.0 |     2326 |      4575 |       687.5 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl481_6                                        |
+|      0.0 |           75308 |        25 |    3012.3 |    2736.0 |     2388 |      4305 |       602.0 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl457_6                                        |
+|      0.0 |           75233 |       100 |     752.3 |     386.0 |      113 |      4525 |       854.5 | PushPop  | myelin-exec:__mye74_0_myl14_0                                                                        |
+|      0.0 |           75142 |       100 |     751.4 |     372.0 |      158 |     24600 |      2450.3 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_runtime_perf_knobs                             |
+|      0.0 |           73246 |        25 |    2929.8 |    2568.0 |     2265 |      4734 |       759.4 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl497_6                                        |
+|      0.0 |           72547 |        25 |    2901.9 |    2619.0 |     2294 |      4562 |       620.4 | PushPop  | myelin-exec:__myl_AddCastMulMeanAddSqrtDivMulCastMul_myl459_6                                        |
+|      0.0 |           68282 |       100 |     682.8 |     495.0 |      294 |      2916 |       484.9 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_kv_cache_pool_mapping                          |
+|      0.0 |           67438 |       100 |     674.4 |     345.0 |      157 |      6880 |       975.2 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_past_key_value_lengths                         |
+|      0.0 |           60885 |       100 |     608.9 |     308.5 |      155 |     15792 |      1659.9 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_context_progress                               |
+|      0.0 |           58844 |       100 |     588.4 |     237.5 |      124 |     26500 |      2640.1 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           58312 |       100 |     583.1 |     213.0 |      143 |     14485 |      1587.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           52485 |       100 |     524.9 |     197.5 |      109 |     22861 |      2282.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           50843 |       100 |     508.4 |     381.0 |      154 |      2540 |       390.2 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_request_types                                  |
+|      0.0 |           50606 |       100 |     506.1 |     376.0 |      158 |      3002 |       422.0 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_context_lengths                                |
+|      0.0 |           49326 |       100 |     493.3 |     384.0 |      160 |      2558 |       337.4 | PushPop  | TensorRT:Reformatting CopyNode for Network Input sequence_length                                     |
+|      0.0 |           49312 |       100 |     493.1 |     331.5 |      145 |      6634 |       771.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           46499 |       100 |     465.0 |     167.5 |      106 |      8328 |      1263.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           45771 |       100 |     457.7 |     182.0 |      109 |     19123 |      1904.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           44033 |       100 |     440.3 |     295.0 |      162 |      1954 |       347.3 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_max_attention_window_sizes                     |
+|      0.0 |           43781 |       100 |     437.8 |     195.0 |      138 |     15102 |      1501.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           41966 |        25 |    1678.6 |    1595.0 |     1181 |      2959 |       479.2 | PushPop  | TensorRT:Reformatting CopyNode for Network Input cache_indirection [profile 3]                       |
+|      0.0 |           41881 |       100 |     418.8 |     192.5 |      107 |     10398 |      1123.7 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           40590 |       100 |     405.9 |     195.0 |      141 |      6385 |       743.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           38471 |       100 |     384.7 |     171.5 |      110 |     13972 |      1389.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           37811 |       100 |     378.1 |     191.5 |      146 |      7985 |       848.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           37569 |       100 |     375.7 |     170.5 |      106 |      6132 |       751.3 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           37277 |       100 |     372.8 |     178.5 |      108 |      6854 |       792.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           35808 |       100 |     358.1 |     190.5 |      110 |      6956 |       737.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           34607 |       100 |     346.1 |     176.5 |      106 |      7913 |       823.7 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           34058 |       100 |     340.6 |     206.0 |      103 |      4206 |       478.9 | PushPop  | myelin-exec:__mye547_0_myl124_0                                                                      |
+|      0.0 |           33752 |       100 |     337.5 |     199.0 |      107 |      5199 |       570.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           33484 |       100 |     334.8 |     178.0 |      138 |      5551 |       589.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           33114 |       100 |     331.1 |     218.5 |      141 |      4600 |       482.1 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           32376 |       100 |     323.8 |     204.0 |      111 |      2074 |       331.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           32345 |       100 |     323.4 |     158.0 |      107 |      4514 |       564.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           32234 |       100 |     322.3 |     191.0 |      145 |      1769 |       319.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           31687 |       100 |     316.9 |     175.5 |      137 |      5550 |       595.3 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           31275 |       100 |     312.8 |     201.5 |      139 |      2140 |       361.4 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           31250 |       100 |     312.5 |     228.0 |      105 |      1281 |       236.5 | PushPop  | myelin-exec:__mye547_0_myl72_0                                                                       |
+|      0.0 |           31050 |       100 |     310.5 |     167.5 |      109 |      3833 |       488.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           31042 |       100 |     310.4 |     165.5 |      120 |      5179 |       569.4 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           30867 |       100 |     308.7 |     173.5 |      106 |      6128 |       634.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           30668 |       100 |     306.7 |     176.0 |      106 |      2897 |       415.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           30667 |       100 |     306.7 |     207.5 |      108 |      4309 |       456.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           30481 |        25 |    1219.2 |     985.0 |      630 |      3564 |       656.4 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_kv_cache_pool_pointers [profile 3]             |
+|      0.0 |           30224 |       100 |     302.2 |     184.5 |      114 |      3901 |       438.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           29993 |       100 |     299.9 |     171.5 |      107 |      7002 |       700.7 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           29787 |       100 |     297.9 |     197.0 |      107 |      1153 |       238.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           29722 |       100 |     297.2 |     216.5 |      120 |      2129 |       239.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           29660 |       100 |     296.6 |     180.5 |      114 |      4980 |       529.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           29399 |       100 |     294.0 |     180.0 |      140 |      2409 |       313.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           28988 |       100 |     289.9 |     170.0 |      137 |      5413 |       545.7 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           28981 |        25 |    1159.2 |    1007.0 |      511 |      3776 |       693.4 | PushPop  | myelin-exec:__mye74_0_myl395_0                                                                       |
+|      0.0 |           28732 |        25 |    1149.3 |    1011.0 |      773 |      2414 |       422.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           28290 |       100 |     282.9 |     166.0 |      107 |      4677 |       500.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           27652 |       100 |     276.5 |     211.5 |      102 |       887 |       157.1 | PushPop  | myelin-exec:__mye547_0_myl112_0                                                                      |
+|      0.0 |           27607 |        25 |    1104.3 |     953.0 |      583 |      2106 |       451.3 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_kv_cache_block_offsets [profile 3]             |
+|      0.0 |           27580 |       100 |     275.8 |     168.0 |      106 |      3024 |       345.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           27437 |        25 |    1097.5 |     930.0 |      690 |      2050 |       404.3 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           27403 |       100 |     274.0 |     176.0 |      111 |      2488 |       274.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           27333 |        25 |    1093.3 |     598.0 |      371 |     11437 |      2169.6 | PushPop  | TensorRT:Reformatting CopyNode for Network Input sequence_length [profile 3]                         |
+|      0.0 |           27239 |       100 |     272.4 |     182.0 |      107 |      1409 |       240.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           27202 |       100 |     272.0 |     179.5 |      105 |      1693 |       284.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           27195 |       100 |     271.9 |     179.5 |      113 |      1471 |       227.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           27024 |       100 |     270.2 |     122.5 |      102 |      4921 |       582.5 | PushPop  | myelin-exec:__mye547_0_myl114_0                                                                      |
+|      0.0 |           26705 |       100 |     267.1 |     177.0 |      139 |      2332 |       285.4 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           26517 |       100 |     265.2 |     184.5 |      135 |      1522 |       212.7 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           26476 |        25 |    1059.0 |     564.0 |      282 |      5701 |      1395.9 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_runtime_perf_knobs [profile 3]                 |
+|      0.0 |           26210 |       100 |     262.1 |     155.5 |      116 |      3446 |       368.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           26200 |       100 |     262.0 |     155.5 |      102 |      1893 |       323.7 | PushPop  | myelin-exec:__mye547_0_myl98_0                                                                       |
+|      0.0 |           26071 |       100 |     260.7 |     201.5 |      111 |      1623 |       216.4 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           26016 |       100 |     260.2 |     150.5 |      103 |      3200 |       382.1 | PushPop  | myelin-exec:__mye547_0_myl100_0                                                                      |
+|      0.0 |           25802 |       100 |     258.0 |     174.0 |      110 |      1901 |       276.3 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           25735 |       100 |     257.4 |     172.0 |      121 |      1167 |       185.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           25172 |       100 |     251.7 |     173.0 |      125 |      1626 |       212.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           24927 |       100 |     249.3 |     129.5 |      104 |      4197 |       435.2 | PushPop  | myelin-exec:__mye547_0_myl86_0                                                                       |
+|      0.0 |           24798 |       100 |     248.0 |     185.0 |      115 |      1617 |       197.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           24740 |       100 |     247.4 |     166.5 |      111 |      1314 |       179.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           24592 |       100 |     245.9 |     161.0 |      107 |      1931 |       258.3 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           24488 |       100 |     244.9 |     142.5 |      105 |      3638 |       378.2 | PushPop  | myelin-exec:__mye547_0_myl76_0                                                                       |
+|      0.0 |           24382 |       100 |     243.8 |     171.5 |      114 |      1308 |       185.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           24365 |       100 |     243.7 |     126.0 |      103 |      4095 |       446.5 | PushPop  | myelin-exec:__mye547_0_myl90_0                                                                       |
+|      0.0 |           24172 |       100 |     241.7 |     134.5 |      101 |      1771 |       286.2 | PushPop  | myelin-exec:__mye547_0_myl106_0                                                                      |
+|      0.0 |           23979 |        25 |     959.2 |     746.0 |      454 |      4494 |       815.9 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_context_lengths [profile 3]                    |
+|      0.0 |           23752 |       100 |     237.5 |     159.0 |      103 |      1384 |       235.6 | PushPop  | myelin-exec:__mye547_0_myl104_0                                                                      |
+|      0.0 |           23535 |       100 |     235.3 |     136.5 |      103 |      2204 |       291.7 | PushPop  | myelin-exec:__mye547_0_myl118_0                                                                      |
+|      0.0 |           23491 |       100 |     234.9 |     120.5 |      103 |      4433 |       465.4 | PushPop  | myelin-exec:__mye547_0_myl94_0                                                                       |
+|      0.0 |           23267 |       100 |     232.7 |     121.0 |      102 |      1302 |       247.5 | PushPop  | myelin-exec:__mye547_0_myl110_0                                                                      |
+|      0.0 |           23158 |       100 |     231.6 |     164.5 |      111 |      1582 |       179.7 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           22762 |       100 |     227.6 |     122.5 |       99 |      1588 |       271.9 | PushPop  | myelin-exec:__mye547_0_myl96_0                                                                       |
+|      0.0 |           22541 |       100 |     225.4 |     135.0 |      103 |      1999 |       276.6 | PushPop  | myelin-exec:__mye547_0_myl74_0                                                                       |
+|      0.0 |           22483 |       100 |     224.8 |     135.0 |      101 |      1639 |       223.5 | PushPop  | myelin-exec:__mye560_0_myl126_0                                                                      |
+|      0.0 |           22457 |        25 |     898.3 |     468.0 |      270 |      5745 |      1380.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           22385 |        25 |     895.4 |     898.0 |      386 |      2233 |       467.0 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_max_attention_window_sizes [profile 3]         |
+|      0.0 |           21664 |       100 |     216.6 |     129.0 |      104 |      2533 |       282.4 | PushPop  | myelin-exec:__mye547_0_myl122_0                                                                      |
+|      0.0 |           21198 |        25 |     847.9 |     158.0 |      136 |     13099 |      2639.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           21178 |        25 |     847.1 |     532.0 |      383 |      5862 |      1135.9 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_request_types [profile 3]                      |
+|      0.0 |           21092 |       100 |     210.9 |     126.0 |      102 |      1107 |       184.1 | PushPop  | myelin-exec:__mye547_0_myl116_0                                                                      |
+|      0.0 |           20922 |       100 |     209.2 |     130.5 |      104 |      1524 |       206.9 | PushPop  | myelin-exec:__mye547_0_myl78_0                                                                       |
+|      0.0 |           20617 |       100 |     206.2 |     138.0 |      107 |      1146 |       181.7 | PushPop  | myelin-exec:__mye547_0_myl92_0                                                                       |
+|      0.0 |           20172 |       100 |     201.7 |     125.0 |      100 |       935 |       147.9 | PushPop  | myelin-exec:__mye547_0_myl84_0                                                                       |
+|      0.0 |           19668 |       100 |     196.7 |     126.5 |      105 |      1382 |       189.9 | PushPop  | myelin-exec:__mye547_0_myl88_0                                                                       |
+|      0.0 |           19474 |       100 |     194.7 |     133.5 |       96 |      1289 |       158.6 | PushPop  | myelin-exec:__mye547_0_myl102_0                                                                      |
+|      0.0 |           18974 |        25 |     759.0 |     203.0 |      138 |      8503 |      1854.7 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           18904 |       100 |     189.0 |     125.0 |      102 |      1077 |       164.2 | PushPop  | myelin-exec:__mye547_0_myl120_0                                                                      |
+|      0.0 |           18492 |       100 |     184.9 |     133.0 |      103 |       660 |       108.1 | PushPop  | myelin-exec:__mye547_0_myl80_0                                                                       |
+|      0.0 |           17840 |       100 |     178.4 |     120.0 |      104 |      1500 |       179.7 | PushPop  | myelin-exec:__mye547_0_myl82_0                                                                       |
+|      0.0 |           17288 |        25 |     691.5 |     559.0 |      327 |      2489 |       444.6 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_past_key_value_lengths [profile 3]             |
+|      0.0 |           16782 |       100 |     167.8 |     119.0 |      103 |       604 |        96.8 | PushPop  | myelin-exec:__mye547_0_myl108_0                                                                      |
+|      0.0 |           15596 |        25 |     623.8 |     570.0 |      319 |      1302 |       245.7 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_kv_cache_pool_mapping [profile 3]              |
+|      0.0 |           15431 |        25 |     617.2 |     166.0 |      136 |      9885 |      1936.4 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           13672 |        25 |     546.9 |     253.0 |      168 |      5904 |      1148.4 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           12965 |        25 |     518.6 |     412.0 |      297 |      1195 |       236.4 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_sink_token_length [profile 3]                  |
+|      0.0 |           12769 |        25 |     510.8 |     397.0 |      276 |      1410 |       269.3 | PushPop  | TensorRT:Reformatting CopyNode for Network Input context_lengths [profile 3]                         |
+|      0.0 |           12660 |        25 |     506.4 |     415.0 |      261 |      1674 |       284.1 | PushPop  | TensorRT:Reformatting CopyNode for Network Input host_context_progress [profile 3]                   |
+|      0.0 |           11519 |        25 |     460.8 |     170.0 |      140 |      5445 |      1050.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           11242 |        25 |     449.7 |     166.0 |      142 |      6014 |      1164.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           10742 |        25 |     429.7 |     240.0 |      174 |      4074 |       768.4 | PushPop  | myelin-exec:__mye547_0_myl471_0                                                                      |
+|      0.0 |           10332 |        25 |     413.3 |     218.0 |      134 |      4497 |       863.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |           10117 |        25 |     404.7 |     171.0 |      113 |      6039 |      1175.3 | PushPop  | myelin-exec:__mye560_0_myl507_0                                                                      |
+|      0.0 |            8160 |        25 |     326.4 |     261.0 |      170 |       996 |       204.3 | PushPop  | myelin-exec:__mye547_0_myl485_0                                                                      |
+|      0.0 |            7966 |        25 |     318.6 |     191.0 |      138 |      1713 |       407.1 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            7858 |        25 |     314.3 |     223.0 |      172 |       965 |       211.1 | PushPop  | myelin-exec:__mye547_0_myl483_0                                                                      |
+|      0.0 |            7685 |        25 |     307.4 |     230.0 |      110 |      1051 |       203.3 | PushPop  | myelin-exec:__mye547_0_myl479_0                                                                      |
+|      0.0 |            7666 |        25 |     306.6 |     246.0 |      117 |      1095 |       215.8 | PushPop  | myelin-exec:__mye547_0_myl453_0                                                                      |
+|      0.0 |            7464 |        25 |     298.6 |     243.0 |      187 |      1033 |       184.7 | PushPop  | myelin-exec:__mye547_0_myl475_0                                                                      |
+|      0.0 |            7272 |        25 |     290.9 |     153.0 |      135 |      1113 |       245.1 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            7115 |        25 |     284.6 |     158.0 |      137 |      1577 |       301.7 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            6833 |        25 |     273.3 |     197.0 |      113 |       857 |       191.5 | PushPop  | myelin-exec:__mye547_0_myl505_0                                                                      |
+|      0.0 |            6814 |        25 |     272.6 |     182.0 |      140 |      1000 |       195.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            6782 |        25 |     271.3 |     133.0 |      107 |      2523 |       475.9 | PushPop  | myelin-exec:__mye547_0_myl463_0                                                                      |
+|      0.0 |            6626 |        25 |     265.0 |     226.0 |      142 |       624 |       135.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            6549 |        25 |     262.0 |     148.0 |      137 |      2146 |       398.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            6516 |        25 |     260.6 |     226.0 |      115 |       725 |       142.8 | PushPop  | myelin-exec:__mye547_0_myl477_0                                                                      |
+|      0.0 |            6433 |        25 |     257.3 |     165.0 |      139 |       926 |       184.4 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            6431 |        25 |     257.2 |     188.0 |      113 |      1475 |       279.4 | PushPop  | myelin-exec:__mye547_0_myl467_0                                                                      |
+|      0.0 |            6400 |        25 |     256.0 |     161.0 |      138 |      1135 |       218.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            6317 |        25 |     252.7 |     191.0 |      154 |       506 |       110.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            6305 |        25 |     252.2 |     174.0 |      135 |       732 |       153.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            6304 |        25 |     252.2 |     128.0 |      112 |      1627 |       309.4 | PushPop  | myelin-exec:__mye547_0_myl491_0                                                                      |
+|      0.0 |            6105 |        25 |     244.2 |     208.0 |      105 |       821 |       171.1 | PushPop  | myelin-exec:__mye547_0_myl489_0                                                                      |
+|      0.0 |            6028 |        25 |     241.1 |     158.0 |      138 |       765 |       151.1 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            6025 |        25 |     241.0 |     156.0 |      136 |       830 |       176.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            6004 |        25 |     240.2 |     154.0 |      111 |      1007 |       229.4 | PushPop  | myelin-exec:__mye547_0_myl461_0                                                                      |
+|      0.0 |            5986 |        25 |     239.4 |     183.0 |      136 |       769 |       133.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5878 |        25 |     235.1 |     151.0 |      136 |      1187 |       214.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5869 |        25 |     234.8 |     159.0 |      137 |       820 |       150.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5792 |        25 |     231.7 |     158.0 |      134 |      1002 |       184.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5782 |        25 |     231.3 |     165.0 |      137 |       590 |       121.3 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5753 |        25 |     230.1 |     218.0 |      139 |       424 |        98.6 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5750 |        25 |     230.0 |     162.0 |      136 |       591 |       120.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5648 |        25 |     225.9 |     168.0 |      135 |       538 |       111.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5648 |        25 |     225.9 |     146.0 |      102 |       608 |       138.1 | PushPop  | myelin-exec:__mye547_0_myl455_0                                                                      |
+|      0.0 |            5626 |        25 |     225.0 |     176.0 |      138 |       535 |        97.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5624 |        25 |     225.0 |     182.0 |      107 |       782 |       174.4 | PushPop  | myelin-exec:__mye547_0_myl487_0                                                                      |
+|      0.0 |            5586 |        25 |     223.4 |     166.0 |      139 |       452 |       106.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5541 |        25 |     221.6 |     147.0 |      135 |       545 |       120.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5521 |        25 |     220.8 |     193.0 |      113 |       640 |       107.0 | PushPop  | myelin-exec:__mye547_0_myl481_0                                                                      |
+|      0.0 |            5494 |        25 |     219.8 |     148.0 |      136 |       877 |       158.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5457 |        25 |     218.3 |     156.0 |      135 |       556 |       113.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5371 |        25 |     214.8 |     156.0 |      137 |       536 |       111.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5371 |        25 |     214.8 |     166.0 |      134 |       567 |       116.1 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5356 |        25 |     214.2 |     190.0 |      101 |       616 |       117.1 | PushPop  | myelin-exec:__mye547_0_myl457_0                                                                      |
+|      0.0 |            5347 |        25 |     213.9 |     159.0 |      135 |       652 |       116.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5267 |        25 |     210.7 |     174.0 |      143 |       507 |        87.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5254 |        25 |     210.2 |     151.0 |      135 |       592 |       105.8 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5237 |        25 |     209.5 |     167.0 |      140 |       504 |        94.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5230 |        25 |     209.2 |     180.0 |      139 |       443 |        79.4 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5225 |        25 |     209.0 |     146.0 |      135 |       649 |       127.4 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5202 |        25 |     208.1 |     130.0 |      109 |       573 |       118.0 | PushPop  | myelin-exec:__mye547_0_myl497_0                                                                      |
+|      0.0 |            5201 |        25 |     208.0 |     162.0 |      134 |       504 |        95.0 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5133 |        25 |     205.3 |     154.0 |      140 |       499 |        97.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5126 |        25 |     205.0 |     163.0 |      138 |       411 |        77.1 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5112 |        25 |     204.5 |     175.0 |      137 |       409 |        69.9 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5087 |        25 |     203.5 |     153.0 |      135 |       408 |        84.7 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            5084 |        25 |     203.4 |     172.0 |      136 |       386 |        69.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            4951 |        25 |     198.0 |     153.0 |      134 |       450 |        78.1 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            4947 |        25 |     197.9 |     193.0 |      109 |       487 |        89.2 | PushPop  | myelin-exec:__mye547_0_myl499_0                                                                      |
+|      0.0 |            4935 |        25 |     197.4 |     184.0 |      106 |       541 |       106.2 | PushPop  | myelin-exec:__mye547_0_myl465_0                                                                      |
+|      0.0 |            4901 |        25 |     196.0 |     163.0 |      138 |       407 |        75.4 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            4882 |        25 |     195.3 |     153.0 |      139 |       374 |        70.2 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            4857 |        25 |     194.3 |     164.0 |      118 |       417 |        74.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            4849 |        25 |     194.0 |     149.0 |      138 |       436 |        84.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L761/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            4836 |        25 |     193.4 |     152.0 |      135 |       419 |        77.5 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            4777 |        25 |     191.1 |     183.0 |      110 |       413 |        77.5 | PushPop  | myelin-exec:__mye547_0_myl503_0                                                                      |
+|      0.0 |            4681 |        25 |     187.2 |     121.0 |      107 |       534 |       116.4 | PushPop  | myelin-exec:__mye547_0_myl495_0                                                                      |
+|      0.0 |            4576 |        25 |     183.0 |     146.0 |      136 |       408 |        72.3 | PushPop  | TensorRT:QWenForCausalLM/fill_attention_params_L762/value_L157/get_tensor_L148/get_constant_tensor_… |
+|      0.0 |            4458 |        25 |     178.3 |     153.0 |      107 |       564 |        95.1 | PushPop  | myelin-exec:__mye547_0_myl469_0                                                                      |
+|      0.0 |            4424 |        25 |     177.0 |     124.0 |      102 |       529 |       113.6 | PushPop  | myelin-exec:__mye547_0_myl459_0                                                                      |
+|      0.0 |            4290 |        25 |     171.6 |     135.0 |      100 |       552 |        98.9 | PushPop  | myelin-exec:__mye547_0_myl473_0                                                                      |
+|      0.0 |            4044 |        25 |     161.8 |     127.0 |      108 |       336 |        63.0 | PushPop  | myelin-exec:__mye547_0_myl501_0                                                                      |
+|      0.0 |            4038 |        25 |     161.5 |     166.0 |      110 |       253 |        45.4 | PushPop  | myelin-exec:__mye547_0_myl493_0                                                                      |
++----------+-----------------+-----------+-----------+-----------+----------+-----------+-------------+----------+------------------------------------------------------------------------------------------------------+
+
+Processing [profiles/stage1/nsys/qwen25_15b_512_128_latency.sqlite] with [/usr/local/cuda-12.9/NsightSystems-cli-2025.3.1/target-linux-x64/reports/osrt_sum.py]... 
+
+ ** OS Runtime Summary (osrt_sum):
+
++----------+-----------------+-----------+--------------+---------------+------------+-------------+---------------+------------------------+
+| Time (%) | Total Time (ns) | Num Calls |   Avg (ns)   |   Med (ns)    |  Min (ns)  |  Max (ns)   |  StdDev (ns)  |          Name          |
++----------+-----------------+-----------+--------------+---------------+------------+-------------+---------------+------------------------+
+|     51.3 |   1455645583038 |     14832 |   98142231.9 |        3477.5 |       1000 | 69221596230 |  1946645505.2 | epoll_wait             |
+|     11.8 |    334492849172 |      6452 |   51843281.0 |     9686201.5 |       1000 | 60190924959 |  1041691215.8 | poll                   |
+|     10.3 |    291390739327 |     71866 |    4054639.7 |     1063813.0 |      16121 |  1002589935 |    42065881.8 | clock_nanosleep        |
+|      7.9 |    223845545283 |     31602 |    7083271.5 |        4854.0 |       1000 | 60192452779 |   602237787.7 | read                   |
+|      5.0 |    142754707980 |        38 | 3756702841.6 |  2001970550.5 |   12980729 | 71381272857 | 11271547461.5 | select                 |
+|      4.6 |    130418859838 |        35 | 3726253138.2 |      772568.0 |      23446 | 60192177840 | 12719679870.1 | sem_wait               |
+|      3.8 |    108978361161 |       136 |  801311479.1 |      589713.5 |       6048 | 38878653441 |  3421079000.5 | pthread_cond_wait      |
+|      2.4 |     68180007685 |    256713 |     265588.4 |        5175.0 |        999 |   501637235 |    11255830.2 | pthread_cond_timedwait |
+|      1.3 |     35629715653 |         4 | 8907428913.3 | 10000089357.0 | 5629443940 | 10000092999 |  2185323315.5 | sem_clockwait          |
+|      1.2 |     34446837489 |      2634 |   13077766.7 |    10389207.5 |    7748346 |   101763744 |    14982575.1 | pthread_cond_clockwait |
+|      0.3 |      8002630149 |        31 |  258149359.6 |       58851.0 |       7389 |  4000085344 |   998923814.7 | sem_timedwait          |
+|      0.0 |      1250173382 |        42 |   29766032.9 |       55559.5 |      33805 |  1000188465 |   158080301.3 | sleep                  |
+|      0.0 |       723288071 |    196914 |       3673.1 |        2901.0 |       1000 |      649269 |        3860.7 | stat64                 |
+|      0.0 |       696053130 |       122 |    5705353.5 |        4250.5 |       1008 |   314563295 |    34379002.0 | waitpid                |
+|      0.0 |       634798346 |      3301 |     192304.9 |        8245.0 |       1013 |   146103750 |     2588250.7 | ioctl                  |
+|      0.0 |       363664202 |    161220 |       2255.7 |        1813.0 |        999 |      357136 |        2193.7 | lstat64                |
+|      0.0 |       256546473 |        20 |   12827323.7 |    12344385.0 |     850573 |    21933502 |     4037179.0 | fork                   |
+|      0.0 |       218582623 |     34150 |       6400.7 |        4906.0 |       1002 |     6188861 |       38141.1 | open64                 |
+|      0.0 |       203487095 |     23125 |       8799.4 |        6348.0 |       1002 |     3575557 |       41594.8 | pthread_mutex_lock     |
+|      0.0 |       123880195 |     63168 |       1961.1 |        1448.0 |        999 |     1096002 |        7258.2 | mmap64                 |
+|      0.0 |       117678596 |      5716 |      20587.6 |       11066.0 |       1372 |      441600 |       24719.9 | send                   |
+|      0.0 |        84755459 |     20720 |       4090.5 |        2416.0 |       1000 |     1946693 |       28369.2 | pthread_cond_signal    |
+|      0.0 |        55028375 |     38071 |       1445.4 |        1306.0 |       1000 |       84342 |         996.3 | fstat64                |
+|      0.0 |        52134646 |      5731 |       9097.0 |        5373.0 |       1004 |      287731 |        9882.5 | recv                   |
+|      0.0 |        41508550 |         8 |    5188568.8 |     5088250.5 |    5071718 |     5852580 |      269333.4 | nanosleep              |
+|      0.0 |        39313439 |     20201 |       1946.1 |        1368.0 |       1000 |     3329396 |       23771.9 | close                  |
+|      0.0 |        22849881 |      5836 |       3915.3 |        2538.0 |       1000 |      133800 |        4658.0 | write                  |
+|      0.0 |        22688698 |        64 |     354510.9 |       63031.0 |       7834 |    17936814 |     2233228.0 | connect                |
+|      0.0 |        15825811 |       704 |      22479.8 |        2782.0 |       1000 |    12085352 |      455372.1 | open                   |
+|      0.0 |        10953048 |        61 |     179558.2 |      144147.0 |       4565 |     1793281 |      266170.5 | pthread_join           |
+|      0.0 |        10314663 |        69 |     149487.9 |        4685.0 |       1143 |     9931580 |     1194952.0 | pipe2                  |
+|      0.0 |         7379851 |      2722 |       2711.2 |        2018.5 |       1000 |       27446 |        2121.0 | epoll_ctl              |
+|      0.0 |         6375677 |      2556 |       2494.4 |        1846.0 |       1000 |       27130 |        2035.6 | pthread_cond_broadcast |
+|      0.0 |         5651534 |         4 |    1412883.5 |     1387492.0 |       1848 |     2874702 |     1629780.1 | pread                  |
+|      0.0 |         4932137 |       700 |       7045.9 |        3282.5 |       1000 |      156575 |       12573.1 | fgets                  |
+|      0.0 |         4192080 |        53 |      79095.8 |       65516.0 |      28035 |      293878 |       52786.7 | pthread_create         |
+|      0.0 |         3962973 |       973 |       4072.9 |        3294.0 |       1512 |       29642 |        2583.4 | openat                 |
+|      0.0 |         3875184 |       990 |       3914.3 |        2683.5 |       1000 |       64963 |        4868.1 | stat                   |
+|      0.0 |         2838930 |       363 |       7820.7 |        1570.0 |       1002 |       74717 |       13837.4 | socket                 |
+|      0.0 |         2549474 |       408 |       6248.7 |        2763.5 |       1013 |      109479 |        9777.2 | fopen                  |
+|      0.0 |         2470037 |        16 |     154377.3 |      154666.5 |     121408 |      164277 |        9653.8 | usleep                 |
+|      0.0 |         1941811 |        75 |      25890.8 |        7022.0 |       1040 |      244995 |       46668.7 | fread                  |
+|      0.0 |         1877169 |        76 |      24699.6 |        2917.5 |       1176 |      400101 |       64746.4 | munmap                 |
+|      0.0 |         1453089 |        12 |     121090.8 |       10657.5 |       6883 |      876369 |      272184.1 | backtrace              |
+|      0.0 |         1435857 |        84 |      17093.5 |       11359.5 |       1304 |      109099 |       19036.4 | writev                 |
+|      0.0 |         1359535 |       106 |      12825.8 |        3129.0 |       1021 |      132457 |       19399.2 | fopen64                |
+|      0.0 |          945604 |        58 |      16303.5 |       14627.5 |       1433 |       51637 |       12832.3 | mprotect               |
+|      0.0 |          753019 |       246 |       3061.1 |        1606.5 |       1001 |       62436 |        5269.2 | fclose                 |
+|      0.0 |          490072 |         3 |     163357.3 |      106178.0 |      93865 |      290029 |      109873.5 | pthread_rwlock_wrlock  |
+|      0.0 |          424109 |         9 |      47123.2 |       15728.0 |       3742 |      194970 |       65791.7 | posix_fallocate        |
+|      0.0 |          349069 |        64 |       5454.2 |        4481.0 |       1987 |       13916 |        3074.7 | fstatat                |
+|      0.0 |          282572 |        45 |       6279.4 |        2789.0 |       1006 |       28813 |        7440.0 | putc                   |
+|      0.0 |          248877 |        41 |       6070.2 |        4495.0 |       1450 |       18588 |        4043.5 | mmap                   |
+|      0.0 |          234368 |        19 |      12335.2 |       10624.0 |       1525 |       31278 |        8296.0 | shmget                 |
+|      0.0 |          204062 |       149 |       1369.5 |        1200.0 |       1000 |        7532 |         739.8 | fstat                  |
+|      0.0 |          171453 |        31 |       5530.7 |        3754.0 |       1397 |       18701 |        4181.2 | bind                   |
+|      0.0 |          166650 |        18 |       9258.3 |        3240.0 |       1060 |       47110 |       12483.4 | sendmsg                |
+|      0.0 |          151227 |         2 |      75613.5 |       75613.5 |      60344 |       90883 |       21594.3 | pthread_rwlock_rdlock  |
+|      0.0 |          124165 |        52 |       2387.8 |        1517.5 |       1006 |       19837 |        2869.2 | fcntl                  |
+|      0.0 |          109729 |         8 |      13716.1 |       10962.5 |       7862 |       29078 |        7012.8 | close_range            |
+|      0.0 |           95000 |        10 |       9500.0 |        7445.0 |       5654 |       14383 |        3627.7 | socketpair             |
+|      0.0 |           85272 |         8 |      10659.0 |        8403.5 |       3420 |       18428 |        6036.7 | shutdown               |
+|      0.0 |           76590 |         8 |       9573.8 |        5347.0 |       1875 |       29644 |        9524.8 | process_vm_writev      |
+|      0.0 |           71356 |         5 |      14271.2 |       10017.0 |       4363 |       29927 |       11038.4 | fputs                  |
+|      0.0 |           65525 |        12 |       5460.4 |        4528.5 |       1133 |       23884 |        6141.7 | pipe                   |
+|      0.0 |           62844 |        18 |       3491.3 |        1588.5 |       1068 |       18170 |        4896.6 | sigaction              |
+|      0.0 |           61214 |         5 |      12242.8 |       12485.0 |       6614 |       21362 |        5975.1 | accept4                |
+|      0.0 |           52719 |         2 |      26359.5 |       26359.5 |      18321 |       34398 |       11368.2 | shmdt                  |
+|      0.0 |           52672 |        22 |       2394.2 |        2154.5 |       1039 |        5380 |        1280.4 | fwrite                 |
+|      0.0 |           50781 |        31 |       1638.1 |        1318.0 |       1026 |        4016 |         842.9 | fflush                 |
+|      0.0 |           49898 |        14 |       3564.1 |        2076.5 |       1180 |       21316 |        5174.7 | lstat                  |
+|      0.0 |           35435 |         7 |       5062.1 |        5713.0 |       1118 |       11251 |        3496.3 | prctl                  |
+|      0.0 |           31798 |         3 |      10599.3 |        6149.0 |       6044 |       19605 |        7799.3 | kill                   |
+|      0.0 |           31614 |        14 |       2258.1 |        1804.0 |       1053 |        6234 |        1458.8 | listen                 |
+|      0.0 |           27554 |         5 |       5510.8 |        3872.0 |       2824 |       13189 |        4325.3 | process_vm_readv       |
+|      0.0 |           27415 |         4 |       6853.8 |        5625.5 |       3332 |       12832 |        4151.9 | accept                 |
+|      0.0 |           25892 |         2 |      12946.0 |       12946.0 |      11507 |       14385 |        2035.1 | shmat                  |
+|      0.0 |           23215 |        13 |       1785.8 |        1607.0 |       1035 |        3503 |         654.6 | shmctl                 |
+|      0.0 |           22401 |         9 |       2489.0 |        1932.0 |       1072 |        7679 |        1987.9 | recvmsg                |
+|      0.0 |           21833 |         2 |      10916.5 |       10916.5 |       8520 |       13313 |        3389.2 | sendto                 |
+|      0.0 |           19405 |         8 |       2425.6 |        1533.5 |       1105 |        8717 |        2577.0 | pthread_mutex_trylock  |
+|      0.0 |           16847 |         3 |       5615.7 |        1817.0 |       1296 |       13734 |        7035.5 | getc                   |
+|      0.0 |            8226 |         1 |       8226.0 |        8226.0 |       8226 |        8226 |           0.0 | ftruncate              |
+|      0.0 |            7698 |         6 |       1283.0 |        1240.5 |       1025 |        1795 |         284.1 | fcntl64                |
+|      0.0 |            6320 |         2 |       3160.0 |        3160.0 |       2562 |        3758 |         845.7 | flock                  |
+|      0.0 |            6177 |         1 |       6177.0 |        6177.0 |       6177 |        6177 |           0.0 | pthread_kill           |
+|      0.0 |            6055 |         2 |       3027.5 |        3027.5 |       2704 |        3351 |         457.5 | fputs_unlocked         |
+|      0.0 |            5899 |         1 |       5899.0 |        5899.0 |       5899 |        5899 |           0.0 | fstatat64              |
+|      0.0 |            5128 |         1 |       5128.0 |        5128.0 |       5128 |        5128 |           0.0 | openat64               |
+|      0.0 |            4820 |         3 |       1606.7 |        1598.0 |       1148 |        2074 |         463.1 | signal                 |
+|      0.0 |            4735 |         2 |       2367.5 |        2367.5 |       2143 |        2592 |         317.5 | recvfrom               |
+|      0.0 |            4258 |         2 |       2129.0 |        2129.0 |       1122 |        3136 |        1424.1 | getentropy             |
+|      0.0 |            1947 |         1 |       1947.0 |        1947.0 |       1947 |        1947 |           0.0 | fileno                 |
+|      0.0 |            1922 |         1 |       1922.0 |        1922.0 |       1922 |        1922 |           0.0 | statx                  |
+|      0.0 |            1337 |         1 |       1337.0 |        1337.0 |       1337 |        1337 |           0.0 | dup2                   |
+|      0.0 |            1199 |         1 |       1199.0 |        1199.0 |       1199 |        1199 |           0.0 | fdopen                 |
++----------+-----------------+-----------+--------------+---------------+------------+-------------+---------------+------------------------+
+

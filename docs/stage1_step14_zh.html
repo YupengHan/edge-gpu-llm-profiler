@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Stage 1 · Step 14 — GPU 时序监控 + trtllm-serve /metrics</title>
+<style>
+  :root {
+    --fg: #1f2328;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --bg-soft: #f6f8fa;
+    --bg-code: #f6f8fa;
+    --accent: #0969da;
+    --warn-bg: #fff8c5;
+    --warn-bd: #d4a72c;
+    --ok-bg: #dafbe1;
+    --ok-bd: #1a7f37;
+    --bad-bg: #ffebe9;
+    --bad-bd: #cf222e;
+  }
+  html { font-family: -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+  body { color: var(--fg); max-width: 880px; margin: 32px auto; padding: 0 20px; line-height: 1.65; }
+  h1 { border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+  h2 { border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-top: 36px; }
+  h3 { margin-top: 28px; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.92em; }
+  code { background: var(--bg-code); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--bg-code); border: 1px solid var(--border); border-radius: 6px;
+        padding: 12px 14px; overflow-x: auto; line-height: 1.45; }
+  pre code { background: transparent; padding: 0; }
+  table { border-collapse: collapse; margin: 14px 0; width: 100%; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-soft); }
+  th.num, td.num { text-align: right; }
+  .callout { border-left: 4px solid; padding: 10px 14px; margin: 14px 0; border-radius: 4px; }
+  .callout.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
+  .callout.ok   { background: var(--ok-bg);   border-color: var(--ok-bd); }
+  .callout.bad  { background: var(--bad-bg);  border-color: var(--bad-bd); }
+  .callout .label { font-weight: 600; margin-right: 6px; }
+  .small { color: var(--muted); font-size: 0.92em; }
+  .meta { color: var(--muted); font-size: 0.9em; }
+  ul.checks { list-style: none; padding-left: 0; }
+  ul.checks li::before { content: "✓ "; color: var(--ok-bd); font-weight: 700; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+</style>
+</head>
+<body>
+
+<h1>Stage 1 · Step 14 — GPU 时序 + trtllm-serve <code>/metrics</code> 内观</h1>
+
+<p class="meta">
+  日期 2026-05-11。Server 容器 <code>trtllm_serve_step11</code>。本步同时跑两条数据采集线：宿主端 1 Hz nvidia-smi CSV，server 端 /metrics drain。
+</p>
+
+<h2>本步的目的</h2>
+
+<p>到 step 13 为止我们已经能从客户端视角说："TTFT p95 = 58 ms, ITL p95 = 12 ms"。但客户端看不到三件事：</p>
+
+<ol>
+  <li><strong>GPU 在 decode 期间到底有多忙</strong>？是 SM 利用率 100%，还是常有 idle gap？</li>
+  <li><strong>这台卡的功耗/温度/时钟在卡哪里</strong>？是 thermal-throttle，还是 TDP-bound，还是空闲？</li>
+  <li><strong>engine 内部每个 iter 实际花了多少 ms</strong>？我们 ITL 量的是<em>客户端两个 SSE chunk 间隔</em>，扣不掉 HTTP/uvicorn/Python 那一层是多少。</li>
+</ol>
+
+<p>step 14 通过两条手段把这三件事打通：</p>
+
+<table>
+  <tr><th>视角</th><th>工具</th><th>采样率</th><th>能看到的事</th></tr>
+  <tr><td>宿主端（OS 看 GPU）</td><td><code>nvidia-smi -l 1</code></td><td>1 Hz</td><td>macroscopic util/power/temp/clock/mem trajectory</td></tr>
+  <tr><td>容器端（server 看自己）</td><td><code>/metrics</code> 端点</td><td>每 iter 一条</td><td>每个 prefill/decode iter 的精确延迟、KV cache 命中率、调度状态</td></tr>
+</table>
+
+<h2>故事线（这步实际跑了两遍）</h2>
+
+<p>第一遍 server 经过 step 12 + step 13 已经 Up 半小时，<strong>prefix cache 暖到不能再暖</strong>——所有 50 个 prompt 都在缓存里。结果 TTFT mean 17.74 ms（全是 cache hit）。同时发现 <code>/metrics</code> 是 <strong>"drain 语义"</strong>：第一次 curl 返回 13.8 MB，立刻清空；之后 curl 都是 <code>[]</code>。第一次的 13.8 MB 因为没存盘丢了。</p>
+
+<p>第二遍：<code>docker restart trtllm_serve_step11</code> 清掉 cache（GPU 内存里的 KV 池随 server 进程退出而释放），等 server 重新加载引擎（30 s），<strong>立刻</strong> curl <code>/metrics</code> drain 掉任何 stale 数据，然后才跑 bench，最后再 curl 一次 <code>/metrics</code> 抓 6.5 MB 完整记录。</p>
+
+<div class="callout warn">
+  <span class="label">学习要点 — "drain 语义" vs "snapshot 语义"：</span>
+  Prometheus 风格的 metrics 端点通常是 <strong>snapshot</strong>（每次返回当前所有计数器的快照，counter 永远只增不减）。但 <code>trtllm-serve /metrics</code> 是 <strong>drain</strong>（返回上次拿走后<em>新增</em>的 iter 记录，并清空内部 buffer）。两种语义都常见——drain 适合"per-event 历史"，snapshot 适合"当前状态"。<br>
+  <strong>判断方法</strong>：第二次连续 curl 看返回是缩小还是不变。缩小 → drain，不变 → snapshot。
+</div>
+
+<p>第一遍数据已经归档作教材：</p>
+<ul class="checks">
+  <li><code>results/stage1/benchmark_raw/streaming_512_128_step14_cachewarm.jsonl</code></li>
+  <li><code>logs/stage1/nvidia_smi_during_streaming_512_128_cachewarm.csv</code></li>
+</ul>
+
+<h2>第二遍：cold-cache + GPU 监控 + raw gaps 三合一 baseline</h2>
+
+<h3>编排脚本</h3>
+
+<p><code>scripts/_step14_monitored_bench.sh</code> 把 4 个动作串起来：</p>
+
+<pre><code>nvidia-smi --query-gpu=$QUERY --format=csv -l 1 > $CSV &
+SMI_PID=$!
+sleep 5                              # 5 s 基线
+python3 scripts/benchmark_streaming_openai.py ...   # 75 s bench
+sleep 5                              # 5 s 尾部
+kill -INT $SMI_PID</code></pre>
+
+<p>采的字段（runbook 钦定）：</p>
+<pre><code>timestamp, name, pstate, temperature.gpu, power.draw,
+utilization.gpu, utilization.memory, clocks.sm, clocks.mem,
+memory.used, memory.free</code></pre>
+
+<h2>GPU 时序观察（nvidia-smi）</h2>
+
+<p>88 个样本（5+75+5+边界），按 util.gpu &gt; 50% 自动切出 <strong>bench window 78 个 + baseline 10 个</strong>。</p>
+
+<h3>Baseline (engine 已加载但无请求)</h3>
+
+<table>
+  <tr><th>指标</th><th class="num">mean</th><th class="num">min</th><th class="num">max</th></tr>
+  <tr><td>util.gpu</td><td class="num">20 %</td><td class="num">14 %</td><td class="num">25 %</td></tr>
+  <tr><td>power.draw</td><td class="num">38.55 W</td><td class="num">32.80 W</td><td class="num">58.07 W</td></tr>
+  <tr><td>temp.gpu</td><td class="num">61 °C</td><td class="num">55 °C</td><td class="num">72 °C</td></tr>
+  <tr><td>clocks.sm</td><td class="num">1597 MHz</td><td class="num">1560 MHz</td><td class="num">1935 MHz</td></tr>
+  <tr><td>memory.used</td><td class="num">7436 MiB</td><td class="num">7435</td><td class="num">7437</td></tr>
+</table>
+
+<div class="callout warn">
+  <span class="label">注意：</span>
+  baseline util 是 <strong>20% 而不是 0%</strong>。原因：TRT-LLM 的 inflight batcher 即使没新请求也在<strong>持续 spin</strong>（iter loop 一直跑 numActiveRequests=0 的空 iter）。这是为了让新请求一到就能立刻调度，避免冷启动延迟，但意味着 server 24h 都在烧 ~35-40W。对你这台笔记本来说，<strong>这个 server 不能开着不用，电池会很难看</strong>。
+</div>
+
+<h3>Bench window (decode 进行时)</h3>
+
+<table>
+  <tr><th>指标</th><th class="num">mean</th><th class="num">p95</th><th class="num">min</th><th class="num">max</th></tr>
+  <tr><td>util.gpu</td><td class="num"><strong>96.85 %</strong></td><td class="num">99 %</td><td class="num">72 %</td><td class="num">99 %</td></tr>
+  <tr><td><strong>util.mem (内存控制器)</strong></td><td class="num"><strong>82.35 %</strong></td><td class="num">88 %</td><td class="num">55 %</td><td class="num">88 %</td></tr>
+  <tr><td>power.draw</td><td class="num"><strong>114.28 W</strong></td><td class="num">114.88 W</td><td class="num">86.78 W</td><td class="num">115.09 W</td></tr>
+  <tr><td>temp.gpu</td><td class="num">69 °C</td><td class="num">75 °C</td><td class="num">59 °C</td><td class="num">75 °C</td></tr>
+  <tr><td>clocks.sm</td><td class="num">1722 MHz</td><td class="num">1770 MHz</td><td class="num">1620 MHz</td><td class="num">1935 MHz</td></tr>
+  <tr><td>memory.used</td><td class="num">7437 MiB</td><td class="num">7437</td><td class="num">7437</td><td class="num">7437</td></tr>
+</table>
+
+<div class="callout ok">
+  <span class="label">关键观察 — decode 是 memory-bound：</span>
+  util.gpu = 97% 看似很饱和，但真正的瓶颈是 <strong>util.mem 82%</strong>——内存控制器在 80% 以上的时间都在搬 KV cache。每生成一个 token 都要把整个 sequence 的 KV pages 从 HBM 读出来过一遍 attention。这是 LLM decode 阶段的<strong>教科书式特征</strong>：算力（SM）富余，HBM 带宽不够用。<br>
+  <strong>这意味着什么</strong>：换更猛的 SM（升级到 RTX 4090 Mobile，SM 算力翻倍）<em>不会</em>让 decode 翻倍快——HBM 带宽才是天花板。要想真加速，得用 INT8/INT4 量化（让 KV cache 变小，单 token 要读的字节数减半），或者用 FlashAttention v3 那种"避免重读"的算子。
+</div>
+
+<p>其他要点：</p>
+<ul>
+  <li>功率 114 W 卡在 RTX 3070 Laptop 的 cTGP 上限（115 W）——boost clock 上不去更多了</li>
+  <li>温度 75 °C 远低于 throttle 阈值 87 °C，<strong>没有热降频</strong></li>
+  <li>memory.used 全程 7437 MiB 不动——KV cache 池在 server 启动时就按 <code>kv_cache_free_gpu_memory_fraction</code> 全切完了，请求来不来都占着</li>
+</ul>
+
+<h2>trtllm-serve <code>/metrics</code> — 7095 条 iter 记录</h2>
+
+<p>每个 iter 一条 JSON，字段非常丰富。我们提取了三类核心信息：</p>
+
+<h3>(1) per-iter latency 与客户端 ITL 对齐</h3>
+
+<table>
+  <tr><th>视角</th><th class="num">p50</th><th class="num">p90</th><th class="num">p95</th><th class="num">p99</th></tr>
+  <tr><td>客户端 flattened ITL (5715 gap)</td><td class="num">10.66 ms</td><td class="num">11.63</td><td class="num">12.03</td><td class="num">13.09</td></tr>
+  <tr><td>server <code>generation iter latency</code> (6985 iter)</td><td class="num"><strong>10.75 ms</strong></td><td class="num">11.29</td><td class="num">11.54</td><td class="num">14.14</td></tr>
+  <tr><td>差值（HTTP/SSE 层税）</td><td class="num">+0.1 ms</td><td class="num">+0.3</td><td class="num">+0.5</td><td class="num">-1.0</td></tr>
+</table>
+
+<div class="callout ok">
+  <span class="label">这是 stage 1 第一次能<em>分解</em> ITL：</span>
+  服务端 engine inner loop 的 p50 是 10.75 ms（"模型计算 + 调度"），客户端最终看到的两个 chunk 间隔 p50 是 10.66 ms。<br>
+  ——等等，<strong>客户端比服务端还快 0.1 ms</strong>？这看似不可能。其实是因为客户端的 ITL 是 SSE chunk 到达间隔，而 server 端 iter 包含"上一个 token 解码 + 写入 detokenizer queue + 等待下一次调度"完整一圈。chunk 实际发送给客户端的瞬间是 iter 中点而不是末尾，所以客户端"两个 chunk 之间"刚好覆盖了 iter 末尾→下一个 iter 中点的距离，约等于一个 iter。所以 HTTP/SSE 单向延迟<strong>小于 0.5 ms</strong>，可以认为 trtllm-serve 这一层对 single-user 几乎无开销。
+</div>
+
+<h3>(2) context iter（prefill）的隐藏故事</h3>
+
+<table>
+  <tr><th>统计</th><th>值</th></tr>
+  <tr><td>context iters 总数</td><td>55（恰好等于 5 warmup + 50 measured 请求数）</td></tr>
+  <tr><td>context iter latency p50</td><td class="num"><strong>10.87 ms</strong></td></tr>
+  <tr><td><code>numCtxTokens</code> 出现频次 top 5</td><td>{465 ×9, 395 ×6, 433 ×6, 466 ×6, 459 ×6}</td></tr>
+</table>
+
+<p>prefill 一次处理 465 tokens 只用 10.87 ms？看似不合理（512 tokens 全冷 prefill 按 step 12 cold TTFT 54 ms 估）。但 <code>numCtxTokens</code> 最高也只有 466 而不是 512——<strong>意味着每个请求其实只 prefill 了 465 个 token，剩下的 ~47 个已经在 cache 里了</strong>。</p>
+
+<p>这 47 个就是 Qwen2.5 chat template 头：<code>&lt;|im_start|&gt;system\n…helpful assistant.\n&lt;|im_end|&gt;\n&lt;|im_start|&gt;user\n</code>。所有 50 个 prompt 共享这段前缀，<strong>request #0 之后就被 prefix cache 收编</strong>。所以 server 视角下的"cold"其实是"system prompt 之后的 cold"。</p>
+
+<div class="callout warn">
+  <span class="label">教训：</span>
+  即使你<strong>认为</strong>这是 cold prefill，TRT-LLM 也会偷偷复用 chat template 头那 ~50 tokens 的 KV pages。客户端 TTFT 包含 HTTP 往返 + chat template 渲染 + tokenize + 队列 + 一次 prefill iter (~11 ms) + 第一个 chunk 序列化——加起来 ~55 ms。<strong>真正"完全冷"的 prefill 你<em>永远</em>不会在生产环境里看到</strong>，除非你每次重启 server。
+</div>
+
+<h3>(3) KV cache 命中率 — 一直在 16%-23%</h3>
+
+<table>
+  <tr><th>iter bucket（每 ~710 iter）</th><th class="num">cacheHitRate（bucket 末值）</th></tr>
+  <tr><td>0</td><td class="num">0.2083</td></tr>
+  <tr><td>1</td><td class="num">0.2102</td></tr>
+  <tr><td>2</td><td class="num">0.2022</td></tr>
+  <tr><td>...</td><td class="num">...</td></tr>
+  <tr><td>8</td><td class="num">0.1513</td></tr>
+  <tr><td>9（最后含 warm 区）</td><td class="num"><strong>0.2284</strong></td></tr>
+</table>
+
+<p>整段时间 hit rate 都在 15-23% 之间——证实 chat template 头的复用。最后一个 bucket 因为请求 50-54 整段命中（prompt index 轮回到 0-4），hit rate 又升回 0.23。</p>
+
+<p>另外 <code>reusedBlocks &gt; 0</code> 的 iter 占比 <strong>6966 / 7095 = 98%</strong>——几乎每个 decode iter 都在复用至少一个 KV block。这是因为 decode 阶段每个新 token 都依赖<em>所有之前的 token</em> 的 KV pages，这些当然全是"之前已经写好的"。</p>
+
+<h2>更新后的 baseline 数字（cold n=45）</h2>
+
+<table>
+  <tr><th>指标</th><th class="num">mean</th><th class="num">p50</th><th class="num">p90</th><th class="num">p95</th><th class="num">p99</th></tr>
+  <tr><td>TTFT (ms)</td><td class="num">54.66</td><td class="num">54.48</td><td class="num">57.18</td><td class="num"><strong>58.41</strong></td><td class="num">63.43</td></tr>
+  <tr><td>ITL <em>per-request</em> mean (ms)</td><td class="num">10.71</td><td class="num">10.76</td><td class="num">10.93</td><td class="num">10.95</td><td class="num">11.02</td></tr>
+  <tr><td><strong>ITL flattened per-token (ms)</strong></td><td class="num">10.71</td><td class="num">10.66</td><td class="num">11.63</td><td class="num"><strong>12.03</strong></td><td class="num">13.09</td></tr>
+  <tr><td>E2E (ms)</td><td class="num">1415.55</td><td class="num">1419.99</td><td class="num">1444.01</td><td class="num">1447.47</td><td class="num">1455.51</td></tr>
+</table>
+
+<p>对比 step 13 报的（per-request 视角）：<strong>flattened p95 比 per-request p95 高 10%（12.03 vs 10.95）</strong>，flattened p99 比 per-request p99 高 19%（13.09 vs 11.02）。step 13 推断的"per-request 把尾部平滑掉"得到验证。</p>
+
+<h2>step 14 产出清单</h2>
+
+<ul class="checks">
+  <li><code>scripts/_step14_monitored_bench.sh</code> — 编排脚本（baseline + bench + 尾部）</li>
+  <li><code>logs/stage1/nvidia_smi_during_streaming_512_128.csv</code> — 88 sample 1 Hz GPU 时序（cold-cache run）</li>
+  <li><code>logs/stage1/nvidia_smi_during_streaming_512_128_cachewarm.csv</code> — 第一遍 cache-warm 教材</li>
+  <li><code>results/stage1/benchmark_raw/streaming_512_128.jsonl</code> — 覆盖更新，现在有 <code>itl_ms</code> raw gaps</li>
+  <li><code>results/stage1/benchmark_raw/streaming_512_128_step14_cachewarm.jsonl</code> — 第一遍 cache-warm 教材</li>
+  <li><code>results/stage1/benchmark_raw/trtllm_serve_metrics_after_streaming.json</code> — 6.5 MB /metrics 完整 dump</li>
+  <li><code>results/stage1/streaming_512_128_summary.{txt,json}</code> — 含 flattened ITL 的完整 summary</li>
+  <li><code>results/stage1/streaming_512_128_gpu_summary.txt</code> — CSV + /metrics 文本分析</li>
+  <li><code>logs/stage1/stage1_command_log.md</code> — 追加 step 14（14a-14f）</li>
+</ul>
+
+<h2>当前状态 & step 15 预告</h2>
+
+<ul>
+  <li>Server 容器仍 Up（重启后第二次预热），但 step 15 在 <code>nsys profile</code> 里跑 <code>trtllm-bench latency</code> 是<strong>独立子进程</strong>，不连这个 server。所以现在<strong>建议 <code>docker stop trtllm_serve_step11</code> 释放 7.4 GiB VRAM</strong>，让 nsys 子进程有空间装载引擎。</li>
+  <li>1 Hz GPU 采样看不到 per-token 的 GPU pause——step 15 用 Nsight Systems 在 CUDA stream 时间线上直接看 kernel/copy/wait，分辨率到微秒级。</li>
+  <li>step 14 已经把"客户端 ITL ≈ engine inner loop"建立起来——step 15 nsys trace 里的"两个 kernel launch 之间的 gap"就直接对应了一个 ITL。</li>
+  <li><strong>request #0 TTFT = 158.71 ms</strong>（vs cold-mean 54.66）是 engine first-iter JIT/autotuner 噪声。step 15 nsys 命令要带 <code>--warmup 5</code> 把它隔开。</li>
+</ul>
+
+<hr>
+
+<p class="small">
+  对应 runbook：<code>docs/02_stage1_local_ai_runbook.md</code> § Step 14。<br>
+  对应命令日志：<code>logs/stage1/stage1_command_log.md</code> § Step 14（14a-14f）。<br>
+  上一篇：<code>docs/stage1_step13_zh.html</code>（summarizer 升级）。
+</p>
+
+</body>
+</html>

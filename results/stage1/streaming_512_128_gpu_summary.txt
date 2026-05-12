@@ -1,0 +1,123 @@
+GPU monitoring CSV summary
+source: logs/stage1/nvidia_smi_during_streaming_512_128.csv
+samples: 88  (1 Hz)
+columns: ['timestamp', 'name', 'pstate', 'temperature.gpu', 'power.draw [W]', 'utilization.gpu [%]', 'utilization.memory [%]', 'clocks.current.sm [MHz]', 'clocks.current.memory [MHz]', 'memory.used [MiB]', 'memory.free [MiB]']
+
+bench window in CSV: index 6..83  (78 samples)
+wall: 2026/05/11 22:51:15.007  -->  2026/05/11 22:52:32.030
+
+--- BASELINE (pre-bench + post-bench, util <= 50%) ---
+util.gpu (%):
+  mean = 20.40
+  p50  = 21
+  p95  = 25
+  min  = 14
+  max  = 25
+power.draw (W):
+  mean = 38.55
+  p50  = 33.48
+  p95  = 58.07
+  min  = 32.8
+  max  = 58.07
+temp.gpu (C):
+  mean = 61.00
+  p50  = 55
+  p95  = 72
+  min  = 55
+  max  = 72
+clocks.sm (MHz):
+  mean = 1597.50
+  p50  = 1560
+  p95  = 1935
+  min  = 1560
+  max  = 1935
+memory.used (MiB):
+  mean = 7435.80
+  p50  = 7435
+  p95  = 7437
+  min  = 7435
+  max  = 7437
+  pstate set: ['P0']
+
+--- BENCH WINDOW (util > 50%) ---
+util.gpu (%):
+  mean = 96.85
+  p50  = 97
+  p95  = 99
+  min  = 72
+  max  = 99
+util.mem (%):
+  mean = 82.35
+  p50  = 84
+  p95  = 88
+  min  = 55
+  max  = 88
+power.draw (W):
+  mean = 114.28
+  p50  = 114.67
+  p95  = 114.88
+  min  = 86.78
+  max  = 115.09
+temp.gpu (C):
+  mean = 69.00
+  p50  = 70
+  p95  = 75
+  min  = 59
+  max  = 75
+clocks.sm (MHz):
+  mean = 1722.50
+  p50  = 1710
+  p95  = 1770
+  min  = 1620
+  max  = 1935
+memory.used (MiB):
+  mean = 7437.00
+  p50  = 7437
+  p95  = 7437
+  min  = 7437
+  max  = 7437
+  pstate set: ['P0']
+
+--- transition characteristics ---
+first 10 samples of util: [21, 20, 20, 19, 18, 14, 98, 98, 97, 98]
+last 10 samples of util:  [98, 96, 98, 96, 97, 72, 24, 25, 22, 21]
+
+============================================================
+trtllm-serve /metrics analysis (per-iter)
+============================================================
+total iter records: 7095
+context iters (prefill chunks): 55
+generation iters (decode steps): 6985
+context iter latency (n=54):
+  mean=10.800 ms
+  p50 =10.865 ms
+  p90 =11.287 ms
+  p95 =11.714 ms
+  p99 =12.161 ms
+generation iter latency (n=6985):
+  mean=13.221 ms
+  p50 =10.753 ms
+  p90 =11.293 ms
+  p95 =11.539 ms
+  p99 =14.136 ms
+
+iters with reusedBlocks > 0: 6966 / 7095
+  first reused-block iter index: 129
+  example reusedBlocks values: [4, 4, 4, 4, 4, 4, 4, 4]
+cacheHitRate samples > 0: 6966/7095 (max=0.228, last=0.228)
+
+cacheHitRate by iter bucket (10 buckets, end of each bucket):
+  bucket 0: iter   708  cacheHitRate=0.2083  usedNumBlocks=18
+  bucket 1: iter  1417  cacheHitRate=0.2102  usedNumBlocks=20
+  bucket 2: iter  2126  cacheHitRate=0.2022  usedNumBlocks=18
+  bucket 3: iter  2835  cacheHitRate=0.1903  usedNumBlocks=20
+  bucket 4: iter  3544  cacheHitRate=0.1763  usedNumBlocks=18
+  bucket 5: iter  4253  cacheHitRate=0.1667  usedNumBlocks=20
+  bucket 6: iter  4962  cacheHitRate=0.1603  usedNumBlocks=18
+  bucket 7: iter  5671  cacheHitRate=0.1548  usedNumBlocks=20
+  bucket 8: iter  6380  cacheHitRate=0.1513  usedNumBlocks=18
+  bucket 9: iter  7089  cacheHitRate=0.2284  usedNumBlocks=20
+
+numCtxTokens stats (per iter that had a context request):
+  values seen: [1, 394, 395, 432, 433, 458, 459, 464, 465, 466]...
+  top 5: [(465, 9), (395, 6), (433, 6), (466, 6), (459, 6)]

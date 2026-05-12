@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Stage 1 · Step 12 学习笔记 — Streaming TTFT/ITL 基准</title>
+<style>
+  :root {
+    --fg: #1f2328;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --bg-soft: #f6f8fa;
+    --bg-code: #f6f8fa;
+    --accent: #0969da;
+    --warn-bg: #fff8c5;
+    --warn-bd: #d4a72c;
+    --ok-bg: #dafbe1;
+    --ok-bd: #1a7f37;
+    --bad-bg: #ffebe9;
+    --bad-bd: #cf222e;
+  }
+  html { font-family: -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+  body { color: var(--fg); max-width: 880px; margin: 32px auto; padding: 0 20px; line-height: 1.65; }
+  h1 { border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+  h2 { border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-top: 36px; }
+  h3 { margin-top: 28px; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.92em; }
+  code { background: var(--bg-code); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--bg-code); border: 1px solid var(--border); border-radius: 6px;
+        padding: 12px 14px; overflow-x: auto; line-height: 1.45; }
+  pre code { background: transparent; padding: 0; }
+  table { border-collapse: collapse; margin: 14px 0; width: 100%; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-soft); }
+  th.num, td.num { text-align: right; }
+  blockquote { border-left: 4px solid var(--accent); margin: 12px 0; padding: 6px 14px; color: var(--muted); background: var(--bg-soft); }
+  .callout { border-left: 4px solid; padding: 10px 14px; margin: 14px 0; border-radius: 4px; }
+  .callout.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
+  .callout.ok   { background: var(--ok-bg);   border-color: var(--ok-bd); }
+  .callout.bad  { background: var(--bad-bg);  border-color: var(--bad-bd); }
+  .callout .label { font-weight: 600; margin-right: 6px; }
+  .small { color: var(--muted); font-size: 0.92em; }
+  .meta { color: var(--muted); font-size: 0.9em; }
+  ul.checks { list-style: none; padding-left: 0; }
+  ul.checks li::before { content: "✓ "; color: var(--ok-bd); font-weight: 700; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  details { margin: 10px 0; }
+  details summary { cursor: pointer; color: var(--accent); }
+</style>
+</head>
+<body>
+
+<h1>Stage 1 · Step 12 — Streaming TTFT / ITL 基准（含 prefix-cache 现场教学）</h1>
+
+<p class="meta">
+  执行环境同 step 11。Server 容器 <code>trtllm_serve_step11</code> 持续运行 ~30 分钟，引擎 <code>tp_1_pp_1</code>（512/128 main, bf16）。日期：2026-05-11。
+</p>
+
+<h2>这一步要回答的问题</h2>
+
+<p>
+  step 10 的 <code>trtllm-bench latency</code> 给了 TTFT/TPOT 的平均值和分位数，但是采不到"<em>第 17 → 第 18 个 token 之间隔了多少 ms</em>"这种 <strong>per-token 时序</strong>。Step 12 通过 OpenAI streaming SSE 协议解决这个问题——每个 token chunk 到达 client 的时刻都被精确记录下来，从而得到 ITL（Inter-Token Latency）的完整分布。
+</p>
+
+<p>本步骤的目标：</p>
+<ol>
+  <li>用真实 HTTP 客户端打 step 11 起好的 server，跑 50 次（+5 warmup）请求</li>
+  <li>采到 <strong>TTFT 分布</strong> 和 <strong>逐 token ITL 分布</strong></li>
+  <li>和 step 10 的 trtllm-bench 数字 cross-check，量化 HTTP/SSE 协议层的额外开销</li>
+  <li>顺便验证：在<em>同一 prompt 重复</em>的情况下，TRT-LLM 的 prefix cache 会不会作弊</li>
+</ol>
+
+<h2>故事线（这步实际经历了两轮）</h2>
+
+<p>第一轮跑炸了——不是脚本写错，而是 benchmark <strong>方法论</strong>错了。整个过程是 Stage 1 里非常典型的"在 GPU 实测时学到比 runbook 多一倍东西"的样本，所以下面完整记录。</p>
+
+<h2>第一轮：单 prompt × 55 次 → 暴露两个陷阱</h2>
+
+<h3>陷阱 0：prompt 太长 → 全员 400 BadRequest</h3>
+
+<p>最早我把 <code>data/synthetic_512_128.jsonl</code>（step 5 生成的 main 工作负载数据集）的第一行 input_ids decode 回文本，当 chat completions 的 user message。但这个数据是 <strong>token-norm-dist 出来的乱码</strong>（"qli ThemeData frameborder都没ograf nutsolverпрактик…"）。</p>
+
+<p>关键观察：decode 出来的 token id 序列 <strong>不是 canonical 的 BPE 编码</strong>。tokenizer 再 encode 回去会变长——</p>
+
+<table>
+  <tr><th>步骤</th><th class="num">token 数</th><th>解释</th></tr>
+  <tr><td>原始 input_ids</td><td class="num">512</td><td>token-norm-dist 直接采样</td></tr>
+  <tr><td>decode→re-encode</td><td class="num">541</td><td>非 canonical BPE，re-encode 走最长匹配，长度变了</td></tr>
+  <tr><td>+ chat template 包装</td><td class="num">570</td><td>Qwen2.5 chat_template 额外 ~29 tokens（system + assistant marker）</td></tr>
+</table>
+
+<p>Server 配置是 <code>max_seq_len=640</code>，要 <code>prefill + max_tokens(128) ≤ 640</code>。570 + 128 = 698 > 640，于是<strong>每条请求都被 server 拒掉</strong>：</p>
+
+<pre><code>ValueError: The sum of prompt length (570.0) and query length (0)
+max_tokens (128) should not exceed max_seq_len (640)</code></pre>
+
+<p><strong>修复</strong>：用 docker exec 在 server 容器里跑一段二分搜索，把 user content 截到 483 tokens，让 <code>chat_template(user=text)</code> 总长恰好 512，留 128 给 decode → 总 640 正好打满 <code>max_seq_len</code>。</p>
+
+<div class="callout warn">
+  <span class="label">学习要点：</span>
+  step 9 编引擎时 <code>max_seq_len=640</code> = 512 input + 128 output。这是把<strong>整个上下文</strong>的容量算死的——任何 prefill 超出 (640 - max_tokens) 的请求都会 400。换句话说，<strong>引擎的 max_seq_len 是协议级的硬上限</strong>，不能在 server 端只调 max_tokens 绕过。<br>
+  要想撑更长 prompt，必须重新跑 <code>trtllm-bench build</code> 把引擎重编（参考 step 17 的 1024/256）。
+</div>
+
+<h3>陷阱 1：单 prompt 重复 55 次 → prefix cache 作弊</h3>
+
+<p>截短后再跑，55 个请求全部成功。但是看 per-request 时序：</p>
+
+<table>
+  <tr><th class="num">请求号</th><th class="num">TTFT (ms)</th><th>注释</th></tr>
+  <tr><td class="num">0</td><td class="num"><strong>80.25</strong></td><td>cold start，第一次见这个 prompt</td></tr>
+  <tr><td class="num">1</td><td class="num">19.82</td><td>↓ 立刻掉到 ~20 ms</td></tr>
+  <tr><td class="num">2</td><td class="num">21.42</td><td>...</td></tr>
+  <tr><td class="num">…</td><td class="num">15–22</td><td>之后 54 次都在 15–22 ms 之间</td></tr>
+  <tr><td class="num">54</td><td class="num">16.82</td><td>最后一次仍然命中 cache</td></tr>
+</table>
+
+<p>对比 step 10 的 TTFT 平均 51.77 ms，这里 TTFT 莫名其妙快了 3 倍。原因：</p>
+
+<div class="callout bad">
+  <span class="label">真凶 = prefix caching：</span>
+  step 9 编引擎时启用了 <code>use_paged_context_fmha=True</code>（log 里可见）。<strong>当后续请求的 prompt 前缀与之前请求重合时，TRT-LLM 会复用之前的 KV cache 页，prefill 阶段只算"新增的"那部分 token</strong>。
+  我们这里 55 个请求<strong>整个 prompt 都一样</strong>——server 第二次见就直接把第一次的 KV cache 整段拷过来，几乎不做 prefill，所以 TTFT 只剩"HTTP+SSE+第一个 token decode"的开销 ≈ 17 ms。
+</div>
+
+<h3>陷阱 2：合成 prompt 触发 refuse → 只输出 12 tokens</h3>
+
+<p>所有 55 个响应内容完全一样：</p>
+
+<pre><code>"I'm sorry, but I can't assist with that."</code></pre>
+
+<p>12 tokens，自然 EOS。Qwen2.5-Instruct 把那段乱码 token 当作"不可帮助的请求"拒绝了。后果：每条只能采到 11 个 ITL 间隔，远不够画 ITL 分布。</p>
+
+<h3>第一轮的处置</h3>
+
+<p>把这份"错误数据"留作教材保存：</p>
+
+<ul class="checks">
+  <li><code>results/stage1/benchmark_raw/streaming_512_128_singleprompt_cachebenchmark.jsonl</code></li>
+  <li><code>logs/stage1/streaming_512_128_singleprompt.log</code></li>
+</ul>
+
+<p>它正好是 <strong>"prefix cache 命中时的 TTFT"</strong> 的现场数据，step 18 baseline summary 会引用。</p>
+
+<h2>第二轮：50 条各异 prompt → 干净的 baseline 数据</h2>
+
+<h3>方法变化</h3>
+
+<p>三件事一起改：</p>
+
+<ol>
+  <li><strong>每个请求一个独特 prompt</strong>。写了 <code>scripts/generate_streaming_prompts.py</code>，用 <strong>5 个指令模板 × 10 个 ML 系统主题 = 50 条</strong>，每条用二分搜索精确填到 <em>chat-template 总长 = 512 tokens</em>。这样：<br>
+    – 每条 prompt 都没被见过 → 每次 prefill 都是冷的 ↔ 对照 step 10 干净<br>
+    – 50 条 prompt 互相 prefix 不重合 → 测不出 cache</li>
+  <li><strong>结尾加 "Write at least 220 words"</strong>。强迫模型生成长输出，<code>max_tokens=128</code> 才是真正生效的截断（<code>finish_reason="length"</code> 而非 <code>stop</code>），保证每条都能采到 127 个 ITL 间隔。</li>
+  <li><strong>客户端支持 prompt 轮询</strong>。在 <code>scripts/benchmark_streaming_openai.py</code> 里加了 <code>--prompts-file</code>：读 jsonl，按 <code>request_index % N</code> 取 prompt。</li>
+</ol>
+
+<h3>命令</h3>
+
+<pre><code># 1. 生成 prompt 集（用 server 容器里的 tokenizer 算 token 数）
+docker exec trtllm_serve_step11 python3 scripts/generate_streaming_prompts.py \
+  --target-template-total 512 --num-prompts 50 \
+  --out data/streaming_prompts_512.jsonl
+
+# 2. 跑 streaming bench（host 上跑，连容器 server）
+python3 scripts/benchmark_streaming_openai.py \
+  --base-url http://localhost:8000/v1 \
+  --model tp_1_pp_1 \
+  --prompts-file data/streaming_prompts_512.jsonl \
+  --max-tokens 128 --requests 50 --warmup 5 --temperature 0 \
+  --workload-label 512_128 --backend-label trtllm-1.0.0-trt \
+  --output results/stage1/benchmark_raw/streaming_512_128.jsonl</code></pre>
+
+<h3>结果</h3>
+
+<p>0 errors，全部 55 行 <code>output_pieces=128</code>，<code>finish_reason="length"</code>。TTFT 走势：</p>
+
+<table>
+  <tr><th>request_index</th><th>prompt_index</th><th class="num">TTFT (ms)</th><th>regime</th></tr>
+  <tr><td>0 (warmup)</td><td>0</td><td class="num">73.77</td><td>cold（首次见 prompt 0）</td></tr>
+  <tr><td>1–4 (warmup)</td><td>1–4</td><td class="num">52–55</td><td>cold（首次见 prompt 1–4）</td></tr>
+  <tr><td>5–49 (measured)</td><td>5–49</td><td class="num">50–58</td><td>cold（每次新 prompt）</td></tr>
+  <tr><td><strong>50–54 (measured)</strong></td><td><strong>0–4</strong></td><td class="num"><strong>15–17</strong></td><td><strong>warm（轮转回开头，cache 命中）</strong></td></tr>
+</table>
+
+<div class="callout ok">
+  <span class="label">教学双倍价值：</span>
+  这份数据里同时存在 <strong>cold</strong>（请求 5-49）和 <strong>warm</strong>（请求 50-54）两个 regime——不是设计出来的，是 prompt 轮转刚好在第 50 次绕回 prompt 0。step 18 baseline 直接拿这份单一数据集就能讲清楚两件事。
+</div>
+
+<h2>分位数（cold / warm 拆开）</h2>
+
+<h3>COLD — 45 个独特 prompt 请求（step 12 的 baseline 数字）</h3>
+
+<table>
+  <tr><th>指标</th><th class="num">mean</th><th class="num">p50</th><th class="num">p90</th><th class="num">p95</th><th class="num">min</th><th class="num">max</th></tr>
+  <tr><td>TTFT (ms)</td><td class="num"><strong>54.28</strong></td><td class="num">53.90</td><td class="num">57.64</td><td class="num">58.11</td><td class="num">49.80</td><td class="num">59.33</td></tr>
+  <tr><td>ITL mean per-request (ms)</td><td class="num"><strong>10.56</strong></td><td class="num">10.60</td><td class="num">10.71</td><td class="num">10.76</td><td class="num">10.19</td><td class="num">10.81</td></tr>
+  <tr><td>E2E (ms)</td><td class="num">1395.90</td><td class="num">1402.17</td><td class="num">1415.73</td><td class="num">1424.08</td><td class="num">1345.21</td><td class="num">1429.51</td></tr>
+  <tr><td>output_tps_by_piece</td><td class="num">92.20</td><td class="num">91.43</td><td class="num">95.15</td><td class="num">96.63</td><td class="num">89.54</td><td class="num">97.20</td></tr>
+</table>
+
+<h3>WARM — 5 个 cache-hit 请求</h3>
+
+<table>
+  <tr><th>指标</th><th class="num">mean</th><th class="num">p50</th><th class="num">p90</th><th class="num">min</th><th class="num">max</th></tr>
+  <tr><td>TTFT (ms)</td><td class="num"><strong>15.91</strong></td><td class="num">15.79</td><td class="num">16.85</td><td class="num">15.43</td><td class="num">16.85</td></tr>
+  <tr><td>ITL mean (ms)</td><td class="num">10.31</td><td class="num">10.31</td><td class="num">10.37</td><td class="num">10.24</td><td class="num">10.37</td></tr>
+  <tr><td>E2E (ms)</td><td class="num">1325.61</td><td class="num">1324.70</td><td class="num">1332.62</td><td class="num">1316.89</td><td class="num">1332.62</td></tr>
+</table>
+
+<p>解读：</p>
+<ul>
+  <li><strong>TTFT 从 54 → 16 ms（3.4× 提速）</strong>：prefill 几乎全省，剩下的全是 HTTP/SSE/uvicorn 开销 + 第一个 token 的 decode 时间</li>
+  <li><strong>ITL 几乎不变（10.56 → 10.31）</strong>：cache 只省 prefill，decode 阶段每生成一个新 token 都必须走 28 层 transformer——所以 per-token 间隔不会变快</li>
+  <li><strong>E2E 只省了 ~70 ms</strong>：TTFT 节省 ~38ms + 其他次要项；和 ITL × 127 的 ~1342ms 比，prefill 节省占比很小，说明<strong>这个工作负载是 decode-bound 不是 prefill-bound</strong></li>
+</ul>
+
+<h2>与 step 10 的对照（这才是 step 12 真正的 baseline）</h2>
+
+<table>
+  <tr><th>指标</th><th>step 10 <code>trtllm-bench latency</code></th><th>step 12 streaming COLD</th><th class="num">差值</th><th>归因</th></tr>
+  <tr><td>TTFT mean</td><td class="num">51.77 ms</td><td class="num">54.28 ms</td><td class="num">+2.5 ms</td><td>HTTP request + SSE 第一个 chunk 编/解码 + Python uvicorn FastAPI 栈</td></tr>
+  <tr><td>TPOT / ITL mean</td><td class="num">9.85 ms</td><td class="num">10.56 ms</td><td class="num">+0.7 ms</td><td>每个 SSE chunk 的 json.dumps + flush + recv 来回</td></tr>
+  <tr><td>E2E mean</td><td class="num">1302 ms</td><td class="num">1396 ms</td><td class="num">+94 ms</td><td>0.7 × 127 + 2.5 + 第一个 chunk role marker 延迟</td></tr>
+  <tr><td>throughput / 用户</td><td class="num">98.30 tok/s</td><td class="num">92.20 piece/s</td><td class="num">-6%</td><td>同上</td></tr>
+</table>
+
+<p>公式校验：TTFT + ITL × (N-1) = 54.28 + 10.56 × 127 = <strong>1395.4 ms</strong>，实测 1395.9 ms。误差 0.04%。<strong>两阶段 prefill+decode 模型在加了 HTTP 层后依然成立。</strong></p>
+
+<div class="callout ok">
+  <span class="label">关键结论：</span>
+  trtllm-serve 的 HTTP/OpenAI 兼容层给单用户场景额外加上约 <strong>+5% TTFT、+7% ITL、+7% 总延迟</strong>。这是用流式 API 的"协议税"。如果你的产品做 streaming chat，这个税值得付（用户能看到 token 一个一个冒出来比延迟 100ms 然后一次到达体验更好）；如果做 batch offline 推理，没必要走 serve，直接 trtllm-bench / Python LLM API 更省。
+</div>
+
+<h2>step 12 产出清单</h2>
+
+<ul class="checks">
+  <li><code>scripts/generate_streaming_prompts.py</code> — prompt 生成器（5 模板 × 10 主题 → 50 unique）</li>
+  <li><code>scripts/benchmark_streaming_openai.py</code> — 增加 <code>--prompts-file</code> 轮询模式</li>
+  <li><code>data/streaming_prompts_512.jsonl</code> — 50 条 512-token prompt</li>
+  <li><code>data/streaming_prompt_512.txt</code> — 第一轮用的截短 synthetic prompt（教材保留）</li>
+  <li><code>results/stage1/benchmark_raw/streaming_512_128.jsonl</code> — 主结果（55 行，0 error）</li>
+  <li><code>results/stage1/benchmark_raw/streaming_512_128_singleprompt_cachebenchmark.jsonl</code> — 第一轮 cache-hit 数据（教材保留）</li>
+  <li><code>results/stage1/streaming_512_128_summary.txt</code> — 含 cold/warm 拆分</li>
+  <li><code>logs/stage1/streaming_512_128.log</code> + <code>streaming_512_128_singleprompt.log</code> — 两轮的 stdout</li>
+  <li><code>logs/stage1/stage1_command_log.md</code> — 追加 step 12 完整子段（12a–12f）</li>
+</ul>
+
+<h2>当前状态 & step 13 预告</h2>
+
+<ul>
+  <li>Server 容器 <code>trtllm_serve_step11</code> 仍 Up。step 13 只重新汇总现有 jsonl，<strong>不需要 server</strong>。step 14 (GPU 监控) 需要 server。所以现在<strong>暂不停</strong>，但如果 step 13 之后还要等一段时间，可以 <code>docker stop trtllm_serve_step11</code> 释放显存。</li>
+  <li>step 13 的任务：扩展 <code>summarize_streaming_jsonl.py</code>，让它能自动识别 prompt 重复 → 拆出 cold/warm 分位。当前脚本是把非 warmup 全混在一起算，这次报告我们是手算拆出来的。</li>
+  <li>显存稳态仍 7437 / 404 MiB，55 个请求没让 KV cache 池长大——因为 <code>kv_cache_free_gpu_memory_fraction</code> 在 server 启动时就把池预切好了。</li>
+</ul>
+
+<hr>
+
+<p class="small">
+  对应 runbook：<code>docs/02_stage1_local_ai_runbook.md</code> § Step 12。<br>
+  对应命令日志：<code>logs/stage1/stage1_command_log.md</code> § Step 12（含 12a–12f）。<br>
+  上一篇：<code>docs/stage1_step11_zh.html</code>（启动 trtllm-serve）。
+</p>
+
+</body>
+</html>

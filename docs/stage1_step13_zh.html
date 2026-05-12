@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Stage 1 · Step 13 学习笔记 — Streaming 汇总脚本：cold/warm 自动拆分</title>
+<style>
+  :root {
+    --fg: #1f2328;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --bg-soft: #f6f8fa;
+    --bg-code: #f6f8fa;
+    --accent: #0969da;
+    --warn-bg: #fff8c5;
+    --warn-bd: #d4a72c;
+    --ok-bg: #dafbe1;
+    --ok-bd: #1a7f37;
+    --bad-bg: #ffebe9;
+    --bad-bd: #cf222e;
+  }
+  html { font-family: -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+  body { color: var(--fg); max-width: 880px; margin: 32px auto; padding: 0 20px; line-height: 1.65; }
+  h1 { border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+  h2 { border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-top: 36px; }
+  h3 { margin-top: 28px; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.92em; }
+  code { background: var(--bg-code); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--bg-code); border: 1px solid var(--border); border-radius: 6px;
+        padding: 12px 14px; overflow-x: auto; line-height: 1.45; }
+  pre code { background: transparent; padding: 0; }
+  table { border-collapse: collapse; margin: 14px 0; width: 100%; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-soft); }
+  th.num, td.num { text-align: right; }
+  .callout { border-left: 4px solid; padding: 10px 14px; margin: 14px 0; border-radius: 4px; }
+  .callout.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
+  .callout.ok   { background: var(--ok-bg);   border-color: var(--ok-bd); }
+  .callout.bad  { background: var(--bad-bg);  border-color: var(--bad-bd); }
+  .callout .label { font-weight: 600; margin-right: 6px; }
+  .small { color: var(--muted); font-size: 0.92em; }
+  .meta { color: var(--muted); font-size: 0.9em; }
+  ul.checks { list-style: none; padding-left: 0; }
+  ul.checks li::before { content: "✓ "; color: var(--ok-bd); font-weight: 700; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+</style>
+</head>
+<body>
+
+<h1>Stage 1 · Step 13 — 给 streaming 数据写一个"会自我分类"的汇总器</h1>
+
+<p class="meta">
+  日期 2026-05-11。本步无 GPU 操作，纯数据后处理。Server 容器 <code>trtllm_serve_step11</code> 继续保持 Up（step 14 要用）。
+</p>
+
+<h2>本步要解决的事</h2>
+
+<p>step 12 跑出 55 行 jsonl，里面同时混着 <strong>cold 请求</strong>（每次 prompt 都不一样）和 <strong>warm 请求</strong>（prompt 轮转回开头，命中 prefix cache）。step 18 的 baseline summary 需要一个稳定可重跑的脚本能：</p>
+
+<ol>
+  <li>自动认出哪些行是 warm、哪些是 cold</li>
+  <li>分别报 TTFT/ITL/E2E 的分位数</li>
+  <li>额外吐出一份 JSON 供 README / report 直接引用，免得未来手抄</li>
+</ol>
+
+<p>runbook 里 step 13 原本就是"实现 <code>scripts/summarize_streaming_jsonl.py</code>"。这个脚本在 step 12 之前其实已经存在（把所有非 warmup 行混在一起算平均），但<strong>不会自动识别 cold/warm</strong>，所以 step 12 的笔记是我手工拆出来报的——这次把它做进脚本。</p>
+
+<h2>关键设计：怎么定义"warm"？</h2>
+
+<p>我们用一个简单但精确的判据：</p>
+
+<blockquote>
+  <strong>对每行的 <code>prompt_index</code> 做"是否首次出现"判定。第一次见这个 prompt → cold；之前已经见过 → warm。</strong>
+</blockquote>
+
+<p>这背后的物理意义：TRT-LLM 的 prefix cache 只在<em>prompt 前缀重合</em>时才命中。如果某条请求的 <code>prompt_index</code> 在当前文件里之前从未出现过，server 这边对它的 KV cache 一定是空的——这就是 cold prefill。反过来同 <code>prompt_index</code> 第二次出现，server 几乎肯定能从 page table 里找到上一次的 KV 页，prefill 就跳过 → warm。</p>
+
+<h3>一个容易踩到的小坑：要不要把 warmup 行算进 "seen"？</h3>
+
+<p>我第一版脚本是这么写的：</p>
+
+<pre><code>seen = set()
+cold, warm = [], []
+for r in non_warmup_rows:
+    pi = r['prompt_index']
+    if pi in seen:
+        warm.append(r)
+    else:
+        seen.add(pi); cold.append(r)</code></pre>
+
+<p>跑出来 warm 是 <strong>0 条</strong>。但 step 12 数据明明有 5 条 cache-hit 行。哪里错了？</p>
+
+<div class="callout bad">
+  <span class="label">Bug：</span>
+  我把 warmup 行（request_index 0-4）整段 filter 掉再做判定，但 <strong>server 这边的 KV cache 是从 warmup 那一刻就开始积累的</strong>。warmup 用过了 prompt 0-4，等 measured 阶段轮转回 prompt 0-4（request 50-54）时，server 这边其实早就缓存好了——所以这些 measured 行应该是 warm。我的脚本看不见 warmup，于是把它们错认成 cold（"在我的 seen 里第一次见"）。
+</div>
+
+<p>修复：读文件时单独记 warmup 行的 <code>prompt_index</code>，作为 <code>prior_prompt_indices</code> 传给拆分函数，把这些 prompt 预先放进 <code>seen</code>。</p>
+
+<pre><code># 在主循环里
+warmup_prompt_indices = []
+for r in all_rows:
+    if r['warmup']:
+        warmup_prompt_indices.append(r['prompt_index'])
+        continue
+    measured_rows.append(r)
+
+cold, warm = split_cold_warm(measured_rows,
+                             prior_prompt_indices=warmup_prompt_indices)</code></pre>
+
+<div class="callout warn">
+  <span class="label">学习要点：</span>
+  这是一个非常典型的"<strong>system state 不等于 visible data</strong>"陷阱。脚本看到的 jsonl 里 warmup 行是"应该被忽略"的；但<em>server 的 KV cache 状态</em>是 warmup 已经污染过的。基准测试经常这样——客户端的视角和服务端的视角对什么算"开始"有不同定义。<br>
+  类似的坑：你以为 warmup 是为了让 JIT 稳定 / TF32 cache 暖好；实际上有时它也会把 cache 暖到对后续真实请求"超额有利"，让 measured 区间看起来比真实生产更快。
+</div>
+
+<h2>顺手加的两个能力</h2>
+
+<h3>1. flattened per-token ITL（向前兼容）</h3>
+
+<p>原脚本只看 <code>itl_ms_mean</code> / <code>itl_ms_p95</code> 这种<strong>"per-request"</strong> 统计——也就是每个请求<em>自己内部</em>的 ITL 平均/分位。这有个理论缺陷：</p>
+
+<table>
+  <tr><th>问法</th><th>per-request p95</th><th>flattened p95</th></tr>
+  <tr><td>"全部 token 里有多少占比卡 ≥ X 毫秒"</td><td>不能准确回答</td><td>能准确回答</td></tr>
+  <tr><td>"哪一个请求最慢"</td><td>能</td><td>不能</td></tr>
+  <tr><td>面向 SLO（服务等级目标）的 ITL P95</td><td>是它的近似</td><td>就是它</td></tr>
+</table>
+
+<p>step 12 数据 ITL 分布非常窄（per-request p50=10.60, p95=10.76，跨度 1.5%），所以 per-request p95 已经足够接近真值。但为了让 stage 1 之后做 vLLM/llama.cpp 对比、做 nsys 关联时能拿到精确的 token-level 时序，我让 <code>benchmark_streaming_openai.py</code> 在每行 jsonl 里多写一个数组字段：</p>
+
+<pre><code>"itl_ms": [10.55, 10.61, 10.58, ..., 10.72]   // 127 个 gap</code></pre>
+
+<p>summarizer 看到这个字段时就把所有请求的 gap 数组拼起来算全局分位。当前 step 12 数据没有这个字段，summarizer 优雅地报"<code>not in data (rerun with updated bench client to capture raw gaps)</code>"——<strong>没有重跑 step 12</strong>，因为分布太窄收益不抵成本。step 17 stretch run 时新数据就会带上。</p>
+
+<h3>2. <code>--json &lt;path&gt;</code> 机器可读输出</h3>
+
+<p>避免 step 18/19 写 README 时手抄数字。生成的 <code>results/stage1/streaming_512_128_summary.json</code> 长这样：</p>
+
+<pre><code>{
+  "source": "results/stage1/benchmark_raw/streaming_512_128.jsonl",
+  "measured_requests": 50,
+  "cold": { "ttft_ms": { "n": 45, "mean": 54.28, "p50": ..., ... }, ... },
+  "warm": { "ttft_ms": { "n": 5, "mean": 15.91, ... }, ... }
+}</code></pre>
+
+<h2>最终结果</h2>
+
+<h3>主结果（streaming_512_128.jsonl）</h3>
+
+<p>命令：</p>
+<pre><code>python3 scripts/summarize_streaming_jsonl.py \
+  results/stage1/benchmark_raw/streaming_512_128.jsonl \
+  --json results/stage1/streaming_512_128_summary.json \
+  > results/stage1/streaming_512_128_summary.txt</code></pre>
+
+<p><strong>COLD</strong> (n=45) — Stage 1 streaming baseline 的官方数字：</p>
+
+<table>
+  <tr><th>指标</th><th class="num">mean</th><th class="num">p50</th><th class="num">p90</th><th class="num">p95</th><th class="num">p99</th><th class="num">min</th><th class="num">max</th></tr>
+  <tr><td>TTFT (ms)</td><td class="num"><strong>54.28</strong></td><td class="num">53.90</td><td class="num">57.64</td><td class="num"><strong>58.11</strong></td><td class="num">59.33</td><td class="num">49.80</td><td class="num">59.33</td></tr>
+  <tr><td>ITL mean per-request (ms)</td><td class="num"><strong>10.56</strong></td><td class="num">10.60</td><td class="num">10.71</td><td class="num">10.76</td><td class="num">10.81</td><td class="num">10.19</td><td class="num">10.81</td></tr>
+  <tr><td>E2E (ms)</td><td class="num">1395.90</td><td class="num">1402.17</td><td class="num">1415.73</td><td class="num">1424.08</td><td class="num">1429.51</td><td class="num">1345.21</td><td class="num">1429.51</td></tr>
+  <tr><td>output_tps_by_piece (pieces/s)</td><td class="num">91.72</td><td class="num">91.29</td><td class="num">94.06</td><td class="num">94.43</td><td class="num">95.15</td><td class="num">89.54</td><td class="num">95.15</td></tr>
+</table>
+
+<p><strong>WARM</strong> (n=5) — cache 命中样本，保留作为对照：</p>
+
+<table>
+  <tr><th>指标</th><th class="num">mean</th><th class="num">min</th><th class="num">max</th></tr>
+  <tr><td>TTFT (ms)</td><td class="num">15.91</td><td class="num">15.43</td><td class="num">16.85</td></tr>
+  <tr><td>ITL mean (ms)</td><td class="num">10.31</td><td class="num">10.24</td><td class="num">10.37</td></tr>
+  <tr><td>E2E (ms)</td><td class="num">1325.61</td><td class="num">1316.89</td><td class="num">1332.62</td></tr>
+</table>
+
+<h3>对照：单 prompt + refusal 的"教材" run</h3>
+
+<p>archived run 用 <code>--no-split</code> 也跑了一遍：</p>
+
+<pre><code>python3 scripts/summarize_streaming_jsonl.py \
+  results/stage1/benchmark_raw/streaming_512_128_singleprompt_cachebenchmark.jsonl \
+  --no-split \
+  --json results/stage1/streaming_512_128_singleprompt_summary.json \
+  > results/stage1/streaming_512_128_singleprompt_summary.txt</code></pre>
+
+<table>
+  <tr><th>指标</th><th class="num">mean</th><th class="num">p50</th><th class="num">p95</th><th>注</th></tr>
+  <tr><td>TTFT (ms)</td><td class="num">17.53</td><td class="num">17.07</td><td class="num">21.31</td><td>全部 prefix-cache 命中</td></tr>
+  <tr><td>ITL mean (ms)</td><td class="num">10.50</td><td class="num">10.46</td><td class="num">10.89</td><td>与主 run 几乎一致（cache 不影响 decode）</td></tr>
+  <tr><td>E2E (ms)</td><td class="num">143.49</td><td class="num">142.77</td><td class="num">149.28</td><td>output 只有 12 piece，所以 E2E 短</td></tr>
+  <tr><td>output_pieces</td><td class="num">12.00</td><td class="num">12.00</td><td class="num">12.00</td><td>refusal EOS</td></tr>
+</table>
+
+<h2>step 13 产出清单</h2>
+
+<ul class="checks">
+  <li><code>scripts/summarize_streaming_jsonl.py</code> — 重写：cold/warm 自动拆分（含 warmup → seen），flattened-ITL（向前兼容），<code>--json</code> 输出</li>
+  <li><code>scripts/benchmark_streaming_openai.py</code> — 每行新增 <code>itl_ms</code> 原始 gap 数组（forward-only）</li>
+  <li><code>results/stage1/streaming_512_128_summary.txt</code> — 主 run cold/warm 拆分版</li>
+  <li><code>results/stage1/streaming_512_128_summary.json</code> — 同上 JSON 版</li>
+  <li><code>results/stage1/streaming_512_128_singleprompt_summary.txt</code> + <code>.json</code> — archived run 汇总</li>
+  <li><code>logs/stage1/stage1_command_log.md</code> — 追加 step 13 完整 13a-13d</li>
+</ul>
+
+<h2>对 step 14 的影响 & 当前状态</h2>
+
+<ul>
+  <li>Server 容器 <code>trtllm_serve_step11</code> 持续 Up（step 14 要在 streaming bench 跑时同时采 nvidia-smi 时序）。VRAM 仍 7437 / 404 MiB。</li>
+  <li>step 14 期望产出：<code>logs/stage1/nvidia_smi_during_streaming_512_128.csv</code>。会再跑一次 50 请求的 streaming bench（这次<strong>会</strong>带 raw <code>itl_ms</code> 字段——因为脚本已经升级了），同时在另一个 shell 用 <code>nvidia-smi -l 1</code> 采。</li>
+  <li>step 13 之后没有任何"未完成的 bench / 待处理 jsonl"。整个 Stage 1 数据处理链路（jsonl → cold/warm 分类 → 分位数 → JSON）就此打通。</li>
+</ul>
+
+<hr>
+
+<p class="small">
+  对应 runbook：<code>docs/02_stage1_local_ai_runbook.md</code> § Step 13。<br>
+  对应命令日志：<code>logs/stage1/stage1_command_log.md</code> § Step 13。<br>
+  上一篇：<code>docs/stage1_step12_zh.html</code>（streaming bench）。
+</p>
+
+</body>
+</html>

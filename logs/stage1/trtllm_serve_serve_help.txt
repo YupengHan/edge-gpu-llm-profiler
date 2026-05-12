@@ -1,0 +1,91 @@
+
+=============
+== PyTorch ==
+=============
+
+NVIDIA Release 25.06 (build 177567386)
+PyTorch Version 2.8.0a0+5228986
+Container image Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+Copyright (c) 2014-2024 Facebook Inc.
+Copyright (c) 2011-2014 Idiap Research Institute (Ronan Collobert)
+Copyright (c) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+Copyright (c) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+Copyright (c) 2011-2013 NYU                      (Clement Farabet)
+Copyright (c) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+Copyright (c) 2006      Idiap Research Institute (Samy Bengio)
+Copyright (c) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+Copyright (c) 2015      Google Inc.
+Copyright (c) 2015      Yangqing Jia
+Copyright (c) 2013-2016 The Caffe contributors
+All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+GOVERNING TERMS: The software and materials are governed by the NVIDIA Software License Agreement
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-software-license-agreement/)
+and the Product-Specific Terms for NVIDIA AI Products
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/product-specific-terms-for-ai-products/).
+
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-12 05:21:15] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-12 05:21:15] INFO config.py:66: Polars version 1.25.2 available.
+2026-05-12 05:21:20,181 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+/usr/local/lib/python3.12/dist-packages/pydantic/_internal/_fields.py:198: UserWarning: Field name "schema" in "ResponseFormat" shadows an attribute in parent "OpenAIBaseModel"
+  warnings.warn(
+Usage: trtllm-serve serve [OPTIONS] MODEL
+
+  Running an OpenAI API compatible server
+
+  MODEL: model name | HF checkpoint path | TensorRT engine path
+
+Options:
+  --tokenizer TEXT                Path | Name of the tokenizer.Specify this
+                                  value only if using TensorRT engine as
+                                  model.
+  --host TEXT                     Hostname of the server.
+  --port INTEGER                  Port of the server.
+  --backend [pytorch|trt]         Set to 'pytorch' for pytorch path. Default
+                                  is cpp path.
+  --log_level [internal_error|error|warning|info|verbose|debug|trace]
+                                  The logging level.
+  --max_beam_width INTEGER        Maximum number of beams for beam search
+                                  decoding.
+  --max_batch_size INTEGER        Maximum number of requests that the engine
+                                  can schedule.
+  --max_num_tokens INTEGER        Maximum number of batched input tokens after
+                                  padding is removed in each batch.
+  --max_seq_len INTEGER           Maximum total length of one request,
+                                  including prompt and outputs. If
+                                  unspecified, the value is deduced from the
+                                  model config.
+  --tp_size INTEGER               Tensor parallelism size.
+  --pp_size INTEGER               Pipeline parallelism size.
+  --ep_size INTEGER               expert parallelism size
+  --cluster_size INTEGER          expert cluster parallelism size
+  --gpus_per_node INTEGER         Number of GPUs per node. Default to None,
+                                  and it will be detected automatically.
+  --kv_cache_free_gpu_memory_fraction FLOAT
+                                  Free GPU memory fraction reserved for KV
+                                  Cache, after allocating model weights and
+                                  buffers.
+  --num_postprocess_workers INTEGER
+                                  [Experimental] Number of workers to
+                                  postprocess raw responses to comply with
+                                  OpenAI protocol.
+  --trust_remote_code             Flag for HF transformers.
+  --extra_llm_api_options TEXT    Path to a YAML file that overwrites the
+                                  parameters specified by trtllm-serve.
+  --reasoning_parser [deepseek-r1]
+                                  [Experimental] Specify the parser for
+                                  reasoning models.
+  --metadata_server_config_file TEXT
+                                  Path to metadata server config file
+  --server_role TEXT              Server role. Specify this value only if
+                                  running in disaggregated mode.
+  --fail_fast_on_attention_window_too_large
+                                  Exit with runtime error when attention
+                                  window is too large to fit even a single
+                                  sequence in the KV cache.
+  --help                          Show this message and exit.

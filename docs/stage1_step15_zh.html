@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Stage 1 · Step 15 — Nsight Systems：拆开 1.4 秒 E2E 看每个 kernel 在干嘛</title>
+<style>
+  :root {
+    --fg: #1f2328;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --bg-soft: #f6f8fa;
+    --bg-code: #f6f8fa;
+    --accent: #0969da;
+    --warn-bg: #fff8c5;
+    --warn-bd: #d4a72c;
+    --ok-bg: #dafbe1;
+    --ok-bd: #1a7f37;
+    --bad-bg: #ffebe9;
+    --bad-bd: #cf222e;
+  }
+  html { font-family: -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+  body { color: var(--fg); max-width: 880px; margin: 32px auto; padding: 0 20px; line-height: 1.65; }
+  h1 { border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+  h2 { border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-top: 36px; }
+  h3 { margin-top: 28px; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.92em; }
+  code { background: var(--bg-code); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--bg-code); border: 1px solid var(--border); border-radius: 6px;
+        padding: 12px 14px; overflow-x: auto; line-height: 1.45; }
+  pre code { background: transparent; padding: 0; }
+  table { border-collapse: collapse; margin: 14px 0; width: 100%; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-soft); }
+  th.num, td.num { text-align: right; }
+  .callout { border-left: 4px solid; padding: 10px 14px; margin: 14px 0; border-radius: 4px; }
+  .callout.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
+  .callout.ok   { background: var(--ok-bg);   border-color: var(--ok-bd); }
+  .callout.bad  { background: var(--bad-bg);  border-color: var(--bad-bd); }
+  .callout .label { font-weight: 600; margin-right: 6px; }
+  .small { color: var(--muted); font-size: 0.92em; }
+  .meta { color: var(--muted); font-size: 0.9em; }
+  ul.checks { list-style: none; padding-left: 0; }
+  ul.checks li::before { content: "✓ "; color: var(--ok-bd); font-weight: 700; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .barbox { display: inline-block; height: 12px; background: var(--accent); vertical-align: middle; margin-right: 6px; }
+</style>
+</head>
+<body>
+
+<h1>Stage 1 · Step 15 — Nsight Systems：把 1.4 秒 E2E 拆开看</h1>
+
+<p class="meta">
+  日期 2026-05-11。本步在 1.0.0 容器里用 <code>nsys profile</code> 包了一次 <code>trtllm-bench latency</code>。tools available：nsys 2025.3.1, ncu 2025.2.1（容器自带）。
+</p>
+
+<h2>这一步要回答什么</h2>
+
+<p>到 step 14 为止我们已经知道：</p>
+<ul>
+  <li>每生成一个 token (decode iter) 用 ~10.7 ms</li>
+  <li>GPU SM 利用率 97%、内存控制器利用率 82%</li>
+  <li>decode 是 memory-bound</li>
+</ul>
+
+<p>但这些都是<strong>聚合数字</strong>。我们不知道：</p>
+<ol>
+  <li>这 10.7 ms 里，<strong>哪些 kernel 占了几毫秒</strong>？是 GEMM 占大头、还是 attention？</li>
+  <li>GEMM 内部有几种 tile size？分别对应模型里哪一层？</li>
+  <li>CPU 和 GPU 是<strong>串行的还是有重叠</strong>？</li>
+  <li>除了 kernel 之外，<strong>数据搬运</strong>（H2D/D2H/memset）占多少？</li>
+</ol>
+
+<p>Nsight Systems 在 CUDA stream 时间线上把所有 kernel launch、memcpy、CUDA API、NVTX range、CPU 采样都连起来记。微秒级分辨率，足够分解一个 10 ms 的 iter。</p>
+
+<h2>命令</h2>
+
+<p>有两条关键决策：</p>
+
+<ol>
+  <li><strong>先 <code>docker stop trtllm_serve_step11</code></strong> 释放 7.4 GiB VRAM。<code>nsys profile trtllm-bench latency</code> 是<em>独立子进程</em>，要自己装载引擎（约 3 GiB 权重 + KV cache 池），8 GiB 卡塞不下两份。</li>
+  <li>container 要加 <code>--cap-add=SYS_ADMIN --security-opt seccomp=unconfined</code>。<code>nsys --trace=cuda,nvtx,osrt --sample=cpu</code> 需要 <code>perf_event_open</code> 系统调用，普通容器默认 seccomp 会拦掉。</li>
+</ol>
+
+<pre><code>nsys profile \
+  --trace=cuda,nvtx,osrt \
+  --sample=cpu \
+  --force-overwrite=true \
+  --output profiles/stage1/nsys/qwen25_15b_512_128_latency \
+  trtllm-bench --model "$HF_MODEL" --workspace "$WORKSPACE_DIR" \
+    latency --backend tensorrt \
+    --dataset data/synthetic_512_128.jsonl \
+    --engine_dir "$ENGINE_512_128" \
+    --concurrency 1 --num_requests 20 --warmup 5 \
+    --report_json results/stage1/benchmark_raw/trtllm_bench_512_128_latency_nsys.json</code></pre>
+
+<h3>四个 <code>--trace</code> flag 各采什么</h3>
+
+<table>
+  <tr><th>flag</th><th>采集内容</th><th>能回答什么问题</th></tr>
+  <tr><td><code>cuda</code></td><td>所有 CUDA API call + 所有 kernel 在 stream 上的起止 + memcpy/memset</td><td>"GEMM 用了多少时间"、"两个 kernel launch 之间有没有 gap"</td></tr>
+  <tr><td><code>nvtx</code></td><td>TRT-LLM 自己加的 NVTX <code>PUSH_RANGE</code> 标签</td><td>"这段时间在 layer 5 的 attention 里"、"这段是 prefill 还是 decode"</td></tr>
+  <tr><td><code>osrt</code></td><td>libc/OS 系统调用（epoll/poll/read/sem_wait）</td><td>"CPU 是不是卡在等 IO/锁？"</td></tr>
+  <tr><td><code>--sample=cpu</code></td><td>定期对 CPU 线程采样得到火焰图</td><td>"主线程在哪一段 Python 代码？"</td></tr>
+</table>
+
+<h2>产出文件 & 大小</h2>
+
+<table>
+  <tr><th>路径</th><th class="num">大小</th><th>是否 commit</th></tr>
+  <tr><td><code>profiles/stage1/nsys/qwen25_15b_512_128_latency.nsys-rep</code></td><td class="num">38.6 MB</td><td>否（太大，GUI 才用得上）</td></tr>
+  <tr><td><code>profiles/stage1/nsys/qwen25_15b_512_128_latency.sqlite</code></td><td class="num">200 MB</td><td>否（nsys stats 自动生成的）</td></tr>
+  <tr><td><code>profiles/stage1/nsys/nsys_summary_512_128.txt</code></td><td class="num">190 KB</td><td>是</td></tr>
+  <tr><td><code>results/stage1/benchmark_raw/trtllm_bench_512_128_latency_nsys.json</code></td><td class="num">4 KB</td><td>是</td></tr>
+</table>
+
+<h2>横向比对：这次 bench 数字 vs 之前几次</h2>
+
+<table>
+  <tr><th>指标</th><th class="num">step 10 plain</th><th class="num">step 12 stream cold</th><th class="num">step 15 under nsys</th><th>解读</th></tr>
+  <tr><td>E2E avg (ms)</td><td class="num">1302</td><td class="num">1396</td><td class="num"><strong>1392</strong></td><td>nsys 加 ~7% 开销</td></tr>
+  <tr><td>TTFT avg (ms)</td><td class="num">51.77</td><td class="num">54.28</td><td class="num">53.04</td><td>同一量级，run-to-run 噪声</td></tr>
+  <tr><td>TPOT/ITL avg (ms)</td><td class="num">9.85</td><td class="num">10.71</td><td class="num">10.54</td><td>同上</td></tr>
+</table>
+
+<div class="callout ok">
+  <span class="label">惊喜：</span>
+  trtllm-bench 在 1.0.0 里其实<em>内部自带了 streaming_metrics 块</em>——它在 engine 进程内部测 TTFT/TPOT，连 SSE 包装都不走。这个数字 (53.04 / 10.54) 和 step 12 客户端测的 (54.28 / 10.71) 差距 &lt; 2%，<strong>从 HTTP 客户端到 engine 内部三次独立测量收敛在同一组数字上</strong>。这是 stage 1 数据可靠性的强证据。
+</div>
+
+<h2>核心发现：kernel time 拆解</h2>
+
+<p>从 <code>cuda_gpu_kern_sum</code>，按 kernel 总时间归类：</p>
+
+<table>
+  <tr><th>类别</th><th class="num">时间占比</th><th>代表 kernel</th></tr>
+  <tr>
+    <td><strong>GEMM（矩阵乘）</strong></td>
+    <td class="num"><strong>~61.5%</strong></td>
+    <td>各种 <code>sm80_xmma_gemm_bf16bf16_*</code> 的 tile-size 变体</td>
+  </tr>
+  <tr>
+    <td><strong>Sampling head</strong></td>
+    <td class="num"><strong>~31.2%</strong></td>
+    <td><code>batchApplyPenalty</code> 14.2%, <code>addBiasSoftMax</code> 12.7%, <code>topKStage1</code> 3.8%, <code>topKStage2Sampling</code> 0.5%</td>
+  </tr>
+  <tr>
+    <td>Activation / Norm 融合</td>
+    <td class="num">~3.5%</td>
+    <td>SiluMul, RMSNorm 的 fused kernel</td>
+  </tr>
+  <tr>
+    <td><strong>Attention</strong></td>
+    <td class="num"><strong>~3.0%</strong></td>
+    <td>FlashAttn v2 prefill 1.9% + masked-MHA decode 1.1%</td>
+  </tr>
+  <tr>
+    <td>KV cache update + RoPE</td>
+    <td class="num">~0.4%</td>
+    <td><code>applyBiasRopeUpdateKVCacheV2</code></td>
+  </tr>
+</table>
+
+<h3>三个反常识的观察</h3>
+
+<div class="callout bad">
+  <span class="label">观察 1 — Attention 只占 3%：</span>
+  这和"<em>LLM 推理 attention 主导</em>"的常见印象不符。原因：<br>
+  • 模型只有 1.5 B 参数，<strong>每层很小，attention 工作量小</strong><br>
+  • 使用了 <strong>GQA</strong>，num_kv_heads=2 而不是 num_attention_heads=12——KV cache 缩小 6 倍，attention 计算量也缩小<br>
+  • max_seq_len=640，attention 时间复杂度 O(N²) 但 N=640 时绝对值很小<br>
+  这意味着 <strong>flash attention v3、xformers</strong> 这些优化在这个 model size + sequence length 下<em>带不来多少收益</em>。对你这个 setup，attention 不是瓶颈。
+</div>
+
+<div class="callout bad">
+  <span class="label">观察 2 — Sampling 占 31%（比 attention 大 10 倍）：</span>
+  decode 头的代价被严重低估了：<br>
+  • <code>addBiasSoftMax</code> 12.7% 是<strong>对 151 936 维 vocab 做 softmax</strong>。Qwen2.5 词表巨大，每个 token 都要走一遍这个 151k 宽的 softmax<br>
+  • <code>batchApplyPenalty</code> 14.2% 是 repetition penalty，要遍历整个 vocab 给重复出现过的 token 减权重<br>
+  • <code>topKStage1/2</code> 4.3% 是 top-K 采样的两阶段实现<br>
+  对小模型来说，<strong>LM head 本身（hidden×vocab = 1536×151936 ≈ 234 M 参数）就比一个 transformer block 的参数还多</strong>。这是 sampling 看似过大的根本原因。
+</div>
+
+<div class="callout warn">
+  <span class="label">观察 3 — 一个 GEMM 就占 24.3%：</span>
+  最大单一 kernel 是 <code>sm80_xmma_gemm_bf16bf16_bf16f32_f32_nn_n_tilesize256x128x32_stage3_warpsize4x2x1_tensor16x8x16</code>，700 instances × 874 μs。<br>
+  这是<strong>整个 trace 里最值得用 ncu 深挖的单个 kernel</strong>。step 16 第一目标。<br>
+  从 tile 名解读：256×128×32 的 BF16 输入，BF16 输出，n×n 主序。tile 256×128 这种偏宽的 shape 通常对应 MLP up/gate projection（hidden 1536 → intermediate 8960），M 维度大但 N 维度中等。
+</div>
+
+<h2>CUDA API 视角：CPU 全在等 GPU</h2>
+
+<table>
+  <tr><th>API</th><th class="num">Time %</th><th class="num">calls</th><th class="num">avg ns</th><th>注</th></tr>
+  <tr><td><code>cudaEventSynchronize</code></td><td class="num">91.2%</td><td class="num">3200</td><td class="num">10 042 800</td><td>主线程等 GPU 完成下一 token decode</td></tr>
+  <tr><td><code>cudaMemcpyAsync</code></td><td class="num">3.9%</td><td class="num">57 727</td><td class="num">24 084</td><td>含 engine load 那一次 3 GiB H2D</td></tr>
+  <tr><td><code>cudaGraphLaunch_v10000</code></td><td class="num">1.3%</td><td class="num">3 125</td><td class="num">143 864</td><td>每 decode iter 一次 graph launch</td></tr>
+  <tr><td><code>cudaLaunchKernel</code></td><td class="num">0.7%</td><td class="num">23 576</td><td class="num">10 381</td><td>其余 kernel 启动</td></tr>
+</table>
+
+<div class="callout ok">
+  <span class="label">关键数字：cudaEventSynchronize 3200 次。</span>
+  3200 = 25 requests × 128 tokens。<strong>每生成一个 token，CPU 就 sync 一次等 GPU</strong>。这是单用户 decode 的根本同步模式：<br>
+  生成第 N+1 个 token 依赖第 N 个 token 的 argmax，所以 CPU 必须等 GPU 把第 N 个 sample 写回来才能 launch 第 N+1 个 forward。<strong>没有 CPU/GPU overlap 的空间</strong>。<br>
+  推论：花精力优化 Python 侧、scheduler、HTTP 路由都<strong>不会</strong>降低单用户 TPOT，唯一杠杆是让 GPU 那一段更快（量化、faster attention、更快的 sampling）。
+</div>
+
+<h2>数据搬运：除了引擎加载，几乎为零</h2>
+
+<table>
+  <tr><th>方向</th><th class="num">总量 (MB)</th><th class="num">次数</th><th class="num">avg (MB)</th><th>注</th></tr>
+  <tr><td>Host → Device</td><td class="num">3 105</td><td class="num">35 327</td><td class="num">0.088</td><td>3 087 MB 是 engine 一次性 load</td></tr>
+  <tr><td>Device → Host</td><td class="num">0.042</td><td class="num">12 804</td><td class="num">~0</td><td>output token id（每个几字节）</td></tr>
+  <tr><td>Device → Device</td><td class="num">0.032</td><td class="num">12 800</td><td class="num">~0</td><td>tiny tensor reshape</td></tr>
+  <tr><td>CUDA memset</td><td class="num">3 117</td><td class="num">975</td><td class="num">3.20</td><td>3 087 MB 是 KV cache 池初始化</td></tr>
+</table>
+
+<p>engine 装好之后，<strong>整段 inference 在 host/device 之间几乎不搬数据</strong>——一切都驻留在 GPU 里。</p>
+
+<h2>NVTX 视角：engine load 占了一半多 trace 时间</h2>
+
+<table>
+  <tr><th class="num">Time %</th><th>NVTX range</th></tr>
+  <tr><td class="num">34.6%</td><td><code>myelinGraphDeserializeBinary</code> — 反序列化 .engine 文件</td></tr>
+  <tr><td class="num">23.7%</td><td><code>myelin-exec:myelinGraphLoadPersistent</code> — TRT plugin/kernel 装载到 GPU</td></tr>
+  <tr><td class="num">15.2%</td><td><code>TensorRT:ExecutionContext::enqueue</code> — 推理 enqueue</td></tr>
+  <tr><td class="num">5.0%</td><td><code>myelin-exec:myelinGraphExecute</code> — 每次执行的 wrapper</td></tr>
+  <tr><td class="num">2.0%</td><td><code>myelinGraphUnloadPersistent</code> — 卸载</td></tr>
+</table>
+
+<p>引擎加载 + 卸载占了 NVTX 总时间的 <strong>~60%</strong>（约 30 秒墙钟时间 vs 整段 bench 28 秒）。step 16 ncu 要<strong>跳过这一段</strong>，否则它会用昂贵的 kernel replay 重放 engine 加载这种一次性、不感兴趣的过程。具体做法：<code>--launch-skip 200</code> 跳过头 200 个 kernel launch。</p>
+
+<h2>step 15 产出清单</h2>
+
+<ul class="checks">
+  <li><code>scripts/_step15_nsys.sh</code> — nsys + nsys stats 编排</li>
+  <li><code>profiles/stage1/nsys/qwen25_15b_512_128_latency.nsys-rep</code> 38.6 MB — GUI 用，不 commit</li>
+  <li><code>profiles/stage1/nsys/qwen25_15b_512_128_latency.sqlite</code> 200 MB — 自动生成，不 commit</li>
+  <li><code>profiles/stage1/nsys/nsys_summary_512_128.txt</code> 190 KB — 文本 stats，commit</li>
+  <li><code>results/stage1/benchmark_raw/trtllm_bench_512_128_latency_nsys.json</code> — bench 视角的 streaming_metrics</li>
+  <li><code>logs/stage1/nsys_512_128_latency.log</code> — bench stdout</li>
+  <li><code>logs/stage1/stage1_command_log.md</code> — 追加 step 15 (15a-15i)</li>
+</ul>
+
+<h2>step 16 预告</h2>
+
+<p>step 16 用 Nsight Compute (<code>ncu</code>) 对<strong>选定 kernel</strong>做硬件计数器层面的深挖。两个候选：</p>
+<ol>
+  <li><strong>sm80_xmma_gemm…tile256x128x32</strong>（24.3% 时间）—— 看它是 compute-bound 还是 memory-bound、是否打满 Tensor Core、占了多少 register/shared mem</li>
+  <li><strong>addBiasSoftMax</strong>（12.7% 时间，151k 宽 softmax）—— 看 memory access pattern 是 coalesced 还是 strided</li>
+</ol>
+
+<p>ncu 比 nsys 慢得多（每个 kernel 会被 replay 多次以收集所有 counter）。要用 <code>--launch-skip / --launch-count</code> 精准锁定才不会跑一整夜。</p>
+
+<hr>
+
+<p class="small">
+  对应 runbook：<code>docs/02_stage1_local_ai_runbook.md</code> § Step 15。<br>
+  对应命令日志：<code>logs/stage1/stage1_command_log.md</code> § Step 15（15a-15i）。<br>
+  上一篇：<code>docs/stage1_step14_zh.html</code>（GPU 时序 + /metrics）。
+</p>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+# Streaming benchmark summary
+source: results/stage1/benchmark_raw/streaming_512_128_singleprompt_cachebenchmark.jsonl
+measured_requests: 50
+
+=== ALL MEASURED (n=50) ===
+TTFT (ms, n=50):
+  mean = 17.53
+   p50 = 17.07
+   p90 = 20.06
+   p95 = 21.31
+   p99 = 22.58
+   min = 14.99
+   max = 22.58
+ITL mean per-request (ms, n=50):
+  mean = 10.50
+   p50 = 10.46
+   p90 = 10.71
+   p95 = 10.89
+   p99 = 11.06
+   min = 10.20
+   max = 11.06
+ITL flattened per-token: not in data (rerun with updated bench client to capture raw gaps)
+E2E (ms, n=50):
+  mean = 143.49
+   p50 = 142.77
+   p90 = 146.60
+   p95 = 149.28
+   p99 = 153.53
+   min = 138.30
+   max = 153.53
+output_tps_by_piece (pieces/sec, n=50):
+  mean = 83.67
+   p50 = 84.00
+   p90 = 85.41
+   p95 = 85.86
+   p99 = 86.77
+   min = 78.16
+   max = 86.77
+output_pieces (pieces, n=50):
+  mean = 12.00
+   p50 = 12.00
+   p90 = 12.00
+   p95 = 12.00
+   p99 = 12.00
+   min = 12.00
+   max = 12.00
+
+JSON summary written to results/stage1/streaming_512_128_singleprompt_summary.json

@@ -1,0 +1,442 @@
+
+=============
+== PyTorch ==
+=============
+
+NVIDIA Release 25.06 (build 177567386)
+PyTorch Version 2.8.0a0+5228986
+Container image Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+Copyright (c) 2014-2024 Facebook Inc.
+Copyright (c) 2011-2014 Idiap Research Institute (Ronan Collobert)
+Copyright (c) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+Copyright (c) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+Copyright (c) 2011-2013 NYU                      (Clement Farabet)
+Copyright (c) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+Copyright (c) 2006      Idiap Research Institute (Samy Bengio)
+Copyright (c) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+Copyright (c) 2015      Google Inc.
+Copyright (c) 2015      Yangqing Jia
+Copyright (c) 2013-2016 The Caffe contributors
+All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+GOVERNING TERMS: The software and materials are governed by the NVIDIA Software License Agreement
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-software-license-agreement/)
+and the Product-Specific Terms for NVIDIA AI Products
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/product-specific-terms-for-ai-products/).
+
+=== nvidia-smi before nsys ===
+176, 7665
+
+====================================================
+= Step 15 — nsys profile of trtllm-bench latency    =
+= 20 reqs + 5 warmup, concurrency=1, 512/128 engine =
+====================================================
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-12 05:58:30] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-12 05:58:30] INFO config.py:66: Polars version 1.25.2 available.
+2026-05-12 05:58:36,472 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+[05/12/2026-05:58:37] [TRT-LLM] [I] Preparing to run latency benchmark...
+Qwen/Qwen2.5-1.5B-Instruct
+Qwen/Qwen2.5-1.5B-Instruct
+[05/12/2026-05:58:38] [TRT-LLM] [I] 
+===========================================================
+= DATASET DETAILS
+===========================================================
+Dataset Path:         /workspace/rtx3070-trtllm-latency-lab/data/synthetic_512_128.jsonl
+Number of Sequences:  20
+
+-- Percentiles statistics ---------------------------------
+
+        Input              Output           Seq. Length
+-----------------------------------------------------------
+MIN:   512.0000           128.0000           640.0000
+MAX:   512.0000           128.0000           640.0000
+AVG:   512.0000           128.0000           640.0000
+P50:   512.0000           128.0000           640.0000
+P90:   512.0000           128.0000           640.0000
+P95:   512.0000           128.0000           640.0000
+P99:   512.0000           128.0000           640.0000
+===========================================================
+
+[05/12/2026-05:58:38] [TRT-LLM] [I] Setting up latency benchmark.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Using LLM with TensorRT backend
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.seq_length = 8192
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.qwen_type = qwen2
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_intermediate_size = 0
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_shared_expert_intermediate_size = 0
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.tie_word_embeddings = True
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_model_dir = None
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_config = None
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set dtype to bfloat16.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set bert_attention_plugin to auto.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set gpt_attention_plugin to auto.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set gemm_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set explicitly_disable_gemm_plugin to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set gemm_swiglu_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set fp8_rowwise_gemm_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set qserve_gemm_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set identity_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set lora_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set dora_plugin to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set weight_only_groupwise_quant_matmul_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set weight_only_quant_matmul_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set smooth_quant_plugins to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set smooth_quant_gemm_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set layernorm_quantization_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set rmsnorm_quantization_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set quantize_per_token_plugin to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set quantize_tensor_plugin to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set moe_plugin to auto.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set mamba_conv1d_plugin to auto.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set low_latency_gemm_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set low_latency_gemm_swiglu_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set gemm_allreduce_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set context_fmha to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set bert_context_fmha_fp32_acc to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set paged_kv_cache to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set remove_input_padding to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set norm_quant_fusion to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set reduce_fusion to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set user_buffer to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set tokens_per_block to 32.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set use_paged_context_fmha to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set fuse_fp4_quant to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set multiple_profiles to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set paged_state to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set streamingllm to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set manage_weights to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set use_fused_mlp to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set pp_reduce_scatter to False.
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.seq_length = 8192
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.qwen_type = qwen2
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_intermediate_size = 0
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_shared_expert_intermediate_size = 0
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.tie_word_embeddings = True
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_model_dir = None
+[05/12/2026-05:58:38] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_config = None
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set dtype to bfloat16.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set bert_attention_plugin to auto.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set gpt_attention_plugin to auto.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set gemm_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set explicitly_disable_gemm_plugin to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set gemm_swiglu_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set fp8_rowwise_gemm_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set qserve_gemm_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set identity_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set lora_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set dora_plugin to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set weight_only_groupwise_quant_matmul_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set weight_only_quant_matmul_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set smooth_quant_plugins to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set smooth_quant_gemm_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set layernorm_quantization_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set rmsnorm_quantization_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set quantize_per_token_plugin to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set quantize_tensor_plugin to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set moe_plugin to auto.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set mamba_conv1d_plugin to auto.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set low_latency_gemm_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set low_latency_gemm_swiglu_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set gemm_allreduce_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set context_fmha to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set bert_context_fmha_fp32_acc to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set paged_kv_cache to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set remove_input_padding to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set norm_quant_fusion to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set reduce_fusion to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set user_buffer to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set tokens_per_block to 32.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set use_paged_context_fmha to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set fuse_fp4_quant to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set multiple_profiles to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set paged_state to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set streamingllm to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set manage_weights to False.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set use_fused_mlp to True.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set pp_reduce_scatter to False.
+[05/12/2026-05:58:38] [TRT-LLM] [W] max_input_len [1024] is overridden by build_config.max_input_len [640] in build_config
+[05/12/2026-05:58:38] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/12/2026-05:58:38] [TRT-LLM] [I] Compute capability: (8, 6)
+[05/12/2026-05:58:38] [TRT-LLM] [I] SM count: 40
+[05/12/2026-05:58:38] [TRT-LLM] [I] SM clock: 2100 MHz
+[05/12/2026-05:58:38] [TRT-LLM] [I] int4 TFLOPS: 344
+[05/12/2026-05:58:38] [TRT-LLM] [I] int8 TFLOPS: 172
+[05/12/2026-05:58:38] [TRT-LLM] [I] fp8 TFLOPS: 0
+[05/12/2026-05:58:38] [TRT-LLM] [I] float16 TFLOPS: 86
+[05/12/2026-05:58:38] [TRT-LLM] [I] bfloat16 TFLOPS: 86
+[05/12/2026-05:58:38] [TRT-LLM] [I] float32 TFLOPS: 43
+[05/12/2026-05:58:38] [TRT-LLM] [I] Total Memory: 8 GiB
+[05/12/2026-05:58:38] [TRT-LLM] [I] Memory clock: 7001 MHz
+[05/12/2026-05:58:38] [TRT-LLM] [I] Memory bus width: 256
+[05/12/2026-05:58:38] [TRT-LLM] [I] Memory bandwidth: 448 GB/s
+[05/12/2026-05:58:38] [TRT-LLM] [I] PCIe speed: 16000 Mbps
+[05/12/2026-05:58:38] [TRT-LLM] [I] PCIe link width: 8
+[05/12/2026-05:58:38] [TRT-LLM] [I] PCIe bandwidth: 16 GB/s
+[33;20mrank 0 using MpiPoolSession to spawn MPI processes
+[0mNone
+[05/12/2026-05:58:38] [TRT-LLM] [I] Generating a new HMAC key for server proxy_request_queue
+[05/12/2026-05:58:38] [TRT-LLM] [I] Generating a new HMAC key for server worker_init_status_queue
+[05/12/2026-05:58:38] [TRT-LLM] [I] Generating a new HMAC key for server proxy_result_queue
+[05/12/2026-05:58:38] [TRT-LLM] [I] Generating a new HMAC key for server proxy_stats_queue
+[05/12/2026-05:58:38] [TRT-LLM] [I] Generating a new HMAC key for server proxy_kv_cache_events_queue
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cuda module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.driver module instead.
+<frozen importlib._bootstrap_external>:1297: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+[2026-05-12 05:58:44] INFO config.py:54: PyTorch version 2.8.0a0+5228986c39.nv25.6 available.
+[2026-05-12 05:58:44] INFO config.py:66: Polars version 1.25.2 available.
+Multiple distributions found for package optimum. Picked distribution: optimum
+2026-05-12 05:58:49,786 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT LLM version: 1.0.0
+[TensorRT-LLM][INFO] Refreshed the MPI local session
+[TensorRT-LLM][INFO] Engine version 1.0.0 found in the config file, assuming engine(s) built by new builder API.
+[TensorRT-LLM][INFO] Refreshed the MPI local session
+[TensorRT-LLM][INFO] MPI size: 1, MPI local size: 1, rank: 0
+[TensorRT-LLM][INFO] Using user-specified devices: (0)
+[TensorRT-LLM][INFO] Rank 0 is using GPU 0
+[TensorRT-LLM][INFO] TRTGptModel maxNumSequences: 1
+[TensorRT-LLM][INFO] TRTGptModel maxBatchSize: 1
+[TensorRT-LLM][INFO] TRTGptModel maxBeamWidth: 1
+[TensorRT-LLM][INFO] TRTGptModel maxSequenceLen: 640
+[TensorRT-LLM][INFO] TRTGptModel maxDraftLen: 0
+[TensorRT-LLM][INFO] TRTGptModel mMaxAttentionWindowSize: (640) * 28
+[TensorRT-LLM][INFO] TRTGptModel enableTrtOverlap: 0
+[TensorRT-LLM][INFO] TRTGptModel normalizeLogProbs: 0
+[TensorRT-LLM][INFO] TRTGptModel maxNumTokens: 640
+[TensorRT-LLM][INFO] TRTGptModel maxInputLen: 639 = min(maxSequenceLen - 1, maxNumTokens) since context FMHA and usePackedInput are enabled
+[TensorRT-LLM][INFO] TRTGptModel If model type is encoder, maxInputLen would be reset in trtEncoderModel to maxInputLen: min(maxSequenceLen, maxNumTokens).
+[TensorRT-LLM][INFO] Capacity Scheduler Policy: GUARANTEED_NO_EVICT
+[TensorRT-LLM][INFO] Context Chunking Scheduler Policy: None
+[TensorRT-LLM][INFO] Loaded engine size: 3084 MiB
+[TensorRT-LLM][INFO] Engine load time 4505 ms
+[TensorRT-LLM][INFO] Inspecting the engine to identify potential runtime issues...
+[TensorRT-LLM][INFO] The profiling verbosity of the engine does not allow this analysis to proceed. Re-build the engine with 'detailed' profiling verbosity to get more diagnostics.
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 45.95 MiB for execution context memory.
+[TensorRT-LLM][INFO] gatherContextLogits: 0
+[TensorRT-LLM][INFO] gatherGenerationLogits: 0
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 1. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 2. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 3. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 2960 (MiB)
+[TensorRT-LLM][INFO] Switching optimization profile from: 0 to 4. Please ensure there are no enqueued operations pending in this context prior to switching profiles
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 603.56 KB GPU memory for runtime buffers.
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 2.39 MB GPU memory for decoder.
+[TensorRT-LLM][INFO] Memory usage when calculating max tokens in paged kv cache: total: 7.66 GiB, available: 4.08 GiB
+[TensorRT-LLM][INFO] Blocks per window size:
+[TensorRT-LLM][INFO] [windowSize=640] {.primaryBlocks=4295, .secondayBlocks=0}
+[TensorRT-LLM][INFO] Number of tokens per block: 32.
+[TensorRT-LLM][INFO] [MemUsageChange] Allocated 3.67 GiB for max tokens in paged KV cache (137440).
+[TensorRT-LLM][INFO] CacheTransceiver is disabled.
+[05/12/2026-05:58:56] [TRT-LLM] [W] Implicitly setting QWenConfig.seq_length = 8192
+[05/12/2026-05:58:56] [TRT-LLM] [W] Implicitly setting QWenConfig.qwen_type = qwen2
+[05/12/2026-05:58:56] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_intermediate_size = 0
+[05/12/2026-05:58:56] [TRT-LLM] [W] Implicitly setting QWenConfig.moe_shared_expert_intermediate_size = 0
+[05/12/2026-05:58:56] [TRT-LLM] [W] Implicitly setting QWenConfig.tie_word_embeddings = True
+[05/12/2026-05:58:56] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_model_dir = None
+[05/12/2026-05:58:56] [TRT-LLM] [W] Implicitly setting QWenConfig.speculative_config = None
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set dtype to bfloat16.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set bert_attention_plugin to auto.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set gpt_attention_plugin to auto.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set gemm_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set explicitly_disable_gemm_plugin to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set gemm_swiglu_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set fp8_rowwise_gemm_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set qserve_gemm_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set identity_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set nccl_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set lora_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set dora_plugin to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set weight_only_groupwise_quant_matmul_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set weight_only_quant_matmul_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set smooth_quant_plugins to True.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set smooth_quant_gemm_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set layernorm_quantization_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set rmsnorm_quantization_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set quantize_per_token_plugin to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set quantize_tensor_plugin to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set moe_plugin to auto.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set mamba_conv1d_plugin to auto.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set low_latency_gemm_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set low_latency_gemm_swiglu_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set gemm_allreduce_plugin to None.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set context_fmha to True.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set bert_context_fmha_fp32_acc to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set paged_kv_cache to True.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set remove_input_padding to True.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set norm_quant_fusion to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set reduce_fusion to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set user_buffer to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set tokens_per_block to 32.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set use_paged_context_fmha to True.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set fuse_fp4_quant to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set multiple_profiles to True.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set paged_state to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set streamingllm to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set manage_weights to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set use_fused_mlp to True.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Set pp_reduce_scatter to False.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Setting up for warmup...
+[05/12/2026-05:58:56] [TRT-LLM] [I] Running warmup.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Starting benchmarking async task.
+[05/12/2026-05:58:56] [TRT-LLM] [I] Starting benchmark...
+Benchmarking:   0%|          | 0/5 [00:00<?, ?it/s][05/12/2026-05:58:56] [TRT-LLM] [I] Request submission complete. [count=5, time=0.0000s, rate=338638.67 req/s]
+Benchmarking:  20%|██        | 1/5 [00:01<00:06,  1.68s/it]Benchmarking:  40%|████      | 2/5 [00:03<00:04,  1.49s/it]Benchmarking:  60%|██████    | 3/5 [00:04<00:02,  1.44s/it]Benchmarking:  80%|████████  | 4/5 [00:05<00:01,  1.42s/it]Benchmarking: 100%|██████████| 5/5 [00:07<00:00,  1.40s/it][05/12/2026-05:59:04] [TRT-LLM] [I] Benchmark complete.
+[05/12/2026-05:59:04] [TRT-LLM] [I] Stopping LLM backend.
+[05/12/2026-05:59:04] [TRT-LLM] [I] LLM Backend stopped.
+Benchmarking: 100%|██████████| 5/5 [00:07<00:00,  1.43s/it]
+[05/12/2026-05:59:04] [TRT-LLM] [I] Warmup done.
+[05/12/2026-05:59:04] [TRT-LLM] [I] No log path provided, skipping logging.
+[05/12/2026-05:59:04] [TRT-LLM] [I] Starting benchmarking async task.
+[05/12/2026-05:59:04] [TRT-LLM] [I] Starting benchmark...
+Benchmarking:   0%|          | 0/20 [00:00<?, ?it/s][05/12/2026-05:59:04] [TRT-LLM] [I] Request submission complete. [count=20, time=0.0000s, rate=1476995.79 req/s]
+Benchmarking:   5%|▌         | 1/20 [00:01<00:26,  1.39s/it]Benchmarking:  10%|█         | 2/20 [00:02<00:24,  1.39s/it]Benchmarking:  15%|█▌        | 3/20 [00:04<00:23,  1.38s/it]Benchmarking:  20%|██        | 4/20 [00:05<00:22,  1.39s/it]Benchmarking:  25%|██▌       | 5/20 [00:06<00:20,  1.39s/it]Benchmarking:  30%|███       | 6/20 [00:08<00:19,  1.39s/it]Benchmarking:  35%|███▌      | 7/20 [00:09<00:18,  1.39s/it]Benchmarking:  40%|████      | 8/20 [00:11<00:16,  1.39s/it]Benchmarking:  45%|████▌     | 9/20 [00:12<00:15,  1.40s/it]Benchmarking:  50%|█████     | 10/20 [00:13<00:13,  1.40s/it]Benchmarking:  55%|█████▌    | 11/20 [00:15<00:12,  1.40s/it]Benchmarking:  60%|██████    | 12/20 [00:16<00:11,  1.41s/it]Benchmarking:  65%|██████▌   | 13/20 [00:18<00:09,  1.41s/it]Benchmarking:  70%|███████   | 14/20 [00:19<00:08,  1.40s/it]Benchmarking:  75%|███████▌  | 15/20 [00:20<00:06,  1.39s/it]Benchmarking:  80%|████████  | 16/20 [00:22<00:05,  1.39s/it]Benchmarking:  85%|████████▌ | 17/20 [00:23<00:04,  1.39s/it]Benchmarking:  90%|█████████ | 18/20 [00:25<00:02,  1.39s/it]Benchmarking:  95%|█████████▌| 19/20 [00:26<00:01,  1.39s/it]Benchmarking: 100%|██████████| 20/20 [00:27<00:00,  1.39s/it][05/12/2026-05:59:31] [TRT-LLM] [I] Benchmark complete.
+[05/12/2026-05:59:31] [TRT-LLM] [I] Stopping LLM backend.
+[05/12/2026-05:59:31] [TRT-LLM] [I] LLM Backend stopped.
+Benchmarking: 100%|██████████| 20/20 [00:27<00:00,  1.39s/it]
+[05/12/2026-05:59:31] [TRT-LLM] [I] Benchmark done. Reporting results...
+[05/12/2026-05:59:31] [TRT-LLM] [I] Writing report to '/workspace/rtx3070-trtllm-latency-lab/results/stage1/benchmark_raw/trtllm_bench_512_128_latency_nsys.json'.
+[05/12/2026-05:59:31] [TRT-LLM] [I] 
+
+===========================================================
+= ENGINE DETAILS
+===========================================================
+Model:			Qwen/Qwen2.5-1.5B-Instruct
+Model Path:		None
+Engine Directory:	/workspace/rtx3070-trtllm-latency-lab/trtllm_workspace/Qwen/Qwen2.5-1.5B-Instruct/tp_1_pp_1
+TensorRT LLM Version:	1.0.0
+Dtype:			bfloat16
+KV Cache Dtype:		None
+Quantization:		None
+Max Input Length:	640
+Max Sequence Length:	640
+
+===========================================================
+= REQUEST DETAILS 
+===========================================================
+Number of requests:             20
+Number of concurrent requests:  1.0000
+Average Input Length (tokens):  512.0000
+Average Output Length (tokens): 128.0000
+===========================================================
+= WORLD + RUNTIME INFORMATION 
+===========================================================
+TP Size:                1
+PP Size:                1
+EP Size:                None
+Max Runtime Batch Size: 1
+Max Runtime Tokens:     640
+Scheduling Policy:      GUARANTEED_NO_EVICT
+KV Memory Percentage:   90.00%
+Issue Rate (req/sec):   1.3230E+18
+
+===========================================================
+= PERFORMANCE OVERVIEW 
+===========================================================
+Request Throughput (req/sec):                     0.7182
+Total Output Throughput (tokens/sec):             91.9339
+Total Token Throughput (tokens/sec):              459.6694
+Total Latency (ms):                               27846.0969
+Average request latency (ms):                     1392.2453
+Per User Output Throughput [w/ ctx] (tps/user):   91.9432
+Per GPU Output Throughput (tps/gpu):              91.9339
+Average time-to-first-token [TTFT] (ms):          53.0378
+Average time-per-output-token [TPOT] (ms):        10.5449
+Per User Output Speed (tps/user):                 94.8383
+
+-- Per-Request Time-per-Output-Token [TPOT] Breakdown (ms)
+
+[TPOT] MINIMUM: 10.4070
+[TPOT] MAXIMUM: 10.7381
+[TPOT] AVERAGE: 10.5449
+[TPOT] P50    : 10.5223
+[TPOT] P90    : 10.6776
+[TPOT] P95    : 10.7381
+[TPOT] P99    : 10.7381
+
+-- Per-Request Time-to-First-Token [TTFT] Breakdown (ms) 
+
+[TTFT] MINIMUM: 50.9667
+[TTFT] MAXIMUM: 55.0461
+[TTFT] AVERAGE: 53.0378
+[TTFT] P50    : 53.0772
+[TTFT] P90    : 54.9389
+[TTFT] P95    : 55.0461
+[TTFT] P99    : 55.0461
+
+-- Per-Request Generation Throughput [GTPS] Breakdown (tps/user)
+
+[GTPS] MINIMUM: 93.1265
+[GTPS] MAXIMUM: 96.0895
+[GTPS] AVERAGE: 94.8383
+[GTPS] P50    : 95.0515
+[GTPS] P90    : 95.7625
+[GTPS] P95    : 96.0895
+[GTPS] P99    : 96.0895
+
+-- Request Latency Breakdown (ms) -----------------------
+
+[Latency] P50    : 1388.5303
+[Latency] P90    : 1410.3988
+[Latency] P95    : 1416.2188
+[Latency] P99    : 1416.2188
+[Latency] MINIMUM: 1374.0973
+[Latency] MAXIMUM: 1416.2188
+[Latency] AVERAGE: 1392.2453
+
+===========================================================
+= DATASET DETAILS
+===========================================================
+Dataset Path:         /workspace/rtx3070-trtllm-latency-lab/data/synthetic_512_128.jsonl
+Number of Sequences:  20
+
+-- Percentiles statistics ---------------------------------
+
+        Input              Output           Seq. Length
+-----------------------------------------------------------
+MIN:   512.0000           128.0000           640.0000
+MAX:   512.0000           128.0000           640.0000
+AVG:   512.0000           128.0000           640.0000
+P50:   512.0000           128.0000           640.0000
+P90:   512.0000           128.0000           640.0000
+P95:   512.0000           128.0000           640.0000
+P99:   512.0000           128.0000           640.0000
+===========================================================
+
+[05/12/2026-05:59:31] [TRT-LLM] [I] Thread proxy_dispatch_result_thread stopped.
+[05/12/2026-05:59:31] [TRT-LLM] [I] Thread proxy_dispatch_kv_cache_events_thread stopped.
+[05/12/2026-05:59:32] [TRT-LLM] [I] Thread await_response_thread stopped.
+[05/12/2026-05:59:32] [TRT-LLM] [I] Thread proxy_dispatch_stats_thread stopped.
+[05/12/2026-05:59:32] [TRT-LLM] [I] Thread dispatch_stats_thread stopped.
+[05/12/2026-05:59:32] [TRT-LLM] [I] Thread dispatch_kv_cache_events_thread stopped.
+[TensorRT-LLM][INFO] Refreshed the MPI local session
+The target application terminated. One or more process it created re-parented.
+Waiting for termination of re-parented processes.
+Use the `--wait` option to modify this behavior.
+Collecting data...
+Generating '/tmp/nsys-report-d275.qdstrm'
+[1/1] [0%                          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [0%                          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [0%                          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [12%                         ] qwen25_15b_512_128_latency.nsys-rep[1/1] [8%                          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [6%                          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [5%                          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [8%                          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [7%                          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [6%                          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [12%                         ] qwen25_15b_512_128_latency.nsys-rep[1/1] [11%                         ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=16%                        ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=15%                        ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==20%                       ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==19%                       ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===24%                      ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===23%                      ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===22%                      ] qwen25_15b_512_128_latency.nsys-rep[1/1] [====26%                     ] qwen25_15b_512_128_latency.nsys-rep[1/1] [====25%                     ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=====29%                    ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=====30%                    ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=====29%                    ] qwen25_15b_512_128_latency.nsys-rep[1/1] [====28%                     ] qwen25_15b_512_128_latency.nsys-rep[1/1] [====27%                     ] qwen25_15b_512_128_latency.nsys-rep[1/1] [====26%                     ] qwen25_15b_512_128_latency.nsys-rep[1/1] [====25%                     ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===24%                      ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===23%                      ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===22%                      ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==21%                       ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==20%                       ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==19%                       ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==20%                       ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==21%                       ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===22%                      ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===23%                      ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===24%                      ] qwen25_15b_512_128_latency.nsys-rep[1/1] [====25%                     ] qwen25_15b_512_128_latency.nsys-rep[1/1] [====26%                     ] qwen25_15b_512_128_latency.nsys-rep[1/1] [====27%                     ] qwen25_15b_512_128_latency.nsys-rep[1/1] [====28%                     ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=====29%                    ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=====30%                    ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=====31%                    ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=====32%                    ] qwen25_15b_512_128_latency.nsys-rep[1/1] [======33%                   ] qwen25_15b_512_128_latency.nsys-rep[1/1] [======34%                   ] qwen25_15b_512_128_latency.nsys-rep[1/1] [======35%                   ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=======36%                  ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=======37%                  ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=======38%                  ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=======39%                  ] qwen25_15b_512_128_latency.nsys-rep[1/1] [========40%                 ] qwen25_15b_512_128_latency.nsys-rep[1/1] [========41%                 ] qwen25_15b_512_128_latency.nsys-rep[1/1] [========42%                 ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=========43%                ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=========44%                ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=========45%                ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=========46%                ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==========47%               ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==========48%               ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==========49%               ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===========50%              ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===========51%              ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===========52%              ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===========53%              ] qwen25_15b_512_128_latency.nsys-rep[1/1] [============54%             ] qwen25_15b_512_128_latency.nsys-rep[1/1] [============55%             ] qwen25_15b_512_128_latency.nsys-rep[1/1] [============56%             ] qwen25_15b_512_128_latency.nsys-rep[1/1] [============57%             ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=============58%            ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=============59%            ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=============60%            ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==============61%           ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==============62%           ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==============63%           ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==============64%           ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===============65%          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===============66%          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [===============67%          ] qwen25_15b_512_128_latency.nsys-rep[1/1] [================68%         ] qwen25_15b_512_128_latency.nsys-rep[1/1] [================69%         ] qwen25_15b_512_128_latency.nsys-rep[1/1] [================70%         ] qwen25_15b_512_128_latency.nsys-rep[1/1] [================71%         ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=================72%        ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=================73%        ] qwen25_15b_512_128_latency.nsys-rep[1/1] [=================74%        ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==================75%       ] qwen25_15b_512_128_latency.nsys-rep[1/1] [==================76%       ] qwen25_15b_512_128_latency.nsys-rep[1/1] [========================100%] qwen25_15b_512_128_latency.nsys-rep[1/1] [========================100%] qwen25_15b_512_128_latency.nsys-rep
+Generated:
+	/workspace/rtx3070-trtllm-latency-lab/profiles/stage1/nsys/qwen25_15b_512_128_latency.nsys-rep
+
+=== nvidia-smi after nsys ===
+176, 7665
+
+=== nsys output files ===
+total 37756
+drwxrwxr-x 2 ubuntu ubuntu     4096 May 12 05:59 .
+drwxrwxr-x 4 ubuntu ubuntu     4096 May  8 02:58 ..
+-rw-rw-r-- 1 root   root   38652187 May 12 05:59 qwen25_15b_512_128_latency.nsys-rep
+
+=== generating nsys stats text summary ===
+wrote profiles/stage1/nsys/nsys_summary_512_128.txt

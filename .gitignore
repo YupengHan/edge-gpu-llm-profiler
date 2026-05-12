@@ -24,6 +24,9 @@ model.cache
 # Per-iteration jsonl benchmark logs (multi-MB each); the summary JSON is enough
 results/stage1/benchmark_raw/*_iteration.jsonl
 
+# trtllm-serve /metrics drain dump (multi-MB, regenerable; we keep derived summary)
+results/stage1/benchmark_raw/trtllm_serve_metrics_after_streaming.json
+
 # Docker pull / image probe transcripts that change every run
 logs/stage0/docker_pull_trtllm.log
 

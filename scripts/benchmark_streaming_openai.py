@@ -98,6 +98,7 @@ def run_one(base_url, model, prompt, max_tokens, temperature, timeout_s):
         "itl_ms_p50": percentile(gaps_ms, 0.50),
         "itl_ms_p90": percentile(gaps_ms, 0.90),
         "itl_ms_p95": percentile(gaps_ms, 0.95),
+        "itl_ms": [round(g, 4) for g in gaps_ms],
         "e2e_ms": e2e_ms,
         "output_pieces": output_pieces,
         "output_tps_by_piece": output_tps,
@@ -110,12 +111,40 @@ def run_one(base_url, model, prompt, max_tokens, temperature, timeout_s):
     return row
 
 
+def load_prompts(prompt_arg, prompts_file):
+    """Return a list of prompts. Either --prompt (single) or --prompts-file (rotate)."""
+    if prompts_file:
+        prompts = []
+        with open(prompts_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                obj = json.loads(line)
+                if "prompt" not in obj:
+                    raise SystemExit(f"prompts-file row missing 'prompt' key: {line[:120]}")
+                prompts.append(obj["prompt"])
+        if not prompts:
+            raise SystemExit(f"--prompts-file {prompts_file} contained no rows")
+        return prompts
+    if prompt_arg is None:
+        raise SystemExit("must pass either --prompt or --prompts-file")
+    text = prompt_arg[1:] if prompt_arg.startswith("@") else prompt_arg
+    if prompt_arg.startswith("@"):
+        text = Path(text).read_text(encoding="utf-8")
+    return [text]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--base-url", default="http://localhost:8000/v1")
     ap.add_argument("--model", required=True)
-    ap.add_argument("--prompt", required=True,
-                    help="If the value starts with @, treat the rest as a path to read prompt text from.")
+    src = ap.add_mutually_exclusive_group(required=True)
+    src.add_argument("--prompt",
+                     help="Single prompt string, or @path to read from file.")
+    src.add_argument("--prompts-file",
+                     help="JSONL file with one {\"prompt\": \"...\"} object per line. "
+                          "Requests rotate through this list as request_index % N.")
     ap.add_argument("--max-tokens", type=int, default=128)
     ap.add_argument("--requests", type=int, default=50)
     ap.add_argument("--warmup", type=int, default=5)
@@ -126,23 +155,23 @@ def main():
     ap.add_argument("--backend-label", default="")
     args = ap.parse_args()
 
-    prompt = args.prompt
-    if prompt.startswith("@"):
-        prompt = Path(prompt[1:]).read_text(encoding="utf-8")
+    prompts = load_prompts(args.prompt, args.prompts_file)
 
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 
     with open(args.output, "w", encoding="utf-8") as f:
         for i in range(args.requests + args.warmup):
+            prompt_idx = i % len(prompts)
             row = run_one(
                 args.base_url,
                 args.model,
-                prompt,
+                prompts[prompt_idx],
                 args.max_tokens,
                 args.temperature,
                 args.timeout,
             )
             row["request_index"] = i
+            row["prompt_index"] = prompt_idx
             row["warmup"] = i < args.warmup
             row["model"] = args.model
             row["max_tokens"] = args.max_tokens

@@ -1,0 +1,14 @@
+=== Step 14 — monitored streaming bench ===
+CSV: logs/stage1/nvidia_smi_during_streaming_512_128.csv
+Bench JSONL: results/stage1/benchmark_raw/streaming_512_128.jsonl
+
+[1/4] pre-bench baseline (5 s at 1 Hz)
+[2/4] running streaming bench (50 + 5 warmup)
+[3/4] post-bench tail (5 s at 1 Hz)
+[4/4] stopping sampler
+
+bench exit=0
+csv lines: 86
+jsonl rows: 55
+jsonl errors: 0
+0
